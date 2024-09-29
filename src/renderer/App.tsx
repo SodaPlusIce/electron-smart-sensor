@@ -1,6 +1,11 @@
-import React from 'react';
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout, Button } from 'antd';
+import React, { useState } from 'react';
+import {
+  MemoryRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom';
+import { Layout, Menu, Button } from 'antd';
 import {
   MinusOutlined,
   CloseOutlined,
@@ -13,25 +18,147 @@ import './App.css';
 
 const { Header, Content } = Layout;
 
+// 模拟不同子系统的模块
+const Overview = () => <div>总览图</div>;
+const RealTimeData = () => <div>实时数据</div>;
+const Orientation3D = () => <div>3D姿态</div>;
+
 function handleWindowAction(action: 'minimize' | 'maximize' | 'close') {
   window.electron.ipcRenderer.sendMessage('ipc-window-options', action);
 }
 
-function Hello() {
-  return <div>3</div>;
-}
+// 首页显示三个按钮
+const Home = ({
+  onSelectSystem,
+}: {
+  onSelectSystem: (system: string) => void;
+}) => {
+  return (
+    <div className="system-btns">
+      <Button
+        type="primary"
+        size="large"
+        onClick={() => onSelectSystem('smart-particles')}
+      >
+        智能颗粒
+      </Button>
+      <Button
+        type="primary"
+        size="large"
+        onClick={() => onSelectSystem('piezo-sensor')}
+      >
+        压电传感器
+      </Button>
+      <Button
+        type="primary"
+        size="large"
+        onClick={() => onSelectSystem('fiber-sensor')}
+      >
+        光纤传感器
+      </Button>
+    </div>
+  );
+};
 
-export default function App() {
+const AppContent = () => {
+  const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleSystemSelect = (system: string) => {
+    setSelectedSystem(system);
+    navigate(`/${system}/overview`); // 默认路由
+  };
+
+  const handleHomeClick = () => {
+    setSelectedSystem(null);
+    navigate('/'); // 返回首页
+  };
+
+  // 根据不同系统显示不同菜单项
+  const getMenuItems = () => {
+    switch (selectedSystem) {
+      case 'smart-particles':
+        return [
+          { key: 'overview', label: '总览图' },
+          { key: 'real-time-data', label: '实时数据' },
+          { key: '3d-orientation', label: '3D姿态' },
+        ];
+      case 'piezo-sensor':
+        return [
+          { key: 'overview', label: '压电总览' },
+          { key: 'data-analysis', label: '数据分析' },
+        ];
+      case 'fiber-sensor':
+        return [
+          { key: 'overview', label: '光纤总览' },
+          { key: 'real-time-data', label: '实时数据' },
+        ];
+      default:
+        return [];
+    }
+  };
+
   return (
     <Layout style={{ height: '100vh' }}>
       <Header className="app-header">
         <div className="logo-container">
-          <img width="50" alt="seu_logo" src={seu_logo} />
-          <img width="50" alt="jt_logo" src={jt_logo} />
-          <img width="50" alt="yk_logo" src={yk_logo} />
+          <img
+            width="50"
+            alt="seu_logo"
+            src={seu_logo}
+            onClick={handleHomeClick}
+          />
+          <img
+            width="50"
+            alt="jt_logo"
+            src={jt_logo}
+            onClick={handleHomeClick}
+          />
+          <img
+            width="50"
+            alt="yk_logo"
+            src={yk_logo}
+            onClick={handleHomeClick}
+          />
         </div>
 
-        <div className="header-title">面向道路多场景健康监测的监测系统</div>
+        <div className="header-title">
+          {selectedSystem ? (
+            <Menu
+              mode="horizontal"
+              selectedKeys={[]}
+              style={{ lineHeight: '64px', marginLeft: 'auto' }}
+              items={[
+                {
+                  key: 'home',
+                  label: (
+                    <Button
+                      type="link"
+                      onClick={handleHomeClick}
+                      style={{ padding: 0, cursor: 'pointer' }}
+                    >
+                      首页
+                    </Button>
+                  ),
+                },
+                ...getMenuItems().map((item) => ({
+                  key: item.key,
+                  label: (
+                    <Button
+                      type="link"
+                      onClick={() => navigate(`/${selectedSystem}/${item.key}`)}
+                      style={{ padding: 0, cursor: 'pointer' }}
+                    >
+                      {item.label}
+                    </Button>
+                  ),
+                })),
+              ]}
+            />
+          ) : (
+            '面向道路多场景健康监测的监测系统'
+          )}
+        </div>
 
         <div className="window-controls">
           <Button
@@ -54,12 +181,46 @@ export default function App() {
       </Header>
 
       <Content style={{ padding: '20px' }}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Hello />} />
-          </Routes>
-        </Router>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home onSelectSystem={handleSystemSelect} />}
+          />
+
+          {/* 智能颗粒系统路由 */}
+          <Route path="/smart-particles/overview" element={<Overview />} />
+          <Route
+            path="/smart-particles/real-time-data"
+            element={<RealTimeData />}
+          />
+          <Route
+            path="/smart-particles/3d-orientation"
+            element={<Orientation3D />}
+          />
+
+          {/* 压电传感器系统路由 */}
+          <Route path="/piezo-sensor/overview" element={<Overview />} />
+          <Route
+            path="/piezo-sensor/data-analysis"
+            element={<RealTimeData />}
+          />
+
+          {/* 光纤传感器系统路由 */}
+          <Route path="/fiber-sensor/overview" element={<Overview />} />
+          <Route
+            path="/fiber-sensor/real-time-data"
+            element={<RealTimeData />}
+          />
+        </Routes>
       </Content>
     </Layout>
+  );
+};
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }

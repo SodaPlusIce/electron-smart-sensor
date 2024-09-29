@@ -4,24 +4,38 @@ body {
   padding: 0;
 }
 
+.system-btns {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 40px;
+  /* flex-wrap: wrap; */
+}
+
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #022749;
+  /* Header 背景色 */
   -webkit-app-region: drag;
   padding: 0 20px;
   /* 添加左右内边距 */
+  overflow: hidden;
 }
 
 .logo-container {
+  -webkit-app-region: no-drag;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
 .header-title {
+  -webkit-app-region: no-drag;
   color: #fff;
+  /* 标题文字颜色 */
   font-size: 20px;
   font-weight: bold;
   flex-grow: 1;
@@ -35,4 +49,46 @@ body {
   display: flex;
   gap: 10px;
   /* 添加控件之间的间隔 */
+}
+
+/* Menu 样式 */
+.ant-menu {
+  background-color: #022749;
+  /* 菜单背景色与 Header 一致 */
+  border: none;
+  /* 去除边框 */
+}
+
+.ant-menu-item {
+  color: #ffffff;
+  /* 菜单项文字颜色 */
+}
+
+.ant-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  /* 悬停效果 */
+  color: #ffffff;
+  /* 悬停时文字颜色 */
+}
+
+.ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.2);
+  /* 选中状态的背景色 */
+  color: #ffffff;
+  /* 选中状态的文字颜色 */
+}
+
+/* Menu 项目按钮样式 */
+.ant-btn-link {
+  padding: 0;
+  /* 去除默认内边距 */
+  color: #ffffff;
+  /* 按钮文字颜色 */
+}
+
+.ant-btn-link:hover {
+  color: #e6f7ff;
+  /* 悬停时按钮文字颜色 */
+  cursor: pointer;
+  /* 悬停时光标变为手型 */
 }
