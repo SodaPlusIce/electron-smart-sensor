@@ -33,7 +33,6 @@ body {
 }
 
 .header-title {
-  -webkit-app-region: no-drag;
   color: #fff;
   /* 标题文字颜色 */
   font-size: 20px;
@@ -42,6 +41,11 @@ body {
   /* 让标题居中 */
   text-align: center;
   /* 文字居中对齐 */
+}
+
+.btn-nodrag {
+  -webkit-app-region: no-drag;
+  font-size: 16px;
 }
 
 .window-controls {

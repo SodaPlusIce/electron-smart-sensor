@@ -1,0 +1,88 @@
+/* Overview1.css */
+label {
+    margin-bottom: 3px;
+}
+
+.config-container {
+    width: 300px;
+    /* 左侧固定宽度 */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.config-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.config-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+    flex: 1;
+    /* 使输入框和标签自适应宽度 */
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    width: 100px;
+    /* 调整输入框的宽度 */
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    border-color: #007bff;
+    /* 聚焦时边框颜色变化 */
+}
+
+.submit-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    /* 悬停时颜色变化 */
+}
+
+.chart-container {
+    flex: 1;
+    /* 右侧图表区域自适应宽度 */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* 靠左对齐 */
+    padding: 20px;
+}
+
+.chart-item {
+    width: 400px;
+    /* 每个图表固定宽度 */
+    margin: 10px;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}

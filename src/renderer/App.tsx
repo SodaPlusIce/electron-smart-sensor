@@ -16,12 +16,17 @@ import yk_logo from '../../assets/images/yk_logo.png';
 import seu_logo from '../../assets/images/seu_logo.png';
 import './App.css';
 
+import ThreeD from './components/SmartParticles/ThreeD/ThreeD';
+import Overview1 from './components/SmartParticles/Overview1/Overview1';
+
 const { Header, Content } = Layout;
 
 // 模拟不同子系统的模块
-const Overview = () => <div>总览图</div>;
+// const Overview1 = () => <div>总览图</div>;
+const Overview2 = () => <div>总览图</div>;
+const Overview3 = () => <div>总览图</div>;
 const RealTimeData = () => <div>实时数据</div>;
-const Orientation3D = () => <div>3D姿态</div>;
+// const Orientation3D = () => <div>3D姿态</div>;
 
 function handleWindowAction(action: 'minimize' | 'maximize' | 'close') {
   window.electron.ipcRenderer.sendMessage('ipc-window-options', action);
@@ -74,14 +79,14 @@ const AppContent = () => {
     navigate('/'); // 返回首页
   };
 
-  // 根据不同系统显示不同菜单项
+  // 路由管理，根据不同系统显示不同菜单项
   const getMenuItems = () => {
     switch (selectedSystem) {
       case 'smart-particles':
         return [
           { key: 'overview', label: '总览图' },
           { key: 'real-time-data', label: '实时数据' },
-          { key: '3d-orientation', label: '3D姿态' },
+          { key: 'ThreeD', label: '3D姿态' },
         ];
       case 'piezo-sensor':
         return [
@@ -127,7 +132,10 @@ const AppContent = () => {
             <Menu
               mode="horizontal"
               selectedKeys={[]}
-              style={{ lineHeight: '64px', marginLeft: 'auto' }}
+              style={{
+                lineHeight: '64px',
+                marginLeft: '30px',
+              }}
               items={[
                 {
                   key: 'home',
@@ -135,7 +143,7 @@ const AppContent = () => {
                     <Button
                       type="link"
                       onClick={handleHomeClick}
-                      style={{ padding: 0, cursor: 'pointer' }}
+                      className="btn-nodrag"
                     >
                       首页
                     </Button>
@@ -147,7 +155,7 @@ const AppContent = () => {
                     <Button
                       type="link"
                       onClick={() => navigate(`/${selectedSystem}/${item.key}`)}
-                      style={{ padding: 0, cursor: 'pointer' }}
+                      className="btn-nodrag"
                     >
                       {item.label}
                     </Button>
@@ -180,7 +188,7 @@ const AppContent = () => {
         </div>
       </Header>
 
-      <Content style={{ padding: '20px' }}>
+      <Content>
         <Routes>
           <Route
             path="/"
@@ -188,25 +196,22 @@ const AppContent = () => {
           />
 
           {/* 智能颗粒系统路由 */}
-          <Route path="/smart-particles/overview" element={<Overview />} />
+          <Route path="/smart-particles/overview" element={<Overview1 />} />
           <Route
             path="/smart-particles/real-time-data"
             element={<RealTimeData />}
           />
-          <Route
-            path="/smart-particles/3d-orientation"
-            element={<Orientation3D />}
-          />
+          <Route path="/smart-particles/ThreeD" element={<ThreeD />} />
 
           {/* 压电传感器系统路由 */}
-          <Route path="/piezo-sensor/overview" element={<Overview />} />
+          <Route path="/piezo-sensor/overview" element={<Overview2 />} />
           <Route
             path="/piezo-sensor/data-analysis"
             element={<RealTimeData />}
           />
 
           {/* 光纤传感器系统路由 */}
-          <Route path="/fiber-sensor/overview" element={<Overview />} />
+          <Route path="/fiber-sensor/overview" element={<Overview3 />} />
           <Route
             path="/fiber-sensor/real-time-data"
             element={<RealTimeData />}
