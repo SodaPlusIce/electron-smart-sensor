@@ -232,12 +232,10 @@ const Overview1: React.FC = () => {
   }, []);
 
   return (
-    <div
-      style={{ display: 'flex', height: '100%', backgroundColor: '#f9f9f9' }}
-    >
+    <div className="container">
       {/* 左侧配置项 */}
       <div className="config-container">
-        <h2>导出端口</h2>
+        <h3>导出端口</h3>
         <div className="config-row">
           <div className="config-section">
             <label>COM :</label>
@@ -340,7 +338,6 @@ const Overview1: React.FC = () => {
         </div>
         <button className="submit-button">确定</button>
       </div>
-
       {/* 右侧图表区域 */}
       <div className="chart-container">
         <div className="chart-item">

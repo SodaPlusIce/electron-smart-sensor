@@ -3,6 +3,12 @@ label {
     margin-bottom: 3px;
 }
 
+.container {
+    display: flex;
+    min-height: calc(100vh - 64px);
+    background-color: #f9f9f9;
+}
+
 .config-container {
     width: 300px;
     /* 左侧固定宽度 */
@@ -12,6 +18,7 @@ label {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: auto;
 }
 
 .config-row {
@@ -25,8 +32,6 @@ label {
     flex-direction: column;
     align-items: center;
     margin-right: 10px;
-    flex: 1;
-    /* 使输入框和标签自适应宽度 */
 }
 
 input[type="number"],
@@ -68,13 +73,16 @@ select:focus {
     /* 右侧图表区域自适应宽度 */
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     justify-content: flex-start;
     /* 靠左对齐 */
     padding: 20px;
+    overflow: auto;
 }
 
 .chart-item {
     width: 400px;
+    height: 300px;
     /* 每个图表固定宽度 */
     margin: 10px;
     background-color: #fff;
