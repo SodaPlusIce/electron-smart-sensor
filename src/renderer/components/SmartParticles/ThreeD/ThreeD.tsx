@@ -32,12 +32,12 @@ const ThreeD: React.FC = () => {
     // 创建立方体
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const textures = [
-      new THREE.TextureLoader().load(require('../CubeImg/right.png')),
-      new THREE.TextureLoader().load(require('../CubeImg/left.png')),
-      new THREE.TextureLoader().load(require('../CubeImg/top.png')),
-      new THREE.TextureLoader().load(require('../CubeImg/bottom.png')),
-      new THREE.TextureLoader().load(require('../CubeImg/front.png')),
-      new THREE.TextureLoader().load(require('../CubeImg/back.png')),
+      new THREE.TextureLoader().load(require('../Assets/right.png')),
+      new THREE.TextureLoader().load(require('../Assets/left.png')),
+      new THREE.TextureLoader().load(require('../Assets/top.png')),
+      new THREE.TextureLoader().load(require('../Assets/bottom.png')),
+      new THREE.TextureLoader().load(require('../Assets/front.png')),
+      new THREE.TextureLoader().load(require('../Assets/back.png')),
     ];
 
     const materials = textures.map(
