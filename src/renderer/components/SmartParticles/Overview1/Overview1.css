@@ -11,7 +11,6 @@ label {
 
 .config-container {
     width: 300px;
-    /* 左侧固定宽度 */
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -21,17 +20,25 @@ label {
     overflow: auto;
 }
 
+h3 {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .config-row {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .config-section {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 10px;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 5px;
+    /* width: 45%; */
 }
 
 input[type="number"],
@@ -42,15 +49,13 @@ select {
     border-radius: 4px;
     font-size: 14px;
     outline: none;
-    width: 100px;
-    /* 调整输入框的宽度 */
+    width: 80px;
 }
 
 input[type="number"]:focus,
 input[type="text"]:focus,
 select:focus {
     border-color: #007bff;
-    /* 聚焦时边框颜色变化 */
 }
 
 .submit-button {
@@ -61,21 +66,33 @@ select:focus {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 10px;
 }
 
 .submit-button:hover {
     background-color: #0056b3;
-    /* 悬停时颜色变化 */
 }
 
+.config-section-function-display {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    /* margin: 5px; */
+    font-size: 18px;
+}
+
+.config-section-function-display p {
+    margin: 5px;
+    font-size: 18px;
+}
+
+/* 右半部分图表区域 */
 .chart-container {
     flex: 1;
-    /* 右侧图表区域自适应宽度 */
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
     justify-content: flex-start;
-    /* 靠左对齐 */
     padding: 20px;
     overflow: auto;
 }
@@ -83,7 +100,6 @@ select:focus {
 .chart-item {
     width: 400px;
     height: 300px;
-    /* 每个图表固定宽度 */
     margin: 10px;
     background-color: #fff;
     padding: 10px;

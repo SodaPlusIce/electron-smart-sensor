@@ -8,6 +8,7 @@ import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
 
 const configuration: webpack.Configuration = {
+  // externals: [...Object.keys(externals || {}),"serialport"],
   externals: [...Object.keys(externals || {})],
 
   stats: 'errors-only',
@@ -47,6 +48,17 @@ const configuration: webpack.Configuration = {
     modules: [webpackPaths.srcPath, 'node_modules'],
     // There is no need to add aliases here, the paths in tsconfig get mirrored
     plugins: [new TsconfigPathsPlugins()],
+
+    // todo 为处理serialPort依赖添加的代码 start
+    // fallback: {
+    //   "child_process": false, // 如果不需要该模块，可以设为false
+    //   "fs": false,
+    //   "path": require.resolve("path-browserify"),
+    //   "util": require.resolve("util/"),
+    //   "stream": require.resolve("stream-browserify"),
+    //   "os": require.resolve("os-browserify/browser")
+    // }
+    // todo 为处理serialPort依赖添加的代码 end
   },
 
   plugins: [

@@ -30,7 +30,7 @@ const RealTimeData: React.FC = () => {
     <div className="container">
       {/* 左侧配置项 */}
       <div className="config-container">
-        <h3>导出端口</h3>
+        <h3>导出端口：</h3>
         <div className="config-row">
           <div className="config-section">
             <label>COM :</label>
@@ -40,6 +40,9 @@ const RealTimeData: React.FC = () => {
               <option value="3">3</option>
             </select>
           </div>
+        </div>
+
+        <div className="config-row">
           <div className="config-section">
             <label>波特率 :</label>
             <select>
@@ -49,89 +52,55 @@ const RealTimeData: React.FC = () => {
             </select>
           </div>
         </div>
-        <h3>颗粒类型选择</h3>
+
+        <h3>参数配置：</h3>
         <div className="config-row">
-          <label>
-            输出类型 :
+          <div className="config-section">
+            <label>输出类型 :</label>
             <select>
               <option value="normal">普通型</option>
+              <option value="heatResistance">耐高温型</option>
             </select>
-          </label>
+          </div>
         </div>
-        <h3>压力传感器参数配置</h3>
+
+        <h3>函数参数：</h3>
         <div className="config-section">
-          <label>分段点:</label>
-          <input type="number" defaultValue={3.6867} />
+          <label>分段点 :</label>
+          <input type="text" />
         </div>
+
         <div className="config-row">
           <div className="config-section">
-            <label>X-K1:</label>
-            <input type="number" defaultValue={-130.0802} />
+            <label>1 :</label>
+            <input type="text" />
           </div>
           <div className="config-section">
-            <label>X-B1:</label>
-            <input type="number" defaultValue={525.0134} />
+            <label>2 :</label>
+            <input type="text" />
           </div>
         </div>
+
         <div className="config-row">
           <div className="config-section">
-            <label>X-K2:</label>
-            <input type="number" defaultValue={-172.1412} />
+            <label>3 :</label>
+            <input type="text" />
           </div>
           <div className="config-section">
-            <label>X-B2:</label>
-            <input type="number" defaultValue={680.0805} />
+            <label>4 :</label>
+            <input type="text" />
           </div>
         </div>
-        <div className="config-section">
-          <label>Y分段点:</label>
-          <input type="number" defaultValue={3.7501} />
+
+        <h3>函数展示：</h3>
+        <div className="config-section-function-display">
+          <p>当V &lt; = xxx, </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;F=xx, V+xx</p>
+          <p>当V &lt; = xxx, </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;F=xx, V+xx</p>
         </div>
-        <div className="config-row">
-          <div className="config-section">
-            <label>Y-K1:</label>
-            <input type="number" defaultValue={-134.1534} />
-          </div>
-          <div className="config-section">
-            <label>Y-B1:</label>
-            <input type="number" defaultValue={542.8508} />
-          </div>
-        </div>
-        <div className="config-row">
-          <div className="config-section">
-            <label>Y-K2:</label>
-            <input type="number" defaultValue={-288.0047} />
-          </div>
-          <div className="config-section">
-            <label>Y-B2:</label>
-            <input type="number" defaultValue={1119.8062} />
-          </div>
-        </div>
-        <div className="config-section">
-          <label>Z分段点:</label>
-          <input type="number" defaultValue={3.7582} />
-        </div>
-        <div className="config-row">
-          <div className="config-section">
-            <label>Z-K1:</label>
-            <input type="number" defaultValue={-264.4064} />
-          </div>
-          <div className="config-section">
-            <label>Z-B1:</label>
-            <input type="number" defaultValue={1046.217} />
-          </div>
-        </div>
-        <div className="config-row">
-          <div className="config-section">
-            <label>Z-K2:</label>
-            <input type="number" defaultValue={-711.299} />
-          </div>
-          <div className="config-section">
-            <label>Z-B2:</label>
-            <input type="number" defaultValue={2725.7298} />
-          </div>
-        </div>
-        <button className="submit-button">确定</button>
+
+        <button className="submit-button">确认</button>
       </div>
       {/* 右侧图表区域 */}
       <div className="value-display-container">
