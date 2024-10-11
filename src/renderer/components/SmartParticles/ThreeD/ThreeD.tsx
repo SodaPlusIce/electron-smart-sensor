@@ -202,23 +202,12 @@ const ThreeD: React.FC = () => {
     const { ax, ay, az, mx, my, mz } = sensorData;
 
     // 计算新的四元数
-    const quat: number[] = [1, 0, 0, 0]; // 初始化为单位四元数
+    let quat: number[] = [0, 0, 1, 0]; // 初始化为单位四元数
     const beta = 0.1; // 增益
-    const updatedQ = MadgwickQuaternionUpdate(
-      quat,
-      ax,
-      ay,
-      az,
-      mx,
-      my,
-      mz,
-      beta,
-    );
-
-    // 将四元数转换为欧拉角
-    const euler = quaternionToEuler(updatedQ);
+    quat = MadgwickQuaternionUpdate(quat, ax, ay, az, mx, my, mz, beta);
 
     // 方法一：根据欧拉角更新立方体的旋转
+    const euler = quaternionToEuler(quat); // 将四元数转换为欧拉角
     if (cubeRef.current) {
       cubeRef.current.rotation.set(euler.x, euler.y, euler.z);
     }

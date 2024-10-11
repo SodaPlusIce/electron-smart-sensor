@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
+import { Select } from 'antd';
 import './Overview1.css'; // 引入 CSS 文件
 
 // 注册 Chart.js 的模块
@@ -12,6 +13,9 @@ const Overview1: React.FC = () => {
   const canvasRef4 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef5 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef6 = useRef<HTMLCanvasElement | null>(null);
+
+  const [portNumber, setPortNumber] = useState('COM7');
+  const [baudRate, setBaudRate] = useState('9600');
 
   // 图表展示所需的数据
   const temperatureData: Number[] = [25.4, 24.3];
@@ -234,6 +238,27 @@ const Overview1: React.FC = () => {
     }
   }, []);
 
+  // 点击确认按钮，通知main.ts开始读取端口数据，并开始接收传来的传感器数据
+  const submit = () => {
+    window.electron.ipcRenderer.sendMessage('ipc-port-info', {
+      portNumber: portNumber,
+      baudRate: baudRate,
+    });
+    window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
+      console.log(args);
+      // 更新图表内容
+      // ...
+    });
+  };
+
+  const handlePortNumberChange = (value: string) => {
+    setPortNumber(value);
+  };
+
+  const handleBaudRateChange = (value: string) => {
+    setBaudRate(value);
+  };
+
   return (
     <div className="container">
       {/* 左侧配置项 */}
@@ -242,22 +267,47 @@ const Overview1: React.FC = () => {
         <div className="config-row">
           <div className="config-section">
             <label>COM :</label>
-            <select>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            <Select
+              defaultValue="COM7"
+              style={{ width: 120 }}
+              onChange={handlePortNumberChange}
+              options={[
+                { value: 'COM1', label: 'COM1' },
+                { value: 'COM2', label: 'COM2' },
+                { value: 'COM3', label: 'COM3' },
+                { value: 'COM4', label: 'COM4' },
+                { value: 'COM5', label: 'COM5' },
+                { value: 'COM6', label: 'COM6' },
+                { value: 'COM7', label: 'COM7' },
+                { value: 'COM8', label: 'COM8' },
+                { value: 'COM9', label: 'COM9' },
+                { value: 'COM10', label: 'COM10' },
+                { value: 'COM11', label: 'COM11' },
+                { value: 'COM12', label: 'COM12' },
+                { value: 'COM13', label: 'COM13' },
+                { value: 'COM14', label: 'COM14' },
+                { value: 'COM15', label: 'COM15' },
+                { value: 'COM16', label: 'COM16' },
+                { value: 'COM17', label: 'COM17' },
+                { value: 'COM18', label: 'COM18' },
+              ]}
+            />
           </div>
         </div>
 
         <div className="config-row">
           <div className="config-section">
             <label>波特率 :</label>
-            <select>
-              <option value="7200">7200</option>
-              <option value="9600">9600</option>
-              <option value="115200">115200</option>
-            </select>
+            <Select
+              defaultValue="9600"
+              style={{ width: 120 }}
+              onChange={handleBaudRateChange}
+              options={[
+                { value: '7200', label: '7200' },
+                { value: '9600', label: '9600' },
+                { value: '115200', label: '115200' },
+              ]}
+            />
           </div>
         </div>
 
@@ -308,7 +358,9 @@ const Overview1: React.FC = () => {
           <p>&nbsp;&nbsp;&nbsp;&nbsp;F=xx, V+xx</p>
         </div>
 
-        <button className="submit-button">确认</button>
+        <button className="submit-button" onClick={submit}>
+          确认
+        </button>
       </div>
 
       {/* 右侧图表区域 */}
