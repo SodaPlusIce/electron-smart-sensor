@@ -135,18 +135,55 @@ const createWindow = async () => {
   // },500);
 
   // 读取传感器数据
-  const getData = (portValue: string, rate: number) => {
-    let lastTmp: any;
+  let obj = {
+    tmp: -1,
+    tmpc: -1,
+
+    adcx: -1,
+    adcy: -1,
+    adcz: -1,
+
+    adcxc: -1,
+    adcyc: -1,
+    adczc: -1,
+
+    accx: -1,
+    accy: -1,
+    accz: -1,
+
+    magx: -1,
+    magy: -1,
+    magz: -1,
+
+    oularx: -1,
+    oulary: -1,
+    oularz: -1,
+
+    q0: -1,
+    q1: -1,
+    q2: -1,
+    q3: -1,
+  };
+
+  function getData(portValue: string, rate: number) {
+    let cal_x: any = [];
+    let cal_y: any = [];
+    let cal_z: any = [];
+    let cal_tmp: any = [];
     let port = new SerialPort({
       path: portValue,
       baudRate: rate,
     });
     let srcData: any = [];
-    port.on('data', function (data: any) {
+
+    port.on('data', function (data) {
       if (data[0] === 65) {
         console.log(data[0]);
         console.log(srcData);
         handleData();
+        if (mainWindow) {
+          mainWindow.webContents.send('ipc-serialPort-read-data', obj);
+        }
         srcData = [];
       }
       srcData.push(data[0]);
@@ -170,14 +207,6 @@ const createWindow = async () => {
         srcData.join(',').includes(str_lsm)
       ) {
         // 开始处理数据
-        let test = [];
-
-        //表格填入当前时间
-        let time = new Date();
-        const milliseconds = time.getMilliseconds();
-        const formattedTime = `${time.toLocaleString()}:${milliseconds}`;
-
-        test.push(formattedTime);
 
         //-----------------------------------handle adc events--------------------------------
 
@@ -222,9 +251,22 @@ const createWindow = async () => {
           return result;
         })();
 
-        test.push(temp_adcX);
-        test.push(temp_adcY);
-        test.push(temp_adcZ);
+        obj.adcx = temp_adcX;
+        obj.adcy = temp_adcY;
+        obj.adcz = temp_adcZ;
+
+        obj.adcxc =
+          temp_adcX >= cal_x[0]
+            ? cal_x[1] * temp_adcX + cal_x[2]
+            : cal_x[3] * temp_adcX + cal_x[4];
+        obj.adcyc =
+          temp_adcY >= cal_y[0]
+            ? cal_y[1] * temp_adcY + cal_y[2]
+            : cal_y[3] * temp_adcY + cal_y[4];
+        obj.adczc =
+          temp_adcZ >= cal_z[0]
+            ? cal_z[1] * temp_adcZ + cal_z[2]
+            : cal_z[3] * temp_adcZ + cal_z[4];
 
         //-----------------------------------handle acc events--------------------------------
 
@@ -263,9 +305,9 @@ const createWindow = async () => {
           let result = processAcceleration(tmp);
           return result;
         })();
-        test.push(temp_accX / 1000);
-        test.push(temp_accY / 1000);
-        test.push(temp_accZ / 1000);
+        obj.accx = temp_accX / 1000;
+        obj.accy = temp_accY / 1000;
+        obj.accz = temp_accZ / 1000;
 
         //-----------------------------------handle tmp events--------------------------------
 
@@ -281,16 +323,14 @@ const createWindow = async () => {
             (srcData[tmp_index + 5] || 0).toString(16),
             (srcData[tmp_index + 6] || 0).toString(16),
           ];
-
           let result = processHex(tmp);
-          console.log(Math.abs(result - lastTmp), lastTmp);
-          if (!lastTmp || Math.abs(result - lastTmp) < 1) {
-            lastTmp = result;
-          }
-          console.log(lastTmp);
-          return lastTmp;
+          return result;
         })();
-        test.push(temp_tmp);
+        obj.tmp = temp_tmp;
+        obj.tmpc =
+          temp_tmp >= cal_tmp[0]
+            ? cal_tmp[1] * temp_tmp + cal_tmp[2]
+            : cal_tmp[3] * temp_tmp + cal_tmp[4];
         //-----------------------------------handle mag events--------------------------------
 
         let temp_magX = (function () {
@@ -324,27 +364,21 @@ const createWindow = async () => {
           return result;
         })();
 
-        test.push(temp_magX);
-        test.push(temp_magY);
-        test.push(temp_magZ);
+        obj.magx = temp_magX;
+        obj.magy = temp_magY;
+        obj.magz = temp_magZ;
 
-        //计算欧拉角  保存先前的滤波数据
+        //计算欧拉角
+        // 保存先前的滤波数据
         let prevFilteredAcc = [0, 0, 0];
         let prevFilteredMag = [0, 0, 0];
 
         // 指定EMA参数
         const alpha = 0.2;
 
-        function KGetQuat(
-          ax: any,
-          ay: any,
-          az: any,
-          mx: any,
-          my: any,
-          mz: any,
-        ) {
+        function KGetQuat(ax, ay, az, mx, my, mz) {
           // 函数：返回符号与y相同的x值
-          function copysign(x: number, y: number) {
+          function copysign(x, y) {
             return y < 0 ? -Math.abs(x) : Math.abs(x);
           }
 
@@ -401,7 +435,7 @@ const createWindow = async () => {
           return [qw, qx, qy, qz];
         }
 
-        function quaternionToEuler2(qw: any, qx: any, qy: any, qz: any) {
+        function quaternionToEuler(qw, qx, qy, qz) {
           const ysqr = qy * qy;
 
           // roll (x-axis rotation)
@@ -419,9 +453,9 @@ const createWindow = async () => {
           const t3 = 2 * (qw * qz + qx * qy);
           const t4 = 1 - 2 * (ysqr + qz * qz);
           const yaw = Math.atan2(t3, t4);
-          test.push(roll * (180 / Math.PI));
-          test.push(pitch * (180 / Math.PI));
-          test.push(yaw * (180 / Math.PI));
+          obj.oularx = roll * (180 / Math.PI);
+          obj.oulary = pitch * (180 / Math.PI);
+          obj.oularz = yaw * (180 / Math.PI);
         }
         let tmp = KGetQuat(
           temp_accX,
@@ -431,25 +465,13 @@ const createWindow = async () => {
           temp_magY,
           temp_magZ,
         );
-        quaternionToEuler2(tmp[0], tmp[1], tmp[2], tmp[3]);
-        test.push(tmp[0]);
-        test.push(tmp[1]);
-        test.push(tmp[2]);
-        test.push(tmp[3]);
-
-        let tmptmptmp = {
-          ax: temp_accX,
-          ay: temp_accY,
-          az: temp_accZ,
-          mx: temp_magX,
-          my: temp_magY,
-          mz: temp_magZ,
-        };
-        if (mainWindow)
-          mainWindow.webContents.send('ipc-serialPort-read-data', tmptmptmp);
+        quaternionToEuler(tmp[0], tmp[1], tmp[2], tmp[3]);
+        obj.q0 = tmp[0];
+        obj.q1 = tmp[1];
+        obj.q2 = tmp[2];
+        obj.q3 = tmp[3];
       }
     };
-
     //name:公共函数的定义部分
     //function:处理温度和加速度数据的函数，处理磁力压力的函数
     //数据数组，标识符（tmp or adc）
@@ -504,22 +526,22 @@ const createWindow = async () => {
         parseInt(hexArray[2], 16) * 16 +
         parseInt(hexArray[3], 16);
 
-      let mag_binary: string = mag_decimal.toString(2).padStart(16, '0');
+      let mag_binary = mag_decimal.toString(2).padStart(16, '0');
 
       let Mag;
       if (mag_binary[0] === '0') {
         Mag = 1.5 * mag_decimal;
       } else {
-        let mag_binary_tmp: string = '1';
+        let mag_binary_tmp = '1';
         for (let i = 1; i < mag_binary.length; i++) {
           if (mag_binary[i] === '0') mag_binary_tmp += '1';
           else mag_binary_tmp += '0';
         }
-        Mag = -1.5 * (parseInt(mag_binary_tmp.slice(1), 2) + 1);
+        Mag = -1.5 * parseInt(parseInt(mag_binary_tmp.slice(1), 2) + 1);
       }
       return Mag;
     };
-  };
+  }
 
   // 接收端口号和波特率
   ipcMain.on('ipc-port-info', async (event, arg) => {
