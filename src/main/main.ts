@@ -376,9 +376,16 @@ const createWindow = async () => {
         // 指定EMA参数
         const alpha = 0.2;
 
-        function KGetQuat(ax, ay, az, mx, my, mz) {
+        function KGetQuat(
+          ax: any,
+          ay: any,
+          az: any,
+          mx: any,
+          my: any,
+          mz: any,
+        ) {
           // 函数：返回符号与y相同的x值
-          function copysign(x, y) {
+          function copysign(x: any, y: any) {
             return y < 0 ? -Math.abs(x) : Math.abs(x);
           }
 
@@ -435,7 +442,7 @@ const createWindow = async () => {
           return [qw, qx, qy, qz];
         }
 
-        function quaternionToEuler(qw, qx, qy, qz) {
+        function quaternionToEuler(qw: any, qx: any, qy: any, qz: any) {
           const ysqr = qy * qy;
 
           // roll (x-axis rotation)
@@ -537,7 +544,7 @@ const createWindow = async () => {
           if (mag_binary[i] === '0') mag_binary_tmp += '1';
           else mag_binary_tmp += '0';
         }
-        Mag = -1.5 * parseInt(parseInt(mag_binary_tmp.slice(1), 2) + 1);
+        Mag = -1.5 * (parseInt(mag_binary_tmp.slice(1), 2) + 1);
       }
       return Mag;
     };

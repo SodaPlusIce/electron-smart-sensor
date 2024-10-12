@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
-import { Select } from 'antd';
+// import { Select } from 'antd';
 import './Overview1.css'; // 引入 CSS 文件
+import ConfigPanel from '../Components/ConfigPanel/ConfigPanel';
 
 // 注册 Chart.js 的模块
 Chart.register(...registerables);
@@ -14,24 +15,33 @@ const Overview1: React.FC = () => {
   const canvasRef5 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef6 = useRef<HTMLCanvasElement | null>(null);
 
-  const [portNumber, setPortNumber] = useState('COM7');
-  const [baudRate, setBaudRate] = useState('9600');
+  // const [portNumber, setPortNumber] = useState('COM7');
+  // const [baudRate, setBaudRate] = useState('9600');
 
   // 图表展示所需的数据
-  const temperatureData: Number[] = [25.4, 24.3];
+  const [tmp_c_arr, setTmpCArr] = useState<number[]>([]);
+  const [time_arr, setTimeArr] = useState<string[]>([]);
 
+  let myChart1: Chart;
+  // myChart2,
+  // myChart3,
+  // myChart4,
+  // myChart5,
+  // myChart6,
+  // myChart7,
+  // myChart8;
   useEffect(() => {
     if (canvasRef1.current) {
       const ctx = canvasRef1.current.getContext('2d');
-      new Chart(ctx!, {
+      myChart1 = new Chart(ctx!, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: time_arr,
           datasets: [
             {
               label: 'Temperature',
-              data: temperatureData,
-              borderColor: 'rgba(75, 192, 192, 1)',
+              data: tmp_c_arr,
+              borderColor: 'rgb(255, 99, 132)',
               borderWidth: 2,
               fill: false,
             },
@@ -49,7 +59,7 @@ const Overview1: React.FC = () => {
             y: {
               title: {
                 display: true,
-                text: 'Temperature (°C)',
+                text: 'Voltage(V)',
               },
             },
           },
@@ -239,30 +249,48 @@ const Overview1: React.FC = () => {
   }, []);
 
   // 点击确认按钮，通知main.ts开始读取端口数据，并开始接收传来的传感器数据
-  const submit = () => {
-    window.electron.ipcRenderer.sendMessage('ipc-port-info', {
-      portNumber: portNumber,
-      baudRate: baudRate,
-    });
-    window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
-      console.log(args);
-      // 更新图表内容
-      // ...
-    });
-  };
+  // const submit = () => {
+  //   window.electron.ipcRenderer.sendMessage('ipc-port-info', {
+  //     portNumber: portNumber,
+  //     baudRate: baudRate,
+  //   });
+  window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
+    console.log(args);
+    // 更新图表内容
+    // ...
+    setTmpCArr(tmp_c_arr.concat(args.tmp_c_arr));
+    let startTime = new Date();
+    let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
+    // 检查数据点数量是否超过阈值
+    const maxDataPointLength = 20; // 设置数据点的最大数量
 
-  const handlePortNumberChange = (value: string) => {
-    setPortNumber(value);
-  };
+    if (myChart1) {
+      setTimeArr((prevArr) => [...prevArr, formattedStartTime]);
+      setTmpCArr((prevArr) => [...prevArr, args.tmpc]);
+      // 检查数据点数量是否超过阈值
+      if (time_arr.length >= maxDataPointLength) {
+        time_arr.shift();
+      }
+      if (tmp_c_arr.length >= maxDataPointLength) {
+        tmp_c_arr.shift();
+      }
+      myChart1.update();
+    }
+  });
+  // };
 
-  const handleBaudRateChange = (value: string) => {
-    setBaudRate(value);
-  };
+  // const handlePortNumberChange = (value: string) => {
+  //   setPortNumber(value);
+  // };
+
+  // const handleBaudRateChange = (value: string) => {
+  //   setBaudRate(value);
+  // };
 
   return (
     <div className="container">
       {/* 左侧配置项 */}
-      <div className="config-container">
+      {/* <div className="config-container">
         <h3>导出端口：</h3>
         <div className="config-row">
           <div className="config-section">
@@ -361,12 +389,12 @@ const Overview1: React.FC = () => {
         <button className="submit-button" onClick={submit}>
           确认
         </button>
-      </div>
-
+      </div> */}
+      <ConfigPanel></ConfigPanel>
       {/* 右侧图表区域 */}
       <div className="chart-container">
         <div className="chart-item">
-          <h2>电路板温度</h2>
+          <h2>环境温度（电压）</h2>
           <canvas ref={canvasRef1} className="chart" />
         </div>
         <div className="chart-item">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './RealTimeData.css'; // 假设样式在这个文件中
+// import './RealTimeData.css'; // 假设样式在这个文件中
 
 const RealTimeData: React.FC = () => {
   // 定义六项数据的 state
