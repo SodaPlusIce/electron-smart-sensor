@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 // import { Select } from 'antd';
 import './Overview1.css'; // 引入 CSS 文件
@@ -19,11 +19,12 @@ const Overview1: React.FC = () => {
   // const [baudRate, setBaudRate] = useState('9600');
 
   // 图表展示所需的数据
-  const [tmp_c_arr, setTmpCArr] = useState<number[]>([]);
-  const [time_arr, setTimeArr] = useState<string[]>([]);
+  const time_arr: string[] = [];
+  const tmp_c_arr: number[] = [];
+  const tmp_arr: number[] = [];
 
   let myChart1: Chart;
-  // myChart2,
+  let myChart2: Chart;
   // myChart3,
   // myChart4,
   // myChart5,
@@ -59,7 +60,7 @@ const Overview1: React.FC = () => {
             y: {
               title: {
                 display: true,
-                text: 'Voltage(V)',
+                text: 'Voltage (V)',
               },
             },
           },
@@ -69,15 +70,15 @@ const Overview1: React.FC = () => {
 
     if (canvasRef2.current) {
       const ctx = canvasRef2.current.getContext('2d');
-      new Chart(ctx!, {
+      myChart2 = new Chart(ctx!, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: time_arr,
           datasets: [
             {
               label: 'Pressure',
-              data: [1, 2, 1.5, 2.5, 3],
-              borderColor: 'rgba(255, 99, 132, 1)',
+              data: tmp_arr,
+              borderColor: 'rgb(255, 99, 132)',
               borderWidth: 2,
               fill: false,
             },
@@ -89,13 +90,13 @@ const Overview1: React.FC = () => {
             x: {
               title: {
                 display: true,
-                text: 'Months',
+                text: 'Time',
               },
             },
             y: {
               title: {
                 display: true,
-                text: 'Pressure (kPa)',
+                text: 'Temperature (℃)',
               },
             },
           },
@@ -257,24 +258,21 @@ const Overview1: React.FC = () => {
   window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
     console.log(args);
     // 更新图表内容
-    // ...
-    setTmpCArr(tmp_c_arr.concat(args.tmp_c_arr));
     let startTime = new Date();
     let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
     // 检查数据点数量是否超过阈值
     const maxDataPointLength = 20; // 设置数据点的最大数量
 
     if (myChart1) {
-      setTimeArr((prevArr) => [...prevArr, formattedStartTime]);
-      setTmpCArr((prevArr) => [...prevArr, args.tmpc]);
+      time_arr.push(formattedStartTime);
+      tmp_c_arr.push(args.tmpc);
+      tmp_arr.push(args.tmp);
       // 检查数据点数量是否超过阈值
-      if (time_arr.length >= maxDataPointLength) {
-        time_arr.shift();
-      }
-      if (tmp_c_arr.length >= maxDataPointLength) {
-        tmp_c_arr.shift();
-      }
+      if (time_arr.length >= maxDataPointLength) time_arr.shift();
+      if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
+      if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
       myChart1.update();
+      myChart2.update();
     }
   });
   // };
