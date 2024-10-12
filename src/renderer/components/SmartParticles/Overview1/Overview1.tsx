@@ -558,7 +558,7 @@ const Overview1: React.FC = () => {
       quat4_arr.push(args.q3);
 
       // 检查数据点数量是否超过阈值并移除最早的数据点
-      if (time_arr.length > maxDataPointLength) time_arr.shift();
+      if (time_arr.length > maxDataPointLength + 1) time_arr.shift(); // +1让图表仿真更加稳定
       if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
       if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
 
