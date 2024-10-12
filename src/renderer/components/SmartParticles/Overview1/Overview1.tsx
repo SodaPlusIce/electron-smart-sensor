@@ -461,42 +461,61 @@ const Overview1: React.FC = () => {
       tmp_c_arr.push(args.tmpc);
       tmp_arr.push(args.tmp);
 
+      adc_x_arr.push(args.adcx);
+      adc_y_arr.push(args.adcy);
+      adc_z_arr.push(args.adcz);
+      adc_x2_arr.push(args.adcxc);
+      adc_y2_arr.push(args.adcyc);
+      adc_z2_arr.push(args.adczc);
+
+      acc_x_arr.push(args.accx);
+      acc_y_arr.push(args.accy);
+      acc_z_arr.push(args.accz);
+
+      mag_x_arr.push(args.magx);
+      mag_y_arr.push(args.magy);
+      mag_z_arr.push(args.magz);
+
+      eulerAnglesx_arr.push(args.oularx);
+      eulerAnglesy_arr.push(args.oulary);
+      eulerAnglesz_arr.push(args.oularz);
+
+      quat1_arr.push(args.q0);
+      quat2_arr.push(args.q1);
+      quat3_arr.push(args.q2);
+      quat4_arr.push(args.q3);
+
       // 检查数据点数量是否超过阈值并移除最早的数据点
       if (time_arr.length > maxDataPointLength) time_arr.shift();
-      if (tmp_c_arr.length > maxDataPointLength) tmp_c_arr.shift();
-      if (tmp_arr.length > maxDataPointLength) tmp_arr.shift();
+      if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
+      if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
 
-      adc_x_arr.push(args.adc_x);
-      adc_y_arr.push(args.adc_y);
-      adc_z_arr.push(args.adc_z);
-      adc_x2_arr.push(args.adc_x2);
-      adc_y2_arr.push(args.adc_y2);
-      adc_z2_arr.push(args.adc_z2);
+      if (adc_x_arr.length >= maxDataPointLength) adc_x_arr.shift();
+      if (adc_y_arr.length >= maxDataPointLength) adc_y_arr.shift();
+      if (adc_z_arr.length >= maxDataPointLength) adc_z_arr.shift();
+      if (adc_x2_arr.length >= maxDataPointLength) adc_x2_arr.shift();
+      if (adc_y2_arr.length >= maxDataPointLength) adc_y2_arr.shift();
+      if (adc_z2_arr.length >= maxDataPointLength) adc_z2_arr.shift();
 
-      if (adc_x_arr.length > maxDataPointLength) adc_x_arr.shift();
-      if (adc_y_arr.length > maxDataPointLength) adc_y_arr.shift();
-      if (adc_z_arr.length > maxDataPointLength) adc_z_arr.shift();
-      if (adc_x2_arr.length > maxDataPointLength) adc_x2_arr.shift();
-      if (adc_y2_arr.length > maxDataPointLength) adc_y2_arr.shift();
-      if (adc_z2_arr.length > maxDataPointLength) adc_z2_arr.shift();
+      if (acc_x_arr.length >= maxDataPointLength) acc_x_arr.shift();
+      if (acc_y_arr.length >= maxDataPointLength) acc_y_arr.shift();
+      if (acc_z_arr.length >= maxDataPointLength) acc_z_arr.shift();
 
-      acc_x_arr.push(args.acc_x);
-      acc_y_arr.push(args.acc_y);
-      acc_z_arr.push(args.acc_z);
+      if (mag_x_arr.length >= maxDataPointLength) mag_x_arr.shift();
+      if (mag_y_arr.length >= maxDataPointLength) mag_y_arr.shift();
+      if (mag_z_arr.length >= maxDataPointLength) mag_z_arr.shift();
 
-      if (acc_x_arr.length > maxDataPointLength) acc_x_arr.shift();
-      if (acc_y_arr.length > maxDataPointLength) acc_y_arr.shift();
-      if (acc_z_arr.length > maxDataPointLength) acc_z_arr.shift();
+      if (eulerAnglesx_arr.length >= maxDataPointLength)
+        eulerAnglesx_arr.shift();
+      if (eulerAnglesy_arr.length >= maxDataPointLength)
+        eulerAnglesy_arr.shift();
+      if (eulerAnglesz_arr.length >= maxDataPointLength)
+        eulerAnglesz_arr.shift();
 
-      quat1_arr.push(args.quat1);
-      quat2_arr.push(args.quat2);
-      quat3_arr.push(args.quat3);
-      quat4_arr.push(args.quat4);
-
-      if (quat1_arr.length > maxDataPointLength) quat1_arr.shift();
-      if (quat2_arr.length > maxDataPointLength) quat2_arr.shift();
-      if (quat3_arr.length > maxDataPointLength) quat3_arr.shift();
-      if (quat4_arr.length > maxDataPointLength) quat4_arr.shift();
+      if (quat1_arr.length >= maxDataPointLength) quat1_arr.shift();
+      if (quat2_arr.length >= maxDataPointLength) quat2_arr.shift();
+      if (quat3_arr.length >= maxDataPointLength) quat3_arr.shift();
+      if (quat4_arr.length >= maxDataPointLength) quat4_arr.shift();
       myChart1.update();
       myChart2.update();
       myChart3.update();
