@@ -215,10 +215,10 @@ const createWindow = async () => {
         // todo 批式传递数据，减轻ipc通信压力
         handleData();
         if (mainWindow) {
-          if (objArr.length === maxObjArrLength) {
+          objArr.push(obj);
+          if (objArr.length >= maxObjArrLength) {
             mainWindow.webContents.send('ipc-serialPort-read-data', objArr);
-          } else {
-            objArr.push(obj);
+            objArr.splice(0, maxObjArrLength);
           }
         }
         srcData = [];
