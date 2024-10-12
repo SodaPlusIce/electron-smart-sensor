@@ -14,6 +14,8 @@ const Overview1: React.FC = () => {
   const canvasRef4 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef5 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef6 = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef7 = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef8 = useRef<HTMLCanvasElement | null>(null);
 
   // const [portNumber, setPortNumber] = useState('COM7');
   // const [baudRate, setBaudRate] = useState('9600');
@@ -22,15 +24,34 @@ const Overview1: React.FC = () => {
   const time_arr: string[] = [];
   const tmp_c_arr: number[] = [];
   const tmp_arr: number[] = [];
+  const adc_x_arr: number[] = [];
+  const adc_y_arr: number[] = [];
+  const adc_z_arr: number[] = [];
+  const adc_x2_arr: number[] = [];
+  const adc_y2_arr: number[] = [];
+  const adc_z2_arr: number[] = [];
+  const acc_x_arr: number[] = [];
+  const acc_y_arr: number[] = [];
+  const acc_z_arr: number[] = [];
+  const mag_x_arr: number[] = [];
+  const mag_y_arr: number[] = [];
+  const mag_z_arr: number[] = [];
+  const eulerAnglesx_arr: number[] = [];
+  const eulerAnglesy_arr: number[] = [];
+  const eulerAnglesz_arr: number[] = [];
+  const quat1_arr: number[] = [];
+  const quat2_arr: number[] = [];
+  const quat3_arr: number[] = [];
+  const quat4_arr: number[] = [];
 
   let myChart1: Chart;
   let myChart2: Chart;
-  // myChart3,
-  // myChart4,
-  // myChart5,
-  // myChart6,
-  // myChart7,
-  // myChart8;
+  let myChart3: Chart;
+  let myChart4: Chart;
+  let myChart5: Chart;
+  let myChart6: Chart;
+  let myChart7: Chart;
+  let myChart8: Chart;
   useEffect(() => {
     if (canvasRef1.current) {
       const ctx = canvasRef1.current.getContext('2d');
@@ -60,7 +81,7 @@ const Overview1: React.FC = () => {
             y: {
               title: {
                 display: true,
-                text: 'Voltage (V)',
+                text: 'Voltage(V)',
               },
             },
           },
@@ -96,7 +117,7 @@ const Overview1: React.FC = () => {
             y: {
               title: {
                 display: true,
-                text: 'Temperature (℃)',
+                text: 'Temperature(℃)',
               },
             },
           },
@@ -106,17 +127,31 @@ const Overview1: React.FC = () => {
 
     if (canvasRef3.current) {
       const ctx = canvasRef3.current.getContext('2d');
-      new Chart(ctx!, {
+      myChart3 = new Chart(ctx!, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: time_arr,
           datasets: [
             {
-              label: 'Acceleration',
-              data: [0.5, 0.8, 0.7, 1.2, 1.1],
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 2,
+              label: 'adc_x',
+              data: adc_x_arr, // 压力数据数组
               fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1,
+            },
+            {
+              label: 'adc_y',
+              data: adc_y_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1,
+            },
+            {
+              label: 'adc_z',
+              data: adc_z_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1,
             },
           ],
         },
@@ -126,13 +161,13 @@ const Overview1: React.FC = () => {
             x: {
               title: {
                 display: true,
-                text: 'Months',
+                text: 'Time',
               },
             },
             y: {
               title: {
                 display: true,
-                text: 'Acceleration (m/s²)',
+                text: 'Voltage(V)',
               },
             },
           },
@@ -142,17 +177,31 @@ const Overview1: React.FC = () => {
 
     if (canvasRef4.current) {
       const ctx = canvasRef4.current.getContext('2d');
-      new Chart(ctx!, {
+      myChart4 = new Chart(ctx!, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: time_arr,
           datasets: [
             {
-              label: 'Magnetic Field',
-              data: [0.1, 0.2, 0.15, 0.3, 0.25],
-              borderColor: 'rgba(255, 206, 86, 1)',
-              borderWidth: 2,
+              label: 'adc_x',
+              data: adc_x2_arr, // 压力数据数组
               fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1,
+            },
+            {
+              label: 'adc_y',
+              data: adc_y2_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1,
+            },
+            {
+              label: 'adc_z',
+              data: adc_z2_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1,
             },
           ],
         },
@@ -162,13 +211,13 @@ const Overview1: React.FC = () => {
             x: {
               title: {
                 display: true,
-                text: 'Months',
+                text: 'Time',
               },
             },
             y: {
               title: {
                 display: true,
-                text: 'Magnetic Field Strength (mG)',
+                text: 'Force(N)',
               },
             },
           },
@@ -178,17 +227,31 @@ const Overview1: React.FC = () => {
 
     if (canvasRef5.current) {
       const ctx = canvasRef5.current.getContext('2d');
-      new Chart(ctx!, {
+      myChart5 = new Chart(ctx!, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: time_arr,
           datasets: [
             {
-              label: 'Magnetic Field',
-              data: [0.1, 0.2, 0.15, 0.3, 0.25],
-              borderColor: 'rgba(125, 206, 86, 1)',
-              borderWidth: 2,
+              label: 'acc_x',
+              data: acc_x_arr, // 压力数据数组
               fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1,
+            },
+            {
+              label: 'acc_y',
+              data: acc_y_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1,
+            },
+            {
+              label: 'acc_z',
+              data: acc_z_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1,
             },
           ],
         },
@@ -198,13 +261,13 @@ const Overview1: React.FC = () => {
             x: {
               title: {
                 display: true,
-                text: 'Months',
+                text: 'Time',
               },
             },
             y: {
               title: {
                 display: true,
-                text: 'Magnetic Field Strength (mG)',
+                text: 'Acceleration(g)',
               },
             },
           },
@@ -214,17 +277,31 @@ const Overview1: React.FC = () => {
 
     if (canvasRef6.current) {
       const ctx = canvasRef6.current.getContext('2d');
-      new Chart(ctx!, {
+      myChart6 = new Chart(ctx!, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: time_arr,
           datasets: [
             {
-              label: 'Magnetic Field',
-              data: [0.1, 0.2, 0.15, 0.3, 0.25],
-              borderColor: 'rgba(5, 201, 86, 1)',
-              borderWidth: 2,
+              label: 'mag_x',
+              data: mag_x_arr, // 压力数据数组
               fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1,
+            },
+            {
+              label: 'mag_y',
+              data: mag_y_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1,
+            },
+            {
+              label: 'mag_z',
+              data: mag_z_arr, // 压力数据数组
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1,
             },
           ],
         },
@@ -234,13 +311,120 @@ const Overview1: React.FC = () => {
             x: {
               title: {
                 display: true,
-                text: 'Months',
+                text: 'Time',
               },
             },
             y: {
               title: {
                 display: true,
-                text: 'Magnetic Field Strength (mG)',
+                text: 'Magenetic Field Strength(mGauss)',
+              },
+            },
+          },
+        },
+      });
+    }
+
+    if (canvasRef7.current) {
+      const ctx = canvasRef7.current.getContext('2d');
+      myChart7 = new Chart(ctx!, {
+        type: 'line',
+        data: {
+          labels: time_arr,
+          datasets: [
+            {
+              label: 'x',
+              data: eulerAnglesx_arr,
+              fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1,
+            },
+            {
+              label: 'y',
+              data: eulerAnglesy_arr,
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1,
+            },
+            {
+              label: 'z',
+              data: eulerAnglesz_arr,
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Euler Angles (degree)',
+              },
+            },
+          },
+        },
+      });
+    }
+
+    if (canvasRef8.current) {
+      const ctx = canvasRef8.current.getContext('2d');
+      myChart8 = new Chart(ctx!, {
+        type: 'line',
+        data: {
+          labels: time_arr,
+          datasets: [
+            {
+              label: 'q1',
+              data: quat1_arr,
+              fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1,
+            },
+            {
+              label: 'q2',
+              data: quat2_arr,
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1,
+            },
+            {
+              label: 'q3',
+              data: quat3_arr,
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1,
+            },
+            {
+              label: 'q4',
+              data: quat4_arr,
+              fill: false,
+              borderColor: 'rgb(255, 137, 54)',
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Quaternion',
               },
             },
           },
@@ -263,29 +447,64 @@ const Overview1: React.FC = () => {
     // 检查数据点数量是否超过阈值
     const maxDataPointLength = 20; // 设置数据点的最大数量
 
-    if (myChart1 && myChart2) {
-      // time_arr.push(formattedStartTime);
-      // tmp_c_arr.push(args.tmpc);
-      // tmp_arr.push(args.tmp);
-      // // 检查数据点数量是否超过阈值
-      // if (time_arr.length >= maxDataPointLength) time_arr.shift();
-      // if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
-      // if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
-      // myChart1.update();
-      // myChart2.update();
+    if (
+      myChart1 &&
+      myChart2 &&
+      myChart3 &&
+      myChart4 &&
+      myChart5 &&
+      myChart6 &&
+      myChart7 &&
+      myChart8
+    ) {
+      time_arr.push(formattedStartTime);
+      tmp_c_arr.push(args.tmpc);
+      tmp_arr.push(args.tmp);
 
-      if (myChart2.data.labels) {
-        myChart2.data.labels.push(formattedStartTime);
-        myChart2.data.datasets[0].data.push(args.tmp);
-        // 检查数据点数量是否超过阈值
-        if (myChart2.data.labels.length >= maxDataPointLength) {
-          myChart2.data.labels.shift();
-        }
-        if (myChart2.data.datasets[0].data.length >= maxDataPointLength) {
-          myChart2.data.datasets[0].data.shift();
-        }
-        myChart2.update();
-      }
+      // 检查数据点数量是否超过阈值并移除最早的数据点
+      if (time_arr.length > maxDataPointLength) time_arr.shift();
+      if (tmp_c_arr.length > maxDataPointLength) tmp_c_arr.shift();
+      if (tmp_arr.length > maxDataPointLength) tmp_arr.shift();
+
+      adc_x_arr.push(args.adc_x);
+      adc_y_arr.push(args.adc_y);
+      adc_z_arr.push(args.adc_z);
+      adc_x2_arr.push(args.adc_x2);
+      adc_y2_arr.push(args.adc_y2);
+      adc_z2_arr.push(args.adc_z2);
+
+      if (adc_x_arr.length > maxDataPointLength) adc_x_arr.shift();
+      if (adc_y_arr.length > maxDataPointLength) adc_y_arr.shift();
+      if (adc_z_arr.length > maxDataPointLength) adc_z_arr.shift();
+      if (adc_x2_arr.length > maxDataPointLength) adc_x2_arr.shift();
+      if (adc_y2_arr.length > maxDataPointLength) adc_y2_arr.shift();
+      if (adc_z2_arr.length > maxDataPointLength) adc_z2_arr.shift();
+
+      acc_x_arr.push(args.acc_x);
+      acc_y_arr.push(args.acc_y);
+      acc_z_arr.push(args.acc_z);
+
+      if (acc_x_arr.length > maxDataPointLength) acc_x_arr.shift();
+      if (acc_y_arr.length > maxDataPointLength) acc_y_arr.shift();
+      if (acc_z_arr.length > maxDataPointLength) acc_z_arr.shift();
+
+      quat1_arr.push(args.quat1);
+      quat2_arr.push(args.quat2);
+      quat3_arr.push(args.quat3);
+      quat4_arr.push(args.quat4);
+
+      if (quat1_arr.length > maxDataPointLength) quat1_arr.shift();
+      if (quat2_arr.length > maxDataPointLength) quat2_arr.shift();
+      if (quat3_arr.length > maxDataPointLength) quat3_arr.shift();
+      if (quat4_arr.length > maxDataPointLength) quat4_arr.shift();
+      myChart1.update();
+      myChart2.update();
+      myChart3.update();
+      myChart4.update();
+      myChart5.update();
+      myChart6.update();
+      myChart7.update();
+      myChart8.update();
     }
   });
   // };
@@ -409,24 +628,32 @@ const Overview1: React.FC = () => {
           <canvas ref={canvasRef1} className="chart" />
         </div>
         <div className="chart-item">
-          <h2>电压</h2>
+          <h2>环境温度</h2>
           <canvas ref={canvasRef2} className="chart" />
         </div>
         <div className="chart-item">
-          <h2>加速度</h2>
+          <h2>压力（电压）</h2>
           <canvas ref={canvasRef3} className="chart" />
         </div>
         <div className="chart-item">
-          <h2>磁力</h2>
+          <h2>压力</h2>
           <canvas ref={canvasRef4} className="chart" />
         </div>
         <div className="chart-item">
-          <h2>压力</h2>
+          <h2>加速度</h2>
           <canvas ref={canvasRef5} className="chart" />
         </div>
         <div className="chart-item">
-          <h2>欧拉角</h2>
+          <h2>磁力</h2>
           <canvas ref={canvasRef6} className="chart" />
+        </div>
+        <div className="chart-item">
+          <h2>欧拉角</h2>
+          <canvas ref={canvasRef7} className="chart" />
+        </div>
+        <div className="chart-item">
+          <h2>四元数</h2>
+          <canvas ref={canvasRef8} className="chart" />
         </div>
       </div>
     </div>
