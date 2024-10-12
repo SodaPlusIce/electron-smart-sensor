@@ -218,7 +218,7 @@ const createWindow = async () => {
           objArr.push(obj);
           if (objArr.length >= maxObjArrLength) {
             mainWindow.webContents.send('ipc-serialPort-read-data', objArr);
-            objArr.splice(0, maxObjArrLength);
+            objArr = [];
           }
         }
         srcData = [];

@@ -500,108 +500,210 @@ const Overview1: React.FC = () => {
     }
   }, []);
 
+  // 每隔一段时间更新一下图表内容
+  setInterval(() => {
+    if (sensorDataQueue) {
+      let args = sensorDataQueue.shift(); // 取队列第一项数据进行图表绘制
+      let startTime = new Date();
+      let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
+      const maxDataPointLength = 20; // 设置数据点的最大数量
+      if (
+        myChart1 &&
+        myChart2 &&
+        myChart3 &&
+        myChart4 &&
+        myChart5 &&
+        myChart6 &&
+        myChart7 &&
+        myChart8
+      ) {
+        time_arr.push(formattedStartTime);
+        tmp_arr.push(args.tmp);
+        tmp_c_arr.push(
+          args.tmp >= configs_t
+            ? configs_t_k1 * args.tmp + configs_t_b1
+            : configs_t_k2 * args.tmp + configs_t_b2,
+        );
+        adc_x_arr.push(args.adcx);
+        adc_y_arr.push(args.adcy);
+        adc_z_arr.push(args.adcz);
+        adc_x2_arr.push(
+          args.adcx >= configs_x
+            ? configs_x_k1 * args.adcx + configs_x_b1
+            : configs_x_k2 * args.adcx + configs_x_b2,
+        );
+        adc_y2_arr.push(
+          args.adcy >= configs_y
+            ? configs_y_k1 * args.adcy + configs_y_b1
+            : configs_y_k2 * args.adcy + configs_y_b2,
+        );
+        adc_z2_arr.push(
+          args.adcz >= configs_z
+            ? configs_z_k1 * args.adcz + configs_z_b1
+            : configs_z_k2 * args.adcz + configs_z_b2,
+        );
+        acc_x_arr.push(args.accx);
+        acc_y_arr.push(args.accy);
+        acc_z_arr.push(args.accz);
+
+        mag_x_arr.push(args.magx);
+        mag_y_arr.push(args.magy);
+        mag_z_arr.push(args.magz);
+
+        eulerAnglesx_arr.push(args.oularx);
+        eulerAnglesy_arr.push(args.oulary);
+        eulerAnglesz_arr.push(args.oularz);
+
+        quat1_arr.push(args.q0);
+        quat2_arr.push(args.q1);
+        quat3_arr.push(args.q2);
+        quat4_arr.push(args.q3);
+
+        // 检查数据点数量是否超过阈值并移除最早的数据点
+        if (time_arr.length > maxDataPointLength + 1) time_arr.shift(); // +1让图表仿真更加稳定
+        if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
+        if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
+
+        if (adc_x_arr.length >= maxDataPointLength) adc_x_arr.shift();
+        if (adc_y_arr.length >= maxDataPointLength) adc_y_arr.shift();
+        if (adc_z_arr.length >= maxDataPointLength) adc_z_arr.shift();
+        if (adc_x2_arr.length >= maxDataPointLength) adc_x2_arr.shift();
+        if (adc_y2_arr.length >= maxDataPointLength) adc_y2_arr.shift();
+        if (adc_z2_arr.length >= maxDataPointLength) adc_z2_arr.shift();
+
+        if (acc_x_arr.length >= maxDataPointLength) acc_x_arr.shift();
+        if (acc_y_arr.length >= maxDataPointLength) acc_y_arr.shift();
+        if (acc_z_arr.length >= maxDataPointLength) acc_z_arr.shift();
+
+        if (mag_x_arr.length >= maxDataPointLength) mag_x_arr.shift();
+        if (mag_y_arr.length >= maxDataPointLength) mag_y_arr.shift();
+        if (mag_z_arr.length >= maxDataPointLength) mag_z_arr.shift();
+
+        if (eulerAnglesx_arr.length >= maxDataPointLength)
+          eulerAnglesx_arr.shift();
+        if (eulerAnglesy_arr.length >= maxDataPointLength)
+          eulerAnglesy_arr.shift();
+        if (eulerAnglesz_arr.length >= maxDataPointLength)
+          eulerAnglesz_arr.shift();
+
+        if (quat1_arr.length >= maxDataPointLength) quat1_arr.shift();
+        if (quat2_arr.length >= maxDataPointLength) quat2_arr.shift();
+        if (quat3_arr.length >= maxDataPointLength) quat3_arr.shift();
+        if (quat4_arr.length >= maxDataPointLength) quat4_arr.shift();
+        myChart1.update();
+        myChart2.update();
+        myChart3.update();
+        myChart4.update();
+        myChart5.update();
+        myChart6.update();
+        myChart7.update();
+        myChart8.update();
+      }
+    }
+  }, 50);
+
   window.electron.ipcRenderer.on('ipc-serialPort-read-data', (argsArr) => {
     console.log(argsArr);
     // 数据添加到队列
     sensorDataQueue = sensorDataQueue.concat(argsArr);
     // 更新图表内容
-    let args = sensorDataQueue.shift(); // 取队列第一项数据进行图表绘制
-    let startTime = new Date();
-    let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
-    // 检查数据点数量是否超过阈值
-    const maxDataPointLength = 20; // 设置数据点的最大数量
-    if (
-      myChart1 &&
-      myChart2 &&
-      myChart3 &&
-      myChart4 &&
-      myChart5 &&
-      myChart6 &&
-      myChart7 &&
-      myChart8
-    ) {
-      time_arr.push(formattedStartTime);
-      tmp_arr.push(args.tmp);
-      tmp_c_arr.push(
-        args.tmp >= configs_t
-          ? configs_t_k1 * args.tmp + configs_t_b1
-          : configs_t_k2 * args.tmp + configs_t_b2,
-      );
-      adc_x_arr.push(args.adcx);
-      adc_y_arr.push(args.adcy);
-      adc_z_arr.push(args.adcz);
-      adc_x2_arr.push(
-        args.adcx >= configs_x
-          ? configs_x_k1 * args.adcx + configs_x_b1
-          : configs_x_k2 * args.adcx + configs_x_b2,
-      );
-      adc_y2_arr.push(
-        args.adcy >= configs_y
-          ? configs_y_k1 * args.adcy + configs_y_b1
-          : configs_y_k2 * args.adcy + configs_y_b2,
-      );
-      adc_z2_arr.push(
-        args.adcz >= configs_z
-          ? configs_z_k1 * args.adcz + configs_z_b1
-          : configs_z_k2 * args.adcz + configs_z_b2,
-      );
-      acc_x_arr.push(args.accx);
-      acc_y_arr.push(args.accy);
-      acc_z_arr.push(args.accz);
+    // let args = sensorDataQueue.shift(); // 取队列第一项数据进行图表绘制
+    // let startTime = new Date();
+    // let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
+    // // 检查数据点数量是否超过阈值
+    // const maxDataPointLength = 20; // 设置数据点的最大数量
+    // if (
+    //   myChart1 &&
+    //   myChart2 &&
+    //   myChart3 &&
+    //   myChart4 &&
+    //   myChart5 &&
+    //   myChart6 &&
+    //   myChart7 &&
+    //   myChart8
+    // ) {
+    //   time_arr.push(formattedStartTime);
+    //   tmp_arr.push(args.tmp);
+    //   tmp_c_arr.push(
+    //     args.tmp >= configs_t
+    //       ? configs_t_k1 * args.tmp + configs_t_b1
+    //       : configs_t_k2 * args.tmp + configs_t_b2,
+    //   );
+    //   adc_x_arr.push(args.adcx);
+    //   adc_y_arr.push(args.adcy);
+    //   adc_z_arr.push(args.adcz);
+    //   adc_x2_arr.push(
+    //     args.adcx >= configs_x
+    //       ? configs_x_k1 * args.adcx + configs_x_b1
+    //       : configs_x_k2 * args.adcx + configs_x_b2,
+    //   );
+    //   adc_y2_arr.push(
+    //     args.adcy >= configs_y
+    //       ? configs_y_k1 * args.adcy + configs_y_b1
+    //       : configs_y_k2 * args.adcy + configs_y_b2,
+    //   );
+    //   adc_z2_arr.push(
+    //     args.adcz >= configs_z
+    //       ? configs_z_k1 * args.adcz + configs_z_b1
+    //       : configs_z_k2 * args.adcz + configs_z_b2,
+    //   );
+    //   acc_x_arr.push(args.accx);
+    //   acc_y_arr.push(args.accy);
+    //   acc_z_arr.push(args.accz);
 
-      mag_x_arr.push(args.magx);
-      mag_y_arr.push(args.magy);
-      mag_z_arr.push(args.magz);
+    //   mag_x_arr.push(args.magx);
+    //   mag_y_arr.push(args.magy);
+    //   mag_z_arr.push(args.magz);
 
-      eulerAnglesx_arr.push(args.oularx);
-      eulerAnglesy_arr.push(args.oulary);
-      eulerAnglesz_arr.push(args.oularz);
+    //   eulerAnglesx_arr.push(args.oularx);
+    //   eulerAnglesy_arr.push(args.oulary);
+    //   eulerAnglesz_arr.push(args.oularz);
 
-      quat1_arr.push(args.q0);
-      quat2_arr.push(args.q1);
-      quat3_arr.push(args.q2);
-      quat4_arr.push(args.q3);
+    //   quat1_arr.push(args.q0);
+    //   quat2_arr.push(args.q1);
+    //   quat3_arr.push(args.q2);
+    //   quat4_arr.push(args.q3);
 
-      // 检查数据点数量是否超过阈值并移除最早的数据点
-      if (time_arr.length > maxDataPointLength + 1) time_arr.shift(); // +1让图表仿真更加稳定
-      if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
-      if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
+    //   // 检查数据点数量是否超过阈值并移除最早的数据点
+    //   if (time_arr.length > maxDataPointLength + 1) time_arr.shift(); // +1让图表仿真更加稳定
+    //   if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
+    //   if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
 
-      if (adc_x_arr.length >= maxDataPointLength) adc_x_arr.shift();
-      if (adc_y_arr.length >= maxDataPointLength) adc_y_arr.shift();
-      if (adc_z_arr.length >= maxDataPointLength) adc_z_arr.shift();
-      if (adc_x2_arr.length >= maxDataPointLength) adc_x2_arr.shift();
-      if (adc_y2_arr.length >= maxDataPointLength) adc_y2_arr.shift();
-      if (adc_z2_arr.length >= maxDataPointLength) adc_z2_arr.shift();
+    //   if (adc_x_arr.length >= maxDataPointLength) adc_x_arr.shift();
+    //   if (adc_y_arr.length >= maxDataPointLength) adc_y_arr.shift();
+    //   if (adc_z_arr.length >= maxDataPointLength) adc_z_arr.shift();
+    //   if (adc_x2_arr.length >= maxDataPointLength) adc_x2_arr.shift();
+    //   if (adc_y2_arr.length >= maxDataPointLength) adc_y2_arr.shift();
+    //   if (adc_z2_arr.length >= maxDataPointLength) adc_z2_arr.shift();
 
-      if (acc_x_arr.length >= maxDataPointLength) acc_x_arr.shift();
-      if (acc_y_arr.length >= maxDataPointLength) acc_y_arr.shift();
-      if (acc_z_arr.length >= maxDataPointLength) acc_z_arr.shift();
+    //   if (acc_x_arr.length >= maxDataPointLength) acc_x_arr.shift();
+    //   if (acc_y_arr.length >= maxDataPointLength) acc_y_arr.shift();
+    //   if (acc_z_arr.length >= maxDataPointLength) acc_z_arr.shift();
 
-      if (mag_x_arr.length >= maxDataPointLength) mag_x_arr.shift();
-      if (mag_y_arr.length >= maxDataPointLength) mag_y_arr.shift();
-      if (mag_z_arr.length >= maxDataPointLength) mag_z_arr.shift();
+    //   if (mag_x_arr.length >= maxDataPointLength) mag_x_arr.shift();
+    //   if (mag_y_arr.length >= maxDataPointLength) mag_y_arr.shift();
+    //   if (mag_z_arr.length >= maxDataPointLength) mag_z_arr.shift();
 
-      if (eulerAnglesx_arr.length >= maxDataPointLength)
-        eulerAnglesx_arr.shift();
-      if (eulerAnglesy_arr.length >= maxDataPointLength)
-        eulerAnglesy_arr.shift();
-      if (eulerAnglesz_arr.length >= maxDataPointLength)
-        eulerAnglesz_arr.shift();
+    //   if (eulerAnglesx_arr.length >= maxDataPointLength)
+    //     eulerAnglesx_arr.shift();
+    //   if (eulerAnglesy_arr.length >= maxDataPointLength)
+    //     eulerAnglesy_arr.shift();
+    //   if (eulerAnglesz_arr.length >= maxDataPointLength)
+    //     eulerAnglesz_arr.shift();
 
-      if (quat1_arr.length >= maxDataPointLength) quat1_arr.shift();
-      if (quat2_arr.length >= maxDataPointLength) quat2_arr.shift();
-      if (quat3_arr.length >= maxDataPointLength) quat3_arr.shift();
-      if (quat4_arr.length >= maxDataPointLength) quat4_arr.shift();
-      myChart1.update();
-      myChart2.update();
-      myChart3.update();
-      myChart4.update();
-      myChart5.update();
-      myChart6.update();
-      myChart7.update();
-      myChart8.update();
-    }
+    //   if (quat1_arr.length >= maxDataPointLength) quat1_arr.shift();
+    //   if (quat2_arr.length >= maxDataPointLength) quat2_arr.shift();
+    //   if (quat3_arr.length >= maxDataPointLength) quat3_arr.shift();
+    //   if (quat4_arr.length >= maxDataPointLength) quat4_arr.shift();
+    //   myChart1.update();
+    //   myChart2.update();
+    //   myChart3.update();
+    //   myChart4.update();
+    //   myChart5.update();
+    //   myChart6.update();
+    //   myChart7.update();
+    //   myChart8.update();
+    // }
   });
 
   return (
