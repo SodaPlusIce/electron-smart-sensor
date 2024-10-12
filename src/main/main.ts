@@ -195,8 +195,8 @@ const createWindow = async () => {
     q3: -1,
   };
 
-  let objArr: SensorData[] = [];
-  let maxObjArrLength = 5; // 批处理最大数据个数
+  // let objArr: SensorData[] = [];
+  // let maxObjArrLength = 5; // 批处理最大数据个数
   function getData(portValue: string, rate: number) {
     let cal_x: any = [];
     let cal_y: any = [];
@@ -209,21 +209,45 @@ const createWindow = async () => {
     let srcData: any = [];
 
     port.on('data', function (data) {
-      if (data[0] === 65) {
-        // console.log(data[0]);
-        // console.log(srcData);
-        // todo 批式传递数据，减轻ipc通信压力
-        handleData();
-        if (mainWindow) {
-          objArr.push(obj);
-          if (objArr.length >= maxObjArrLength) {
-            mainWindow.webContents.send('ipc-serialPort-read-data', objArr);
-            objArr = [];
-          }
+      // if (data[0] === 65) {
+      //   // console.log(data[0]);
+      //   // console.log(srcData);
+      //   handleData();
+      //   srcData = [];
+      // }
+      // srcData.push(data[0]);
+      // 新的处理逻辑
+      if (data.length > 57) {
+        return;
+      } else {
+        const index = data.indexOf(65);
+        console.log('index:' + index);
+        console.log(data);
+        if (index > 0) {
+          srcData = [65, ...srcData, ...data.slice(0, index)];
+          console.log(srcData);
+          handleData();
+          srcData = [...data.slice(index, data.length - 1)];
+        } else if (index === 0) {
+          srcData = [65, ...srcData];
+          console.log(srcData);
+          handleData();
+          srcData = [...data.slice(index, data.length - 1)];
+        } else {
+          srcData = [...srcData, ...data];
         }
-        srcData = [];
       }
-      srcData.push(data[0]);
+
+      // todo 批式传递数据，减轻ipc通信压力
+      // if (mainWindow) {
+      //   objArr.push(obj);
+      //   if (objArr.length >= maxObjArrLength) {
+      //     mainWindow.webContents.send('ipc-serialPort-read-data', objArr);
+      //     objArr = [];
+      //   }
+      // }
+      if (mainWindow)
+        mainWindow.webContents.send('ipc-serialPort-read-data', obj);
 
       //一个一个数据流往里塞,从65开始统计，到下一个65结束，同时里面的数据流处理逻辑应该是不变的，这样的话每次都是一个完整的buffer处理
     });
@@ -620,3 +644,4 @@ app
     });
   })
   .catch(console.log);
+('');
