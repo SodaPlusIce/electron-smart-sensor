@@ -263,16 +263,29 @@ const Overview1: React.FC = () => {
     // 检查数据点数量是否超过阈值
     const maxDataPointLength = 20; // 设置数据点的最大数量
 
-    if (myChart1) {
-      time_arr.push(formattedStartTime);
-      tmp_c_arr.push(args.tmpc);
-      tmp_arr.push(args.tmp);
-      // 检查数据点数量是否超过阈值
-      if (time_arr.length >= maxDataPointLength) time_arr.shift();
-      if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
-      if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
-      myChart1.update();
-      myChart2.update();
+    if (myChart1 && myChart2) {
+      // time_arr.push(formattedStartTime);
+      // tmp_c_arr.push(args.tmpc);
+      // tmp_arr.push(args.tmp);
+      // // 检查数据点数量是否超过阈值
+      // if (time_arr.length >= maxDataPointLength) time_arr.shift();
+      // if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
+      // if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
+      // myChart1.update();
+      // myChart2.update();
+
+      if (myChart2.data.labels) {
+        myChart2.data.labels.push(formattedStartTime);
+        myChart2.data.datasets[0].data.push(args.tmp);
+        // 检查数据点数量是否超过阈值
+        if (myChart2.data.labels.length >= maxDataPointLength) {
+          myChart2.data.labels.shift();
+        }
+        if (myChart2.data.datasets[0].data.length >= maxDataPointLength) {
+          myChart2.data.datasets[0].data.shift();
+        }
+        myChart2.update();
+      }
     }
   });
   // };
