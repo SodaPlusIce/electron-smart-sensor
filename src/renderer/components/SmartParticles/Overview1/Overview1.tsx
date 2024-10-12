@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 // import { Select } from 'antd';
 import './Overview1.css'; // 引入 CSS 文件
@@ -17,13 +17,77 @@ const Overview1: React.FC = () => {
   const canvasRef7 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef8 = useRef<HTMLCanvasElement | null>(null);
 
-  // const [portNumber, setPortNumber] = useState('COM7');
-  // const [baudRate, setBaudRate] = useState('9600');
+  // 左侧参数部分所需的数据
+  const [configs_x, setConfigsX] = useState<number>(1);
+  const [configs_x_k1, setConfigsXK1] = useState<number>(1);
+  const [configs_x_b1, setConfigsXB1] = useState<number>(1);
+  const [configs_x_k2, setConfigsXK2] = useState<number>(1);
+  const [configs_x_b2, setConfigsXB2] = useState<number>(1);
+  const [configs_y, setConfigsY] = useState<number>(1);
+  const [configs_y_k1, setConfigsYK1] = useState<number>(1);
+  const [configs_y_b1, setConfigsYB1] = useState<number>(1);
+  const [configs_y_k2, setConfigsYK2] = useState<number>(1);
+  const [configs_y_b2, setConfigsYB2] = useState<number>(1);
+  const [configs_z, setConfigsZ] = useState<number>(1);
+  const [configs_z_k1, setConfigsZK1] = useState<number>(1);
+  const [configs_z_b1, setConfigsZB1] = useState<number>(1);
+  const [configs_z_k2, setConfigsZK2] = useState<number>(1);
+  const [configs_z_b2, setConfigsZB2] = useState<number>(1);
+  const [configs_t, setConfigsT] = useState<number>(1);
+  const [configs_t_k1, setConfigsTK1] = useState<number>(1);
+  const [configs_t_b1, setConfigsTB1] = useState<number>(1);
+  const [configs_t_k2, setConfigsTK2] = useState<number>(1);
+  const [configs_t_b2, setConfigsTB2] = useState<number>(1);
+
+  // 更新函数，供子组件调用
+  const updateConfigs = (
+    x: number,
+    xK1: number,
+    xB1: number,
+    xK2: number,
+    xB2: number,
+    y: number,
+    yK1: number,
+    yB1: number,
+    yK2: number,
+    yB2: number,
+    z: number,
+    zK1: number,
+    zB1: number,
+    zK2: number,
+    zB2: number,
+    t: number,
+    tK1: number,
+    tB1: number,
+    tK2: number,
+    tB2: number,
+  ) => {
+    setConfigsX(x);
+    setConfigsXK1(xK1);
+    setConfigsXB1(xB1);
+    setConfigsXK2(xK2);
+    setConfigsXB2(xB2);
+    setConfigsY(y);
+    setConfigsYK1(yK1);
+    setConfigsYB1(yB1);
+    setConfigsYK2(yK2);
+    setConfigsYB2(yB2);
+    setConfigsZ(z);
+    setConfigsZK1(zK1);
+    setConfigsZB1(zB1);
+    setConfigsZK2(zK2);
+    setConfigsZB2(zB2);
+    setConfigsT(t);
+    setConfigsTK1(tK1);
+    setConfigsTB1(tB1);
+    setConfigsTK2(tK2);
+    setConfigsTB2(tB2);
+  };
 
   // 图表展示所需的数据
   const time_arr: string[] = [];
-  const tmp_c_arr: number[] = [];
   const tmp_arr: number[] = [];
+  const tmp_c_arr: number[] = [];
   const adc_x_arr: number[] = [];
   const adc_y_arr: number[] = [];
   const adc_z_arr: number[] = [];
@@ -52,6 +116,7 @@ const Overview1: React.FC = () => {
   let myChart6: Chart;
   let myChart7: Chart;
   let myChart8: Chart;
+
   useEffect(() => {
     if (canvasRef1.current) {
       const ctx = canvasRef1.current.getContext('2d');
@@ -62,7 +127,7 @@ const Overview1: React.FC = () => {
           datasets: [
             {
               label: 'Temperature',
-              data: tmp_c_arr,
+              data: tmp_arr,
               borderColor: 'rgb(255, 99, 132)',
               borderWidth: 2,
               fill: false,
@@ -98,7 +163,7 @@ const Overview1: React.FC = () => {
           datasets: [
             {
               label: 'Pressure',
-              data: tmp_arr,
+              data: tmp_c_arr,
               borderColor: 'rgb(255, 99, 132)',
               borderWidth: 2,
               fill: false,
@@ -433,12 +498,6 @@ const Overview1: React.FC = () => {
     }
   }, []);
 
-  // 点击确认按钮，通知main.ts开始读取端口数据，并开始接收传来的传感器数据
-  // const submit = () => {
-  //   window.electron.ipcRenderer.sendMessage('ipc-port-info', {
-  //     portNumber: portNumber,
-  //     baudRate: baudRate,
-  //   });
   window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
     console.log(args);
     // 更新图表内容
@@ -446,7 +505,6 @@ const Overview1: React.FC = () => {
     let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
     // 检查数据点数量是否超过阈值
     const maxDataPointLength = 20; // 设置数据点的最大数量
-
     if (
       myChart1 &&
       myChart2 &&
@@ -458,16 +516,30 @@ const Overview1: React.FC = () => {
       myChart8
     ) {
       time_arr.push(formattedStartTime);
-      tmp_c_arr.push(args.tmpc);
       tmp_arr.push(args.tmp);
-
+      tmp_c_arr.push(
+        args.tmp >= configs_t
+          ? configs_t_k1 * args.tmp + configs_t_b1
+          : configs_t_k2 * args.tmp + configs_t_b2,
+      );
       adc_x_arr.push(args.adcx);
       adc_y_arr.push(args.adcy);
       adc_z_arr.push(args.adcz);
-      adc_x2_arr.push(args.adcxc);
-      adc_y2_arr.push(args.adcyc);
-      adc_z2_arr.push(args.adczc);
-
+      adc_x2_arr.push(
+        args.tmp >= configs_x
+          ? configs_x_k1 * args.tmp + configs_x_b1
+          : configs_x_k2 * args.tmp + configs_x_b2,
+      );
+      adc_y2_arr.push(
+        args.tmp >= configs_y
+          ? configs_y_k1 * args.tmp + configs_y_b1
+          : configs_y_k2 * args.tmp + configs_y_b2,
+      );
+      adc_z2_arr.push(
+        args.tmp >= configs_z
+          ? configs_z_k1 * args.tmp + configs_z_b1
+          : configs_z_k2 * args.tmp + configs_z_b2,
+      );
       acc_x_arr.push(args.accx);
       acc_y_arr.push(args.accy);
       acc_z_arr.push(args.accz);
@@ -487,8 +559,8 @@ const Overview1: React.FC = () => {
 
       // 检查数据点数量是否超过阈值并移除最早的数据点
       if (time_arr.length > maxDataPointLength) time_arr.shift();
-      if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
       if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
+      if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
 
       if (adc_x_arr.length >= maxDataPointLength) adc_x_arr.shift();
       if (adc_y_arr.length >= maxDataPointLength) adc_y_arr.shift();
@@ -526,15 +598,6 @@ const Overview1: React.FC = () => {
       myChart8.update();
     }
   });
-  // };
-
-  // const handlePortNumberChange = (value: string) => {
-  //   setPortNumber(value);
-  // };
-
-  // const handleBaudRateChange = (value: string) => {
-  //   setBaudRate(value);
-  // };
 
   return (
     <div className="container">
@@ -639,7 +702,7 @@ const Overview1: React.FC = () => {
           确认
         </button>
       </div> */}
-      <ConfigPanel></ConfigPanel>
+      <ConfigPanel updateConfigs={updateConfigs}></ConfigPanel>
       {/* 右侧图表区域 */}
       <div className="chart-container">
         <div className="chart-item">
