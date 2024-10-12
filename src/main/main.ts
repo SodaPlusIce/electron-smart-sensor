@@ -14,6 +14,36 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { SerialPort } from 'serialport';
 
+interface SensorData {
+  tmp: number;
+  tmpc: number;
+
+  adcx: number;
+  adcy: number;
+  adcz: number;
+
+  adcxc: number;
+  adcyc: number;
+  adczc: number;
+
+  accx: number;
+  accy: number;
+  accz: number;
+
+  magx: number;
+  magy: number;
+  magz: number;
+
+  oularx: number;
+  oulary: number;
+  oularz: number;
+
+  q0: number;
+  q1: number;
+  q2: number;
+  q3: number;
+}
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -135,7 +165,7 @@ const createWindow = async () => {
   // },500);
 
   // 读取传感器数据
-  let obj = {
+  let obj: SensorData = {
     tmp: -1,
     tmpc: -1,
 
@@ -165,6 +195,8 @@ const createWindow = async () => {
     q3: -1,
   };
 
+  let objArr: SensorData[] = [];
+  let maxObjArrLength = 5; // 批处理最大数据个数
   function getData(portValue: string, rate: number) {
     let cal_x: any = [];
     let cal_y: any = [];
@@ -178,11 +210,16 @@ const createWindow = async () => {
 
     port.on('data', function (data) {
       if (data[0] === 65) {
-        console.log(data[0]);
-        console.log(srcData);
+        // console.log(data[0]);
+        // console.log(srcData);
+        // todo 批式传递数据，减轻ipc通信压力
         handleData();
         if (mainWindow) {
-          mainWindow.webContents.send('ipc-serialPort-read-data', obj);
+          if (objArr.length === maxObjArrLength) {
+            mainWindow.webContents.send('ipc-serialPort-read-data', objArr);
+          } else {
+            objArr.push(obj);
+          }
         }
         srcData = [];
       }

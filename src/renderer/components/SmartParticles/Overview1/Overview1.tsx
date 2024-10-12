@@ -19,25 +19,25 @@ const Overview1: React.FC = () => {
 
   // 左侧参数部分所需的数据
   const [configs_x, setConfigsX] = useState<number>(1);
-  const [configs_x_k1, setConfigsXK1] = useState<number>(1);
-  const [configs_x_b1, setConfigsXB1] = useState<number>(1);
-  const [configs_x_k2, setConfigsXK2] = useState<number>(1);
-  const [configs_x_b2, setConfigsXB2] = useState<number>(1);
+  const [configs_x_k1, setConfigsXK1] = useState<number>(1831.34);
+  const [configs_x_b1, setConfigsXB1] = useState<number>(1831.34);
+  const [configs_x_k2, setConfigsXK2] = useState<number>(-1374.63);
+  const [configs_x_b2, setConfigsXB2] = useState<number>(-1374.63);
   const [configs_y, setConfigsY] = useState<number>(1);
-  const [configs_y_k1, setConfigsYK1] = useState<number>(1);
-  const [configs_y_b1, setConfigsYB1] = useState<number>(1);
-  const [configs_y_k2, setConfigsYK2] = useState<number>(1);
-  const [configs_y_b2, setConfigsYB2] = useState<number>(1);
+  const [configs_y_k1, setConfigsYK1] = useState<number>(1831.34);
+  const [configs_y_b1, setConfigsYB1] = useState<number>(1831.34);
+  const [configs_y_k2, setConfigsYK2] = useState<number>(-1374.63);
+  const [configs_y_b2, setConfigsYB2] = useState<number>(-1374.63);
   const [configs_z, setConfigsZ] = useState<number>(1);
-  const [configs_z_k1, setConfigsZK1] = useState<number>(1);
-  const [configs_z_b1, setConfigsZB1] = useState<number>(1);
-  const [configs_z_k2, setConfigsZK2] = useState<number>(1);
-  const [configs_z_b2, setConfigsZB2] = useState<number>(1);
+  const [configs_z_k1, setConfigsZK1] = useState<number>(1831.34);
+  const [configs_z_b1, setConfigsZB1] = useState<number>(1831.34);
+  const [configs_z_k2, setConfigsZK2] = useState<number>(-1374.63);
+  const [configs_z_b2, setConfigsZB2] = useState<number>(-1374.63);
   const [configs_t, setConfigsT] = useState<number>(1);
-  const [configs_t_k1, setConfigsTK1] = useState<number>(1);
-  const [configs_t_b1, setConfigsTB1] = useState<number>(1);
-  const [configs_t_k2, setConfigsTK2] = useState<number>(1);
-  const [configs_t_b2, setConfigsTB2] = useState<number>(1);
+  const [configs_t_k1, setConfigsTK1] = useState<number>(-51.41237);
+  const [configs_t_b1, setConfigsTB1] = useState<number>(-51.41237);
+  const [configs_t_k2, setConfigsTK2] = useState<number>(431.8986);
+  const [configs_t_b2, setConfigsTB2] = useState<number>(431.8986);
 
   // 更新函数，供子组件调用
   const updateConfigs = (
@@ -116,6 +116,8 @@ const Overview1: React.FC = () => {
   let myChart6: Chart;
   let myChart7: Chart;
   let myChart8: Chart;
+
+  let sensorDataQueue: any = [];
 
   useEffect(() => {
     if (canvasRef1.current) {
@@ -498,9 +500,12 @@ const Overview1: React.FC = () => {
     }
   }, []);
 
-  window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
-    console.log(args);
+  window.electron.ipcRenderer.on('ipc-serialPort-read-data', (argsArr) => {
+    console.log(argsArr);
+    // 数据添加到队列
+    sensorDataQueue = sensorDataQueue.concat(argsArr);
     // 更新图表内容
+    let args = sensorDataQueue.shift(); // 取队列第一项数据进行图表绘制
     let startTime = new Date();
     let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
     // 检查数据点数量是否超过阈值
@@ -526,19 +531,19 @@ const Overview1: React.FC = () => {
       adc_y_arr.push(args.adcy);
       adc_z_arr.push(args.adcz);
       adc_x2_arr.push(
-        args.tmp >= configs_x
-          ? configs_x_k1 * args.tmp + configs_x_b1
-          : configs_x_k2 * args.tmp + configs_x_b2,
+        args.adcx >= configs_x
+          ? configs_x_k1 * args.adcx + configs_x_b1
+          : configs_x_k2 * args.adcx + configs_x_b2,
       );
       adc_y2_arr.push(
-        args.tmp >= configs_y
-          ? configs_y_k1 * args.tmp + configs_y_b1
-          : configs_y_k2 * args.tmp + configs_y_b2,
+        args.adcy >= configs_y
+          ? configs_y_k1 * args.adcy + configs_y_b1
+          : configs_y_k2 * args.adcy + configs_y_b2,
       );
       adc_z2_arr.push(
-        args.tmp >= configs_z
-          ? configs_z_k1 * args.tmp + configs_z_b1
-          : configs_z_k2 * args.tmp + configs_z_b2,
+        args.adcz >= configs_z
+          ? configs_z_k1 * args.adcz + configs_z_b1
+          : configs_z_k2 * args.adcz + configs_z_b2,
       );
       acc_x_arr.push(args.accx);
       acc_y_arr.push(args.accy);
