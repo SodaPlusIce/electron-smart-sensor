@@ -209,34 +209,38 @@ const createWindow = async () => {
     let srcData: any = [];
 
     port.on('data', function (data) {
-      // if (data[0] === 65) {
-      //   // console.log(data[0]);
-      //   // console.log(srcData);
-      //   handleData();
-      //   srcData = [];
-      // }
-      // srcData.push(data[0]);
-      // 新的处理逻辑
-      if (data.length > 57) {
-        return;
-      } else {
-        const index = data.indexOf(65);
-        console.log('index:' + index);
-        console.log(data);
-        if (index > 0) {
-          srcData = [65, ...srcData, ...data.slice(0, index)];
-          console.log(srcData);
-          handleData();
-          srcData = [...data.slice(index, data.length - 1)];
-        } else if (index === 0) {
-          srcData = [65, ...srcData];
-          console.log(srcData);
-          handleData();
-          srcData = [...data.slice(index, data.length - 1)];
-        } else {
-          srcData = [...srcData, ...data];
-        }
+      if (data[0] === 65) {
+        // console.log(data[0]);
+        // console.log(srcData);
+        handleData();
+        // 旧的逻辑
+        if (mainWindow)
+          mainWindow.webContents.send('ipc-serialPort-read-data', obj);
+
+        srcData = [];
       }
+      srcData.push(data[0]);
+      // 新的处理逻辑
+      // if (data.length > 57) {
+      //   return;
+      // } else {
+      //   const index = data.indexOf(65);
+      //   console.log('index:' + index);
+      //   console.log(data);
+      //   if (index > 0) {
+      //     srcData = [65, ...srcData, ...data.slice(0, index)];
+      //     console.log(srcData);
+      //     handleData();
+      //     srcData = [...data.slice(index, data.length - 1)];
+      //   } else if (index === 0) {
+      //     srcData = [65, ...srcData];
+      //     console.log(srcData);
+      //     handleData();
+      //     srcData = [...data.slice(index, data.length - 1)];
+      //   } else {
+      //     srcData = [...srcData, ...data];
+      //   }
+      // }
 
       // todo 批式传递数据，减轻ipc通信压力
       // if (mainWindow) {
@@ -246,8 +250,6 @@ const createWindow = async () => {
       //     objArr = [];
       //   }
       // }
-      if (mainWindow)
-        mainWindow.webContents.send('ipc-serialPort-read-data', obj);
 
       //一个一个数据流往里塞,从65开始统计，到下一个65结束，同时里面的数据流处理逻辑应该是不变的，这样的话每次都是一个完整的buffer处理
     });
