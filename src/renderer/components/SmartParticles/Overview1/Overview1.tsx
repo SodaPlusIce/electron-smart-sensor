@@ -20,23 +20,23 @@ const Overview1: React.FC = () => {
   // 左侧参数部分所需的数据
   const [configs_x, setConfigsX] = useState<number>(1);
   const [configs_x_k1, setConfigsXK1] = useState<number>(1831.34);
-  const [configs_x_b1, setConfigsXB1] = useState<number>(1831.34);
-  const [configs_x_k2, setConfigsXK2] = useState<number>(-1374.63);
+  const [configs_x_b1, setConfigsXB1] = useState<number>(-1374.63);
+  const [configs_x_k2, setConfigsXK2] = useState<number>(1831.34);
   const [configs_x_b2, setConfigsXB2] = useState<number>(-1374.63);
   const [configs_y, setConfigsY] = useState<number>(1);
   const [configs_y_k1, setConfigsYK1] = useState<number>(1831.34);
-  const [configs_y_b1, setConfigsYB1] = useState<number>(1831.34);
-  const [configs_y_k2, setConfigsYK2] = useState<number>(-1374.63);
+  const [configs_y_b1, setConfigsYB1] = useState<number>(-1374.63);
+  const [configs_y_k2, setConfigsYK2] = useState<number>(1831.34);
   const [configs_y_b2, setConfigsYB2] = useState<number>(-1374.63);
   const [configs_z, setConfigsZ] = useState<number>(1);
   const [configs_z_k1, setConfigsZK1] = useState<number>(1831.34);
-  const [configs_z_b1, setConfigsZB1] = useState<number>(1831.34);
-  const [configs_z_k2, setConfigsZK2] = useState<number>(-1374.63);
+  const [configs_z_b1, setConfigsZB1] = useState<number>(-1374.63);
+  const [configs_z_k2, setConfigsZK2] = useState<number>(1831.34);
   const [configs_z_b2, setConfigsZB2] = useState<number>(-1374.63);
   const [configs_t, setConfigsT] = useState<number>(1);
   const [configs_t_k1, setConfigsTK1] = useState<number>(-51.41237);
-  const [configs_t_b1, setConfigsTB1] = useState<number>(-51.41237);
-  const [configs_t_k2, setConfigsTK2] = useState<number>(431.8986);
+  const [configs_t_b1, setConfigsTB1] = useState<number>(431.8986);
+  const [configs_t_k2, setConfigsTK2] = useState<number>(-51.41237);
   const [configs_t_b2, setConfigsTB2] = useState<number>(431.8986);
 
   // 更新函数，供子组件调用
@@ -819,35 +819,35 @@ const Overview1: React.FC = () => {
       <div className="chart-container">
         <div className="chart-item">
           <h2>环境温度（电压）</h2>
-          <canvas ref={canvasRef1} className="chart" />
+          <canvas ref={canvasRef1} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>环境温度</h2>
-          <canvas ref={canvasRef2} className="chart" />
+          <canvas ref={canvasRef2} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>压力（电压）</h2>
-          <canvas ref={canvasRef3} className="chart" />
+          <canvas ref={canvasRef3} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>压力</h2>
-          <canvas ref={canvasRef4} className="chart" />
+          <canvas ref={canvasRef4} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>加速度</h2>
-          <canvas ref={canvasRef5} className="chart" />
+          <canvas ref={canvasRef5} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>磁力</h2>
-          <canvas ref={canvasRef6} className="chart" />
+          <canvas ref={canvasRef6} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>欧拉角</h2>
-          <canvas ref={canvasRef7} className="chart" />
+          <canvas ref={canvasRef7} className="chart" width="400" height="250" />
         </div>
         <div className="chart-item">
           <h2>四元数</h2>
-          <canvas ref={canvasRef8} className="chart" />
+          <canvas ref={canvasRef8} className="chart" width="400" height="250" />
         </div>
       </div>
     </div>
