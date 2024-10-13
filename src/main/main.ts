@@ -194,7 +194,35 @@ const createWindow = async () => {
     q2: -1,
     q3: -1,
   };
+  let defaultObj: SensorData = {
+    tmp: -1,
+    tmpc: -1,
 
+    adcx: -1,
+    adcy: -1,
+    adcz: -1,
+
+    adcxc: -1,
+    adcyc: -1,
+    adczc: -1,
+
+    accx: -1,
+    accy: -1,
+    accz: -1,
+
+    magx: -1,
+    magy: -1,
+    magz: -1,
+
+    oularx: -1,
+    oulary: -1,
+    oularz: -1,
+
+    q0: -1,
+    q1: -1,
+    q2: -1,
+    q3: -1,
+  };
   // let objArr: SensorData[] = [];
   // let maxObjArrLength = 5; // 批处理最大数据个数
   function getData(portValue: string, rate: number) {
@@ -214,7 +242,7 @@ const createWindow = async () => {
         // console.log(srcData);
         handleData();
         // 旧的逻辑
-        if (mainWindow)
+        if (mainWindow && obj !== defaultObj)
           mainWindow.webContents.send('ipc-serialPort-read-data', obj);
 
         srcData = [];
