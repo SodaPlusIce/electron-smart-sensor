@@ -66,35 +66,58 @@ const RealTimeData: React.FC = () => {
   const [quat3Var, setQuat3Var] = useState<number>(0);
   const [quat4Var, setQuat4Var] = useState<number>(0);
 
+  const formatValues = (args: any) => {
+    Object.keys(args).forEach((key) => {
+      if (typeof args[key] === 'number') {
+        args[key] = parseFloat(args[key].toFixed(4));
+      }
+    });
+    return args;
+  };
+
   // 封装 setState 函数，传递参数 args 进行批量更新
-  const updateState = (args: any) => {
+  const updateState = (argsCal: any) => {
+    let args = formatValues(argsCal);
+
     let startTime = new Date();
     let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
 
     setTimeVar(formattedStartTime);
     setTmpVar(args.tmp);
     setTmpCVar(
-      args.tmp >= configs_t
-        ? configs_t_k1 * args.tmp + configs_t_b1
-        : configs_t_k2 * args.tmp + configs_t_b2,
+      parseFloat(
+        (args.tmp >= configs_t
+          ? configs_t_k1 * args.tmp + configs_t_b1
+          : configs_t_k2 * args.tmp + configs_t_b2
+        ).toFixed(4),
+      ),
     );
     setAdcXVar(args.adcx);
     setAdcYVar(args.adcy);
     setAdcZVar(args.adcz);
     setAdcX2Var(
-      args.adcx >= configs_x
-        ? configs_x_k1 * args.adcx + configs_x_b1
-        : configs_x_k2 * args.adcx + configs_x_b2,
+      parseFloat(
+        (args.adcx >= configs_x
+          ? configs_x_k1 * args.adcx + configs_x_b1
+          : configs_x_k2 * args.adcx + configs_x_b2
+        ).toFixed(4),
+      ),
     );
     setAdcY2Var(
-      args.adcy >= configs_y
-        ? configs_y_k1 * args.adcy + configs_y_b1
-        : configs_y_k2 * args.adcy + configs_y_b2,
+      parseFloat(
+        (args.adcy >= configs_y
+          ? configs_y_k1 * args.adcy + configs_y_b1
+          : configs_y_k2 * args.adcy + configs_y_b2
+        ).toFixed(4),
+      ),
     );
     setAdcZ2Var(
-      args.adcz >= configs_z
-        ? configs_z_k1 * args.adcz + configs_z_b1
-        : configs_z_k2 * args.adcz + configs_z_b2,
+      parseFloat(
+        (args.adcz >= configs_z
+          ? configs_z_k1 * args.adcz + configs_z_b1
+          : configs_z_k2 * args.adcz + configs_z_b2
+        ).toFixed(4),
+      ),
     );
     setAccXVar(args.accx);
     setAccYVar(args.accy);
