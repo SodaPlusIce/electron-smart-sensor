@@ -4,26 +4,43 @@ import ConfigPanel from '../Components/ConfigPanel/ConfigPanel';
 
 const RealTimeData: React.FC = () => {
   // 左侧参数部分所需的数据
-  const [configs_x, setConfigsX] = useState<number>(1);
-  const [configs_x_k1, setConfigsXK1] = useState<number>(1831.34);
-  const [configs_x_b1, setConfigsXB1] = useState<number>(-1374.63);
-  const [configs_x_k2, setConfigsXK2] = useState<number>(1831.34);
-  const [configs_x_b2, setConfigsXB2] = useState<number>(-1374.63);
-  const [configs_y, setConfigsY] = useState<number>(1);
-  const [configs_y_k1, setConfigsYK1] = useState<number>(1831.34);
-  const [configs_y_b1, setConfigsYB1] = useState<number>(-1374.63);
-  const [configs_y_k2, setConfigsYK2] = useState<number>(1831.34);
-  const [configs_y_b2, setConfigsYB2] = useState<number>(-1374.63);
-  const [configs_z, setConfigsZ] = useState<number>(1);
-  const [configs_z_k1, setConfigsZK1] = useState<number>(1831.34);
-  const [configs_z_b1, setConfigsZB1] = useState<number>(-1374.63);
-  const [configs_z_k2, setConfigsZK2] = useState<number>(1831.34);
-  const [configs_z_b2, setConfigsZB2] = useState<number>(-1374.63);
-  const [configs_t, setConfigsT] = useState<number>(1);
-  const [configs_t_k1, setConfigsTK1] = useState<number>(-51.41237);
-  const [configs_t_b1, setConfigsTB1] = useState<number>(431.8986);
-  const [configs_t_k2, setConfigsTK2] = useState<number>(-51.41237);
-  const [configs_t_b2, setConfigsTB2] = useState<number>(431.8986);
+  // 配置参数初始化从 sessionStorage 获取，若无则使用默认值
+  const configs_x = Number(sessionStorage.getItem('configs_x')) || 1;
+  const configs_x_k1 =
+    Number(sessionStorage.getItem('configs_x_k1')) || 1831.34;
+  const configs_x_b1 =
+    Number(sessionStorage.getItem('configs_x_b1')) || -1374.63;
+  const configs_x_k2 =
+    Number(sessionStorage.getItem('configs_x_k2')) || 1831.34;
+  const configs_x_b2 =
+    Number(sessionStorage.getItem('configs_x_b2')) || -1374.63;
+  const configs_y = Number(sessionStorage.getItem('configs_y')) || 1;
+  const configs_y_k1 =
+    Number(sessionStorage.getItem('configs_y_k1')) || 1831.34;
+  const configs_y_b1 =
+    Number(sessionStorage.getItem('configs_y_b1')) || -1374.63;
+  const configs_y_k2 =
+    Number(sessionStorage.getItem('configs_y_k2')) || 1831.34;
+  const configs_y_b2 =
+    Number(sessionStorage.getItem('configs_y_b2')) || -1374.63;
+  const configs_z = Number(sessionStorage.getItem('configs_z')) || 1;
+  const configs_z_k1 =
+    Number(sessionStorage.getItem('configs_z_k1')) || 1831.34;
+  const configs_z_b1 =
+    Number(sessionStorage.getItem('configs_z_b1')) || -1374.63;
+  const configs_z_k2 =
+    Number(sessionStorage.getItem('configs_z_k2')) || 1831.34;
+  const configs_z_b2 =
+    Number(sessionStorage.getItem('configs_z_b2')) || -1374.63;
+  const configs_t = Number(sessionStorage.getItem('configs_t')) || 1;
+  const configs_t_k1 =
+    Number(sessionStorage.getItem('configs_t_k1')) || -51.41237;
+  const configs_t_b1 =
+    Number(sessionStorage.getItem('configs_t_b1')) || 431.8986;
+  const configs_t_k2 =
+    Number(sessionStorage.getItem('configs_t_k2')) || -51.41237;
+  const configs_t_b2 =
+    Number(sessionStorage.getItem('configs_t_b2')) || 431.8986;
 
   // 右侧图表展示所需的数据
   const [timeVar, setTimeVar] = useState<string>('time');
@@ -48,51 +65,6 @@ const RealTimeData: React.FC = () => {
   const [quat2Var, setQuat2Var] = useState<number>(0);
   const [quat3Var, setQuat3Var] = useState<number>(0);
   const [quat4Var, setQuat4Var] = useState<number>(0);
-
-  // 更新函数，供子组件调用
-  const updateConfigs = (
-    x: number,
-    xK1: number,
-    xB1: number,
-    xK2: number,
-    xB2: number,
-    y: number,
-    yK1: number,
-    yB1: number,
-    yK2: number,
-    yB2: number,
-    z: number,
-    zK1: number,
-    zB1: number,
-    zK2: number,
-    zB2: number,
-    t: number,
-    tK1: number,
-    tB1: number,
-    tK2: number,
-    tB2: number,
-  ) => {
-    setConfigsX(x);
-    setConfigsXK1(xK1);
-    setConfigsXB1(xB1);
-    setConfigsXK2(xK2);
-    setConfigsXB2(xB2);
-    setConfigsY(y);
-    setConfigsYK1(yK1);
-    setConfigsYB1(yB1);
-    setConfigsYK2(yK2);
-    setConfigsYB2(yB2);
-    setConfigsZ(z);
-    setConfigsZK1(zK1);
-    setConfigsZB1(zB1);
-    setConfigsZK2(zK2);
-    setConfigsZB2(zB2);
-    setConfigsT(t);
-    setConfigsTK1(tK1);
-    setConfigsTB1(tB1);
-    setConfigsTK2(tK2);
-    setConfigsTB2(tB2);
-  };
 
   // 封装 setState 函数，传递参数 args 进行批量更新
   const updateState = (args: any) => {
@@ -152,7 +124,7 @@ const RealTimeData: React.FC = () => {
   return (
     <div className="container">
       {/* 左侧配置项 */}
-      <ConfigPanel updateConfigs={updateConfigs}></ConfigPanel>
+      <ConfigPanel></ConfigPanel>
       {/* 右侧图表区域 */}
       <div className="value-display-container">
         <div className="value-item">
