@@ -15,3 +15,8 @@ zcc 集成serialPort done 参考：https://github.com/electron-react-boilerplate
 zcc ck 总览图+实时数据+位姿+导出 联调
 zcc 抽离ConfigPanel.tsx组件并做数据sessionStorage存储
 zcc 图表x轴y轴数据源外露
+
+---
+
+useful info:
+打包：npm run package 打包时关闭火绒

@@ -84,7 +84,7 @@ const Overview1: React.FC = () => {
     setConfigsTB2(tB2);
   };
 
-  // 图表展示所需的数据
+  // 右侧图表展示所需的数据
   const time_arr: string[] = [];
   const tmp_arr: number[] = [];
   const tmp_c_arr: number[] = [];
@@ -116,8 +116,6 @@ const Overview1: React.FC = () => {
   let myChart6: Chart;
   let myChart7: Chart;
   let myChart8: Chart;
-
-  // let sensorDataQueue: any = [];
 
   useEffect(() => {
     if (canvasRef1.current) {
@@ -500,119 +498,9 @@ const Overview1: React.FC = () => {
     }
   }, []);
 
-  // let setintervalLock = true;
   window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
     console.log(args);
-    // todo ipc优化逻辑代码
-    // 数据添加到队列
-    // sensorDataQueue = sensorDataQueue.concat(argsArr);
-    // if (setintervalLock) {
-    //   setintervalLock = false;
-    //   // 每隔一段时间更新一下图表内容
-    //   setInterval(() => {
-    //     if (sensorDataQueue.length !== 0) {
-    //       let args = sensorDataQueue.shift(); // 取队列第一项数据进行图表绘制
-    //       let startTime = new Date();
-    //       let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
-    //       const maxDataPointLength = 20; // 设置数据点的最大数量
-    //       if (
-    //         myChart1 &&
-    //         myChart2 &&
-    //         myChart3 &&
-    //         myChart4 &&
-    //         myChart5 &&
-    //         myChart6 &&
-    //         myChart7 &&
-    //         myChart8
-    //       ) {
-    //         time_arr.push(formattedStartTime);
-    //         tmp_arr.push(args.tmp);
-    //         tmp_c_arr.push(
-    //           args.tmp >= configs_t
-    //             ? configs_t_k1 * args.tmp + configs_t_b1
-    //             : configs_t_k2 * args.tmp + configs_t_b2,
-    //         );
-    //         adc_x_arr.push(args.adcx);
-    //         adc_y_arr.push(args.adcy);
-    //         adc_z_arr.push(args.adcz);
-    //         adc_x2_arr.push(
-    //           args.adcx >= configs_x
-    //             ? configs_x_k1 * args.adcx + configs_x_b1
-    //             : configs_x_k2 * args.adcx + configs_x_b2,
-    //         );
-    //         adc_y2_arr.push(
-    //           args.adcy >= configs_y
-    //             ? configs_y_k1 * args.adcy + configs_y_b1
-    //             : configs_y_k2 * args.adcy + configs_y_b2,
-    //         );
-    //         adc_z2_arr.push(
-    //           args.adcz >= configs_z
-    //             ? configs_z_k1 * args.adcz + configs_z_b1
-    //             : configs_z_k2 * args.adcz + configs_z_b2,
-    //         );
-    //         acc_x_arr.push(args.accx);
-    //         acc_y_arr.push(args.accy);
-    //         acc_z_arr.push(args.accz);
-
-    //         mag_x_arr.push(args.magx);
-    //         mag_y_arr.push(args.magy);
-    //         mag_z_arr.push(args.magz);
-
-    //         eulerAnglesx_arr.push(args.oularx);
-    //         eulerAnglesy_arr.push(args.oulary);
-    //         eulerAnglesz_arr.push(args.oularz);
-
-    //         quat1_arr.push(args.q0);
-    //         quat2_arr.push(args.q1);
-    //         quat3_arr.push(args.q2);
-    //         quat4_arr.push(args.q3);
-
-    //         // 检查数据点数量是否超过阈值并移除最早的数据点
-    //         if (time_arr.length > maxDataPointLength + 1) time_arr.shift(); // +1让图表仿真更加稳定
-    //         if (tmp_arr.length >= maxDataPointLength) tmp_arr.shift();
-    //         if (tmp_c_arr.length >= maxDataPointLength) tmp_c_arr.shift();
-
-    //         if (adc_x_arr.length >= maxDataPointLength) adc_x_arr.shift();
-    //         if (adc_y_arr.length >= maxDataPointLength) adc_y_arr.shift();
-    //         if (adc_z_arr.length >= maxDataPointLength) adc_z_arr.shift();
-    //         if (adc_x2_arr.length >= maxDataPointLength) adc_x2_arr.shift();
-    //         if (adc_y2_arr.length >= maxDataPointLength) adc_y2_arr.shift();
-    //         if (adc_z2_arr.length >= maxDataPointLength) adc_z2_arr.shift();
-
-    //         if (acc_x_arr.length >= maxDataPointLength) acc_x_arr.shift();
-    //         if (acc_y_arr.length >= maxDataPointLength) acc_y_arr.shift();
-    //         if (acc_z_arr.length >= maxDataPointLength) acc_z_arr.shift();
-
-    //         if (mag_x_arr.length >= maxDataPointLength) mag_x_arr.shift();
-    //         if (mag_y_arr.length >= maxDataPointLength) mag_y_arr.shift();
-    //         if (mag_z_arr.length >= maxDataPointLength) mag_z_arr.shift();
-
-    //         if (eulerAnglesx_arr.length >= maxDataPointLength)
-    //           eulerAnglesx_arr.shift();
-    //         if (eulerAnglesy_arr.length >= maxDataPointLength)
-    //           eulerAnglesy_arr.shift();
-    //         if (eulerAnglesz_arr.length >= maxDataPointLength)
-    //           eulerAnglesz_arr.shift();
-
-    //         if (quat1_arr.length >= maxDataPointLength) quat1_arr.shift();
-    //         if (quat2_arr.length >= maxDataPointLength) quat2_arr.shift();
-    //         if (quat3_arr.length >= maxDataPointLength) quat3_arr.shift();
-    //         if (quat4_arr.length >= maxDataPointLength) quat4_arr.shift();
-    //         myChart1.update();
-    //         myChart2.update();
-    //         myChart3.update();
-    //         myChart4.update();
-    //         myChart5.update();
-    //         myChart6.update();
-    //         myChart7.update();
-    //         myChart8.update();
-    //       }
-    //     }
-    //   }, 50);
-    // }
-
-    // 更新图表内容
-    // let args = sensorDataQueue.shift(); // 取队列第一项数据进行图表绘制
+    console.log('总览图ing');
     let startTime = new Date();
     let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
     // 检查数据点数量是否超过阈值
@@ -714,106 +602,6 @@ const Overview1: React.FC = () => {
   return (
     <div className="container">
       {/* 左侧配置项 */}
-      {/* <div className="config-container">
-        <h3>导出端口：</h3>
-        <div className="config-row">
-          <div className="config-section">
-            <label>COM :</label>
-            <Select
-              defaultValue="COM7"
-              style={{ width: 120 }}
-              onChange={handlePortNumberChange}
-              options={[
-                { value: 'COM1', label: 'COM1' },
-                { value: 'COM2', label: 'COM2' },
-                { value: 'COM3', label: 'COM3' },
-                { value: 'COM4', label: 'COM4' },
-                { value: 'COM5', label: 'COM5' },
-                { value: 'COM6', label: 'COM6' },
-                { value: 'COM7', label: 'COM7' },
-                { value: 'COM8', label: 'COM8' },
-                { value: 'COM9', label: 'COM9' },
-                { value: 'COM10', label: 'COM10' },
-                { value: 'COM11', label: 'COM11' },
-                { value: 'COM12', label: 'COM12' },
-                { value: 'COM13', label: 'COM13' },
-                { value: 'COM14', label: 'COM14' },
-                { value: 'COM15', label: 'COM15' },
-                { value: 'COM16', label: 'COM16' },
-                { value: 'COM17', label: 'COM17' },
-                { value: 'COM18', label: 'COM18' },
-              ]}
-            />
-          </div>
-        </div>
-
-        <div className="config-row">
-          <div className="config-section">
-            <label>波特率 :</label>
-            <Select
-              defaultValue="9600"
-              style={{ width: 120 }}
-              onChange={handleBaudRateChange}
-              options={[
-                { value: '7200', label: '7200' },
-                { value: '9600', label: '9600' },
-                { value: '115200', label: '115200' },
-              ]}
-            />
-          </div>
-        </div>
-
-        <h3>参数配置：</h3>
-        <div className="config-row">
-          <div className="config-section">
-            <label>输出类型 :</label>
-            <select>
-              <option value="normal">普通型</option>
-              <option value="heatResistance">耐高温型</option>
-            </select>
-          </div>
-        </div>
-
-        <h3>函数参数：</h3>
-        <div className="config-section">
-          <label>分段点 :</label>
-          <input type="text" />
-        </div>
-
-        <div className="config-row">
-          <div className="config-section">
-            <label>1 :</label>
-            <input type="text" />
-          </div>
-          <div className="config-section">
-            <label>2 :</label>
-            <input type="text" />
-          </div>
-        </div>
-
-        <div className="config-row">
-          <div className="config-section">
-            <label>3 :</label>
-            <input type="text" />
-          </div>
-          <div className="config-section">
-            <label>4 :</label>
-            <input type="text" />
-          </div>
-        </div>
-
-        <h3>函数展示：</h3>
-        <div className="config-section-function-display">
-          <p>当V &lt; = xxx, </p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;F=xx, V+xx</p>
-          <p>当V &lt; = xxx, </p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;F=xx, V+xx</p>
-        </div>
-
-        <button className="submit-button" onClick={submit}>
-          确认
-        </button>
-      </div> */}
       <ConfigPanel updateConfigs={updateConfigs}></ConfigPanel>
       {/* 右侧图表区域 */}
       <div className="chart-container">

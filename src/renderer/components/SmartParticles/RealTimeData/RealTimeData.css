@@ -1,75 +1,7 @@
-label {
-    margin-bottom: 3px;
-}
-
 .container {
     display: flex;
     min-height: calc(100vh - 64px);
     background-color: #f9f9f9;
-}
-
-.config-container {
-    width: 300px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: auto;
-}
-
-h3 {
-    margin: 10px 0;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.config-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.config-section {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    margin: 5px;
-    /* width: 45%; */
-}
-
-input[type="number"],
-input[type="text"],
-select {
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    width: 80px;
-}
-
-input[type="number"]:focus,
-input[type="text"]:focus,
-select:focus {
-    border-color: #007bff;
-}
-
-.submit-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-.submit-button:hover {
-    background-color: #0056b3;
 }
 
 .config-section-function-display {
@@ -97,8 +29,12 @@ select:focus {
 }
 
 .value-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 250px;
-    height: 160px;
+    height: 217px;
     background-color: #f9f9f9;
     padding: 20px;
     margin: 10px;
@@ -114,6 +50,7 @@ select:focus {
 }
 
 .value {
+    display: block;
     font-size: 24px;
     font-weight: bold;
     color: #007bff;
