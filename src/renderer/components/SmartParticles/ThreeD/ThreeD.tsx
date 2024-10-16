@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-// const { SerialPort } = require('serialport');
+import './ThreeD.css';
 
 interface SensorData {
   ax: number;
@@ -20,7 +20,7 @@ const ThreeD: React.FC = () => {
   useEffect(() => {
     // 获取屏幕尺寸
     const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
+    const screenHeight = window.innerHeight - 64;
 
     // 创建场景、相机和渲染器
     const scene = new THREE.Scene();
@@ -637,7 +637,7 @@ const ThreeD: React.FC = () => {
     // return () => clearInterval(interval);
   }, []);
 
-  return <div ref={containerRef} style={{ width: '100%', height: '100vh' }} />;
+  return <div ref={containerRef} className="canvas-container" />;
 };
 
 export default ThreeD;

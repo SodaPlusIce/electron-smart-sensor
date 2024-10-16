@@ -6,7 +6,8 @@ export type Channels =
   | 'ipc-example'
   | 'ipc-window-options'
   | 'ipc-serialPort-read-data'
-  | 'ipc-port-info';
+  | 'ipc-port-info'
+  | 'ipc-output-data';
 
 const electronHandler = {
   ipcRenderer: {

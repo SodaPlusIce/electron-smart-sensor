@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    min-height: calc(100vh - 64px);
+    height: calc(100vh - 64px);
     background-color: #f9f9f9;
 }
 
@@ -26,6 +26,8 @@
     gap: 20px;
     /* 间距 */
     padding: 20px;
+    height: calc(100vh - 64px);
+    overflow: auto;
 }
 
 .value-item {

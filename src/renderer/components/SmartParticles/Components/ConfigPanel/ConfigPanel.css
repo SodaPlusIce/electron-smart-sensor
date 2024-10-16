@@ -7,7 +7,14 @@
     color: #333;
     /* 黑色文字 */
     max-width: 400px;
+    height: calc(100vh - 64px);
     margin: 0 auto;
+    overflow: auto;
+}
+
+.config-panel::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari 和 Edge 隐藏滚动条 */
 }
 
 .config-title {

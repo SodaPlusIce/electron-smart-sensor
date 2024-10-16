@@ -161,6 +161,12 @@ const ConfigPanel: React.FC = () => {
     sessionStorage.setItem('configs_t_k2', '-51.41237');
     sessionStorage.setItem('configs_t_b2', '431.8986');
   };
+
+  const handleOutput = () => {
+    window.electron.ipcRenderer.sendMessage('ipc-output-data', {
+      begin: true,
+    });
+  };
   return (
     <div className="config-panel">
       <h3 className="config-title">导出端口</h3>
@@ -488,6 +494,9 @@ const ConfigPanel: React.FC = () => {
         </Button>
         <Button type="dashed" onClick={handleReset}>
           重置参数
+        </Button>
+        <Button type="dashed" onClick={handleOutput}>
+          数据导出
         </Button>
       </div>
     </div>

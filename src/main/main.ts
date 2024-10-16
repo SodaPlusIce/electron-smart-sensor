@@ -13,6 +13,8 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { SerialPort } from 'serialport';
+const fs = require('fs');
+const XLSX = require('xlsx');
 
 interface SensorData {
   tmp: number;
@@ -225,6 +227,7 @@ const createWindow = async () => {
     q2: -1,
     q3: -1,
   };
+  let objs_excel_arr: SensorData[] = [];
 
   function getData(portValue: string, rate: number) {
     let cal_x: any = [];
@@ -240,8 +243,10 @@ const createWindow = async () => {
     port.on('data', function (data) {
       if (data[0] === 65) {
         handleData();
-        if (mainWindow && obj !== defaultObj)
+        if (mainWindow && obj !== defaultObj) {
           mainWindow.webContents.send('ipc-serialPort-read-data', obj);
+          objs_excel_arr.push(obj);
+        }
 
         srcData = [];
       }
@@ -611,6 +616,39 @@ const createWindow = async () => {
   // 接收端口号和波特率
   ipcMain.on('ipc-port-info', async (event, arg) => {
     getData(arg.portNumber, parseInt(arg.baudRate));
+  });
+
+  // 导出excel表格
+  ipcMain.on('ipc-output-data', async (event, arg) => {
+    if (arg.begin === true) {
+      try {
+        const dataFolder = path.join(app.getPath('userData'), 'data');
+
+        if (!fs.existsSync(dataFolder)) {
+          fs.mkdirSync(dataFolder, { recursive: true });
+        }
+
+        // 创建工作簿和工作表
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.aoa_to_sheet(objs_excel_arr);
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+        // 获取当前时间作为文件名
+        const currentTime = new Date().toISOString();
+        const fileName = path.join(
+          dataFolder,
+          currentTime.replace(/[^a-zA-Z0-9]/g, '_') + '-output.xlsx',
+        );
+
+        // 保存 Excel 文件
+        XLSX.writeFile(workbook, fileName);
+
+        console.log(`文件成功创建在: ${fileName}`);
+        return fileName; // 返回文件路径
+      } catch (error) {
+        console.error(`文件创建失败: ${error}`);
+      }
+    }
   });
 
   // Remove this if your app does not use auto updates
