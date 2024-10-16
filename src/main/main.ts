@@ -6,15 +6,16 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { SerialPort } from 'serialport';
-const fs = require('fs');
-const XLSX = require('xlsx');
+import path from 'path';
+import * as XLSX from 'xlsx';
+import * as fs from 'fs';
+XLSX.set_fs(fs);
 
 interface SensorData {
   tmp: number;
@@ -45,6 +46,49 @@ interface SensorData {
   q2: number;
   q3: number;
 }
+
+let objs_excel_arr: any = [
+  [
+    '时间',
+    '压力adc_x',
+    'adc_y',
+    'adc_z',
+    '加速度acc_x',
+    'acc_y',
+    'acc_z',
+    '温度',
+    'mag_x',
+    'mag_y',
+    'mag_z',
+    '欧拉角1',
+    '欧拉角2',
+    '欧拉角3',
+    '四元数1',
+    '四元数2',
+    '四元数3',
+    '四元数4',
+  ],
+  [
+    '年/月/日 时/分/秒:分秒',
+    'Voltage(V)',
+    'Voltage(V)',
+    'Voltage(V)',
+    'Acceleration(g)',
+    'Acceleration(g)',
+    'Acceleration(g)',
+    'Voltage(V)',
+    'Magnetic Field Strength (mGauss)',
+    'Magnetic Field Strength (mGauss)',
+    'Magnetic Field Strength (mGauss)',
+    'Euler Angle(°)',
+    'Euler Angle(°)',
+    'Euler Angle(°)',
+    'N/A',
+    'N/A',
+    'N/A',
+    'N/A',
+  ],
+];
 
 class AppUpdater {
   constructor() {
@@ -227,7 +271,6 @@ const createWindow = async () => {
     q2: -1,
     q3: -1,
   };
-  let objs_excel_arr: SensorData[] = [];
 
   function getData(portValue: string, rate: number) {
     let cal_x: any = [];
@@ -245,7 +288,9 @@ const createWindow = async () => {
         handleData();
         if (mainWindow && obj !== defaultObj) {
           mainWindow.webContents.send('ipc-serialPort-read-data', obj);
-          objs_excel_arr.push(obj);
+          objs_excel_arr.push(
+            Object.values(obj).filter((item: number) => !Number.isNaN(item)),
+          );
         }
 
         srcData = [];
@@ -622,20 +667,20 @@ const createWindow = async () => {
   ipcMain.on('ipc-output-data', async (event, arg) => {
     if (arg.begin === true) {
       try {
-        const dataFolder = path.join(app.getPath('userData'), 'data');
-
+        let dataFolder = path.join(__dirname, '..', '..', 'data');
         if (!fs.existsSync(dataFolder)) {
           fs.mkdirSync(dataFolder, { recursive: true });
         }
 
         // 创建工作簿和工作表
-        const workbook = XLSX.utils.book_new();
-        const worksheet = XLSX.utils.aoa_to_sheet(objs_excel_arr);
+        let workbook = XLSX.utils.book_new();
+
+        let worksheet = XLSX.utils.aoa_to_sheet(objs_excel_arr);
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
         // 获取当前时间作为文件名
-        const currentTime = new Date().toISOString();
-        const fileName = path.join(
+        let currentTime = new Date().toISOString();
+        let fileName = path.join(
           dataFolder,
           currentTime.replace(/[^a-zA-Z0-9]/g, '_') + '-output.xlsx',
         );
@@ -644,7 +689,6 @@ const createWindow = async () => {
         XLSX.writeFile(workbook, fileName);
 
         console.log(`文件成功创建在: ${fileName}`);
-        return fileName; // 返回文件路径
       } catch (error) {
         console.error(`文件创建失败: ${error}`);
       }
