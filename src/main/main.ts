@@ -286,11 +286,31 @@ const createWindow = async () => {
     port.on('data', function (data) {
       if (data[0] === 65) {
         handleData();
-        if (mainWindow && obj !== defaultObj) {
+        if (mainWindow && obj != defaultObj) {
           mainWindow.webContents.send('ipc-serialPort-read-data', obj);
-          objs_excel_arr.push(
-            Object.values(obj).filter((item: number) => !Number.isNaN(item)),
-          );
+          let time = new Date();
+          const milliseconds = time.getMilliseconds();
+          const formattedTime = `${time.toLocaleString()}:${milliseconds}`;
+          objs_excel_arr.push([
+            formattedTime,
+            obj.adcx,
+            obj.adcy,
+            obj.adcz,
+            obj.accx,
+            obj.accy,
+            obj.accz,
+            obj.tmp,
+            obj.magx,
+            obj.magy,
+            obj.magz,
+            obj.oularx,
+            obj.oulary,
+            obj.oularz,
+            obj.q0,
+            obj.q1,
+            obj.q2,
+            obj.q3,
+          ]);
         }
 
         srcData = [];
@@ -667,7 +687,7 @@ const createWindow = async () => {
   ipcMain.on('ipc-output-data', async (event, arg) => {
     if (arg.begin === true) {
       try {
-        let dataFolder = path.join(__dirname, '..', '..', 'data');
+        let dataFolder = path.join(app.getPath('downloads'), 'sensor-data');
         if (!fs.existsSync(dataFolder)) {
           fs.mkdirSync(dataFolder, { recursive: true });
         }
@@ -689,8 +709,10 @@ const createWindow = async () => {
         XLSX.writeFile(workbook, fileName);
 
         console.log(`文件成功创建在: ${fileName}`);
+        event.sender.send('ipc-output-success', fileName);
       } catch (error) {
         console.error(`文件创建失败: ${error}`);
+        event.sender.send('ipc-output-error', error);
       }
     }
   });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Select, Input, Button, Tooltip } from 'antd';
+import { Select, Input, Button, Tooltip, notification } from 'antd';
 import './ConfigPanel.css';
 
 const { Option } = Select;
@@ -165,6 +165,26 @@ const ConfigPanel: React.FC = () => {
   const handleOutput = () => {
     window.electron.ipcRenderer.sendMessage('ipc-output-data', {
       begin: true,
+    });
+
+    // 监听文件保存成功消息
+    window.electron.ipcRenderer.once('ipc-output-success', (filePath) => {
+      // alert(`文件已成功保存至: ${filePath}`);
+      notification.success({
+        message: '文件保存成功',
+        description: `文件已保存至: ${filePath}`,
+        placement: 'bottomRight', // 你可以选择不同的位置
+      });
+    });
+
+    // 监听文件保存失败消息
+    window.electron.ipcRenderer.once('ipc-output-error', (error) => {
+      // alert(`文件保存失败: ${error}`);
+      notification.error({
+        message: '文件保存失败',
+        description: `错误信息: ${error}`,
+        placement: 'bottomRight',
+      });
     });
   };
   return (
