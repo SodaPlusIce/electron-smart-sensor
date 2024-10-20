@@ -175,47 +175,49 @@ const ThreeD: React.FC = () => {
   };
 
   // 将四元数转换为欧拉角
-  const quaternionToEuler = (q: number[]): THREE.Euler => {
-    const [qw, qx, qy, qz] = q;
-    const ysqr = qy * qy;
+  // const quaternionToEuler = (q: number[]): THREE.Euler => {
+  //   const [qw, qx, qy, qz] = q;
+  //   const ysqr = qy * qy;
 
-    // roll (x-axis rotation)
-    const t0 = 2 * (qw * qx + qy * qz);
-    const t1 = 1 - 2 * (qx * qx + ysqr);
-    const roll = Math.atan2(t0, t1);
+  //   // roll (x-axis rotation)
+  //   const t0 = 2 * (qw * qx + qy * qz);
+  //   const t1 = 1 - 2 * (qx * qx + ysqr);
+  //   const roll = Math.atan2(t0, t1);
 
-    // pitch (y-axis rotation)
-    let t2 = 2 * (qw * qy - qz * qx);
-    t2 = Math.max(-1, Math.min(1, t2)); // 限制范围
-    const pitch = Math.asin(t2);
+  //   // pitch (y-axis rotation)
+  //   let t2 = 2 * (qw * qy - qz * qx);
+  //   t2 = Math.max(-1, Math.min(1, t2)); // 限制范围
+  //   const pitch = Math.asin(t2);
 
-    // yaw (z-axis rotation)
-    const t3 = 2 * (qw * qz + qx * qy);
-    const t4 = 1 - 2 * (ysqr + qz * qz);
-    const yaw = Math.atan2(t3, t4);
+  //   // yaw (z-axis rotation)
+  //   const t3 = 2 * (qw * qz + qx * qy);
+  //   const t4 = 1 - 2 * (ysqr + qz * qz);
+  //   const yaw = Math.atan2(t3, t4);
 
-    return new THREE.Euler(pitch, yaw, roll, 'XYZ');
-  };
+  //   return new THREE.Euler(pitch, yaw, roll, 'XYZ');
+  // };
 
   // 更新立方体姿态的函数
+  let quat: number[] = [0, 0, 1, 0]; // 初始化为单位四元数
   const updateCube = (sensorData: SensorData) => {
     const { ax, ay, az, mx, my, mz } = sensorData;
 
     // 计算新的四元数
-    let quat: number[] = [0, 0, 1, 0]; // 初始化为单位四元数
     const beta = 0.1; // 增益
     quat = MadgwickQuaternionUpdate(quat, ax, ay, az, mx, my, mz, beta);
 
     // 方法一：根据欧拉角更新立方体的旋转
-    const euler = quaternionToEuler(quat); // 将四元数转换为欧拉角
-    if (cubeRef.current) {
-      cubeRef.current.rotation.set(euler.x, euler.y, euler.z);
-    }
+    // const euler = quaternionToEuler(quat); // 将四元数转换为欧拉角
+    // if (cubeRef.current) {
+    //   cubeRef.current.rotation.set(euler.x, euler.y, euler.z);
+    // }
 
     // 方法二：根据四元数更新立方体的旋转
-    // if (cubeRef.current) {
-    //   cubeRef.current.quaternion.copy(new THREE.Quaternion(quat[1], quat[2], quat[3], quat[0]));
-    // }
+    if (cubeRef.current) {
+      cubeRef.current.quaternion.copy(
+        new THREE.Quaternion(quat[1], quat[2], quat[3], quat[0]),
+      );
+    }
   };
 
   // 读取串口数据
