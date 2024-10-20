@@ -5,7 +5,7 @@ import {
   Route,
   useNavigate,
 } from 'react-router-dom';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Button, Card } from 'antd';
 import {
   MinusOutlined,
   CloseOutlined,
@@ -22,6 +22,7 @@ import ThreeD from './components/SmartParticles/ThreeD/ThreeD';
 import Output from './components/SmartParticles/Output/Output';
 
 const { Header, Content } = Layout;
+const { Meta } = Card;
 
 // 模拟不同子系统的模块
 const Overview2 = () => <div>总览图2</div>;
@@ -39,27 +40,45 @@ const Home = ({
 }) => {
   return (
     <div className="system-btns">
-      <Button
-        type="primary"
-        size="large"
+      <Card
+        hoverable
+        style={{ width: 240 }}
+        cover={
+          <img
+            alt="智能颗粒"
+            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          />
+        }
         onClick={() => onSelectSystem('smart-particles')}
       >
-        智能颗粒
-      </Button>
-      <Button
-        type="primary"
-        size="large"
+        <Meta title="智能颗粒" style={{ textAlign: 'center' }} />
+      </Card>
+      <Card
+        hoverable
+        style={{ width: 240 }}
+        cover={
+          <img
+            alt="压电传感器"
+            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          />
+        }
         onClick={() => onSelectSystem('piezo-sensor')}
       >
-        压电传感器
-      </Button>
-      <Button
-        type="primary"
-        size="large"
+        <Meta title="压电传感器" style={{ textAlign: 'center' }} />
+      </Card>
+      <Card
+        hoverable
+        style={{ width: 240 }}
+        cover={
+          <img
+            alt="光纤传感器"
+            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          />
+        }
         onClick={() => onSelectSystem('fiber-sensor')}
       >
-        光纤传感器
-      </Button>
+        <Meta title="光纤传感器" style={{ textAlign: 'center' }} />
+      </Card>
     </div>
   );
 };

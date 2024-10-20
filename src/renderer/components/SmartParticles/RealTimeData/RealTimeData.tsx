@@ -167,45 +167,45 @@ const RealTimeData: React.FC = () => {
 
         <div className="value-item">
           <h2>压力（电压）</h2>
-          <span className="value">X: {adcXVar} V</span>
-          <span className="value">Y: {adcYVar} V</span>
-          <span className="value">Y: {adcZVar} V</span>
+          <span className="value">X &nbsp; {adcXVar} V</span>
+          <span className="value">Y &nbsp; {adcYVar} V</span>
+          <span className="value">Y &nbsp; {adcZVar} V</span>
         </div>
 
         <div className="value-item">
           <h2>压力</h2>
-          <span className="value">X: {adcX2Var} N</span>
-          <span className="value">Y: {adcY2Var} N</span>
-          <span className="value">Z: {adcZ2Var} N</span>
+          <span className="value">X &nbsp; {adcX2Var} N</span>
+          <span className="value">Y &nbsp; {adcY2Var} N</span>
+          <span className="value">Z &nbsp; {adcZ2Var} N</span>
         </div>
 
         <div className="value-item">
           <h2>加速度</h2>
-          <span className="value">X: {accXVar} g</span>
-          <span className="value">Y: {accYVar} g</span>
-          <span className="value">Z: {accZVar} g</span>
+          <span className="value">X &nbsp; {accXVar} g</span>
+          <span className="value">Y &nbsp; {accYVar} g</span>
+          <span className="value">Z &nbsp; {accZVar} g</span>
         </div>
 
         <div className="value-item">
           <h2>磁力</h2>
-          <span className="value">X: {magXVar} mGauss</span>
-          <span className="value">Y: {magYVar} mGauss</span>
-          <span className="value">Z: {magZVar} mGauss</span>
+          <span className="value">X &nbsp; {magXVar} mGauss</span>
+          <span className="value">Y &nbsp; {magYVar} mGauss</span>
+          <span className="value">Z &nbsp; {magZVar} mGauss</span>
         </div>
 
         <div className="value-item">
           <h2>欧拉角</h2>
-          <span className="value">X: {eulerAnglesXVar}</span>
-          <span className="value">Y: {eulerAnglesYVar}</span>
-          <span className="value">Z: {eulerAnglesZVar}</span>
+          <span className="value">X &nbsp; {eulerAnglesXVar} °</span>
+          <span className="value">Y &nbsp; {eulerAnglesYVar} °</span>
+          <span className="value">Z &nbsp; {eulerAnglesZVar} °</span>
         </div>
 
         <div className="value-item">
           <h2>四元数</h2>
-          <span className="value"> Q0: {quat1Var}</span>
-          <span className="value"> Q1: {quat2Var}</span>
-          <span className="value"> Q2: {quat3Var}</span>
-          <span className="value"> Q3: {quat4Var}</span>
+          <span className="value"> Q0 &nbsp; {quat1Var}</span>
+          <span className="value"> Q1 &nbsp; {quat2Var}</span>
+          <span className="value"> Q2 &nbsp; {quat3Var}</span>
+          <span className="value"> Q3 &nbsp; {quat4Var}</span>
         </div>
       </div>
     </div>
