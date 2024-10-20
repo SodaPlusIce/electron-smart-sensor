@@ -202,10 +202,10 @@ const RealTimeData: React.FC = () => {
 
         <div className="value-item">
           <h2>四元数</h2>
-          <span className="value"> Q0 &nbsp; {quat1Var}</span>
-          <span className="value"> Q1 &nbsp; {quat2Var}</span>
-          <span className="value"> Q2 &nbsp; {quat3Var}</span>
-          <span className="value"> Q3 &nbsp; {quat4Var}</span>
+          <span className="value"> q0 &nbsp; {quat1Var}</span>
+          <span className="value"> q1 &nbsp; {quat2Var}</span>
+          <span className="value"> q2 &nbsp; {quat3Var}</span>
+          <span className="value"> q3 &nbsp; {quat4Var}</span>
         </div>
       </div>
     </div>

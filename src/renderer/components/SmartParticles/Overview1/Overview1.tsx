@@ -420,28 +420,28 @@ const Overview1: React.FC = () => {
           labels: time_arr,
           datasets: [
             {
-              label: 'q1',
+              label: 'q0',
               data: quat1_arr,
               fill: false,
               borderColor: 'rgb(255, 99, 132)',
               tension: 0.1,
             },
             {
-              label: 'q2',
+              label: 'q1',
               data: quat2_arr,
               fill: false,
               borderColor: 'rgb(75, 192, 192)',
               tension: 0.1,
             },
             {
-              label: 'q3',
+              label: 'q2',
               data: quat3_arr,
               fill: false,
               borderColor: 'rgb(54, 162, 235)',
               tension: 0.1,
             },
             {
-              label: 'q4',
+              label: 'q3',
               data: quat4_arr,
               fill: false,
               borderColor: 'rgb(255, 137, 54)',

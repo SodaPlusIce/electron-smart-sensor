@@ -243,7 +243,7 @@ const ConfigPanel: React.FC = () => {
           </Tooltip>
         </div>
         <div className="config-row">
-          <label>X-K1&nbsp;&nbsp;</label>
+          <label>X-k1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_x_k1}
@@ -253,7 +253,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>X-B1&nbsp;&nbsp;</label>
+          <label>X-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_x_b1}
@@ -265,7 +265,7 @@ const ConfigPanel: React.FC = () => {
           />
         </div>
         <div className="config-row">
-          <label>X-K2&nbsp;&nbsp;</label>
+          <label>X-k2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_x_k2}
@@ -275,7 +275,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>X-B2&nbsp;&nbsp;</label>
+          <label>X-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_x_b2}
@@ -314,7 +314,7 @@ const ConfigPanel: React.FC = () => {
           </Tooltip>
         </div>
         <div className="config-row">
-          <label>Y-K1&nbsp;&nbsp;</label>
+          <label>Y-k1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_y_k1}
@@ -324,7 +324,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>Y-B1&nbsp;&nbsp;</label>
+          <label>Y-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_y_b1}
@@ -336,7 +336,7 @@ const ConfigPanel: React.FC = () => {
           />
         </div>
         <div className="config-row">
-          <label>Y-K2&nbsp;&nbsp;</label>
+          <label>Y-k2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_y_k2}
@@ -346,7 +346,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>Y-B2&nbsp;&nbsp;</label>
+          <label>Y-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_y_b2}
@@ -385,7 +385,7 @@ const ConfigPanel: React.FC = () => {
           </Tooltip>
         </div>
         <div className="config-row">
-          <label>Z-K1&nbsp;&nbsp;</label>
+          <label>Z-k1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_z_k1}
@@ -395,7 +395,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>Z-B1&nbsp;&nbsp;</label>
+          <label>Z-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_z_b1}
@@ -407,7 +407,7 @@ const ConfigPanel: React.FC = () => {
           />
         </div>
         <div className="config-row">
-          <label>Z-K2&nbsp;&nbsp;</label>
+          <label>Z-k2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_z_k2}
@@ -417,7 +417,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>Z-B2&nbsp;&nbsp;</label>
+          <label>Z-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_z_b2}
@@ -459,7 +459,7 @@ const ConfigPanel: React.FC = () => {
           </Tooltip>
         </div>
         <div className="config-row">
-          <label>T-K1&nbsp;&nbsp;</label>
+          <label>T-k1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             defaultValue="-51.41237"
@@ -470,7 +470,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>T-B1&nbsp;&nbsp;</label>
+          <label>T-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             defaultValue="431.8986"
@@ -483,7 +483,7 @@ const ConfigPanel: React.FC = () => {
           />
         </div>
         <div className="config-row">
-          <label>T-K2&nbsp;&nbsp;</label>
+          <label>T-k2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             defaultValue="-51.41237"
@@ -494,7 +494,7 @@ const ConfigPanel: React.FC = () => {
               )
             }
           />
-          <label>T-B2&nbsp;&nbsp;</label>
+          <label>T-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             defaultValue="431.8986"
