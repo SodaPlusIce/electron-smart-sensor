@@ -96,7 +96,7 @@ const AppContent = () => {
           { key: 'overview', label: '总览图' },
           { key: 'real-time-data', label: '实时数据' },
           { key: 'threeD', label: '3D姿态' },
-          { key: 'output', label: '数据导出' },
+          // { key: 'output', label: '数据导出' },
         ];
       case 'piezo-sensor':
         return [{ key: 'overview', label: '压电总览' }];

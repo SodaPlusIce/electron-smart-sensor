@@ -68,6 +68,25 @@ const ThreeD: React.FC = () => {
     const axesHelper = new THREE.AxesHelper(10);
     scene.add(axesHelper);
 
+    // todo 方法四 添加坐标系 start------------------------------------------
+    // // 创建坐标轴 (X, Y, Z)
+    // const origin = new THREE.Vector3(0, 0, 0);
+    // // X 轴
+    // const xDir = new THREE.Vector3(1, 0, 0);
+    // const xAxis = new THREE.ArrowHelper(xDir, origin, 1, 0xff0000); // 红色箭头
+    // scene.add(xAxis);
+
+    // // Y 轴
+    // const yDir = new THREE.Vector3(0, 1, 0);
+    // const yAxis = new THREE.ArrowHelper(yDir, origin, 1, 0x00ff00); // 绿色箭头
+    // scene.add(yAxis);
+
+    // // Z 轴
+    // const zDir = new THREE.Vector3(0, 0, 1);
+    // const zAxis = new THREE.ArrowHelper(zDir, origin, 1, 0x0000ff); // 蓝色箭头
+    // scene.add(zAxis);
+    // todo 添加坐标系 end --------------------------------------------
+
     // 渲染循环
     const animate = () => {
       requestAnimationFrame(animate);
@@ -87,151 +106,181 @@ const ThreeD: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // 清理
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
+    // 计算四元数的函数
+    const MadgwickQuaternionUpdate = (
+      q: number[],
+      ax: number,
+      ay: number,
+      az: number,
+      mx: number,
+      my: number,
+      mz: number,
+      beta: number,
+    ): number[] => {
+      // 归一化加速度计测量值
+      const norm_a = Math.sqrt(ax * ax + ay * ay + az * az);
+      ax /= norm_a;
+      ay /= norm_a;
+      az /= norm_a;
+
+      // 归一化磁力计测量值
+      const norm_m = Math.sqrt(mx * mx + my * my + mz * mz);
+      mx /= norm_m;
+      my /= norm_m;
+      mz /= norm_m;
+
+      // 辅助变量
+      let [q0, q1, q2, q3] = q;
+
+      const hx =
+        2 * mx * (0.5 - q2 * q2 - q3 * q3) +
+        2 * my * (q1 * q2 - q0 * q3) +
+        2 * mz * (q1 * q3 + q0 * q2);
+      const hy =
+        2 * mx * (q1 * q2 + q0 * q3) +
+        2 * my * (0.5 - q1 * q1 - q3 * q3) +
+        2 * mz * (q2 * q3 - q0 * q1);
+      const bx = Math.sqrt(hx * hx + hy * hy);
+      const bz =
+        2 * mx * (q1 * q3 - q0 * q2) +
+        2 * my * (q2 * q3 + q0 * q1) +
+        2 * mz * (0.5 - q1 * q1 - q2 * q2);
+
+      // 估计的重力方向和磁场方向
+      const vx = 2 * (q1 * q3 - q0 * q2);
+      const vy = 2 * (q0 * q1 + q2 * q3);
+      const vz = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
+      const wx =
+        2 * bx * (0.5 - q2 * q2 - q3 * q3) + 2 * bz * (q1 * q3 - q0 * q2);
+      const wy = 2 * bx * (q1 * q2 - q0 * q3) + 2 * bz * (q0 * q1 + q2 * q3);
+      const wz =
+        2 * bx * (q0 * q2 + q1 * q3) + 2 * bz * (0.5 - q1 * q1 - q2 * q2);
+
+      // 误差是估计方向和测量重力方向的叉积
+      const ex = ay * vz - az * vy + (my * wz - mz * wy);
+      const ey = az * vx - ax * vz + (mz * wx - mx * wz);
+      const ez = ax * vy - ay * vx + (mx * wy - my * wx);
+
+      // 应用反馈项
+      const gx = 2 * ex;
+      const gy = 2 * ey;
+      const gz = 2 * ez;
+
+      // 四元数微分方程的积分
+      const qDot1 = -q1 * gx - q2 * gy - q3 * gz;
+      const qDot2 = q0 * gx + q2 * gz - q3 * gy;
+      const qDot3 = q0 * gy - q1 * gz + q3 * gx;
+      const qDot4 = q0 * gz + q1 * gy - q2 * gx;
+
+      // 积分以生成新的四元数
+      q0 += qDot1 * beta;
+      q1 += qDot2 * beta;
+      q2 += qDot3 * beta;
+      q3 += qDot4 * beta;
+
+      // 归一化四元数
+      const norm_q = Math.sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
+      return [q0 / norm_q, q1 / norm_q, q2 / norm_q, q3 / norm_q];
     };
-  }, []);
 
-  // 计算四元数的函数
-  const MadgwickQuaternionUpdate = (
-    q: number[],
-    ax: number,
-    ay: number,
-    az: number,
-    mx: number,
-    my: number,
-    mz: number,
-    beta: number,
-  ): number[] => {
-    // 归一化加速度计测量值
-    const norm_a = Math.sqrt(ax * ax + ay * ay + az * az);
-    ax /= norm_a;
-    ay /= norm_a;
-    az /= norm_a;
+    // 将四元数转换为欧拉角
+    // const quaternionToEuler = (q: number[]): THREE.Euler => {
+    //   const [qw, qx, qy, qz] = q;
+    //   const ysqr = qy * qy;
 
-    // 归一化磁力计测量值
-    const norm_m = Math.sqrt(mx * mx + my * my + mz * mz);
-    mx /= norm_m;
-    my /= norm_m;
-    mz /= norm_m;
+    //   // roll (x-axis rotation)
+    //   const t0 = 2 * (qw * qx + qy * qz);
+    //   const t1 = 1 - 2 * (qx * qx + ysqr);
+    //   const roll = Math.atan2(t0, t1);
 
-    // 辅助变量
-    let [q0, q1, q2, q3] = q;
+    //   // pitch (y-axis rotation)
+    //   let t2 = 2 * (qw * qy - qz * qx);
+    //   t2 = Math.max(-1, Math.min(1, t2)); // 限制范围
+    //   const pitch = Math.asin(t2);
 
-    const hx =
-      2 * mx * (0.5 - q2 * q2 - q3 * q3) +
-      2 * my * (q1 * q2 - q0 * q3) +
-      2 * mz * (q1 * q3 + q0 * q2);
-    const hy =
-      2 * mx * (q1 * q2 + q0 * q3) +
-      2 * my * (0.5 - q1 * q1 - q3 * q3) +
-      2 * mz * (q2 * q3 - q0 * q1);
-    const bx = Math.sqrt(hx * hx + hy * hy);
-    const bz =
-      2 * mx * (q1 * q3 - q0 * q2) +
-      2 * my * (q2 * q3 + q0 * q1) +
-      2 * mz * (0.5 - q1 * q1 - q2 * q2);
+    //   // yaw (z-axis rotation)
+    //   const t3 = 2 * (qw * qz + qx * qy);
+    //   const t4 = 1 - 2 * (ysqr + qz * qz);
+    //   const yaw = Math.atan2(t3, t4);
 
-    // 估计的重力方向和磁场方向
-    const vx = 2 * (q1 * q3 - q0 * q2);
-    const vy = 2 * (q0 * q1 + q2 * q3);
-    const vz = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
-    const wx =
-      2 * bx * (0.5 - q2 * q2 - q3 * q3) + 2 * bz * (q1 * q3 - q0 * q2);
-    const wy = 2 * bx * (q1 * q2 - q0 * q3) + 2 * bz * (q0 * q1 + q2 * q3);
-    const wz =
-      2 * bx * (q0 * q2 + q1 * q3) + 2 * bz * (0.5 - q1 * q1 - q2 * q2);
+    //   return new THREE.Euler(pitch, yaw, roll, 'XYZ');
+    // };
 
-    // 误差是估计方向和测量重力方向的叉积
-    const ex = ay * vz - az * vy + (my * wz - mz * wy);
-    const ey = az * vx - ax * vz + (mz * wx - mx * wz);
-    const ez = ax * vy - ay * vx + (mx * wy - my * wx);
+    // 更新立方体姿态的函数
+    let quat: number[] = [0, 0, 1, 0]; // 初始化为单位四元数
+    const updateCube = (sensorData: SensorData) => {
+      const { accx, accy, accz, magx, magy, magz } = sensorData;
+      console.log('sensordata：');
+      console.log(sensorData);
 
-    // 应用反馈项
-    const gx = 2 * ex;
-    const gy = 2 * ey;
-    const gz = 2 * ez;
-
-    // 四元数微分方程的积分
-    const qDot1 = -q1 * gx - q2 * gy - q3 * gz;
-    const qDot2 = q0 * gx + q2 * gz - q3 * gy;
-    const qDot3 = q0 * gy - q1 * gz + q3 * gx;
-    const qDot4 = q0 * gz + q1 * gy - q2 * gx;
-
-    // 积分以生成新的四元数
-    q0 += qDot1 * beta;
-    q1 += qDot2 * beta;
-    q2 += qDot3 * beta;
-    q3 += qDot4 * beta;
-
-    // 归一化四元数
-    const norm_q = Math.sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
-    return [q0 / norm_q, q1 / norm_q, q2 / norm_q, q3 / norm_q];
-  };
-
-  // 将四元数转换为欧拉角
-  // const quaternionToEuler = (q: number[]): THREE.Euler => {
-  //   const [qw, qx, qy, qz] = q;
-  //   const ysqr = qy * qy;
-
-  //   // roll (x-axis rotation)
-  //   const t0 = 2 * (qw * qx + qy * qz);
-  //   const t1 = 1 - 2 * (qx * qx + ysqr);
-  //   const roll = Math.atan2(t0, t1);
-
-  //   // pitch (y-axis rotation)
-  //   let t2 = 2 * (qw * qy - qz * qx);
-  //   t2 = Math.max(-1, Math.min(1, t2)); // 限制范围
-  //   const pitch = Math.asin(t2);
-
-  //   // yaw (z-axis rotation)
-  //   const t3 = 2 * (qw * qz + qx * qy);
-  //   const t4 = 1 - 2 * (ysqr + qz * qz);
-  //   const yaw = Math.atan2(t3, t4);
-
-  //   return new THREE.Euler(pitch, yaw, roll, 'XYZ');
-  // };
-
-  // 更新立方体姿态的函数
-  let quat: number[] = [0, 0, 1, 0]; // 初始化为单位四元数
-  const updateCube = (sensorData: SensorData) => {
-    const { accx, accy, accz, magx, magy, magz } = sensorData;
-    console.log('sensordata：');
-    console.log(sensorData);
-
-    // 计算新的四元数
-    const beta = 0.1; // 增益
-    quat = MadgwickQuaternionUpdate(
-      quat,
-      accx,
-      accy,
-      accz,
-      magx,
-      magy,
-      magz,
-      beta,
-    );
-
-    // 方法一：根据欧拉角更新立方体的旋转
-    // const euler = quaternionToEuler(quat); // 将四元数转换为欧拉角
-    // if (cubeRef.current) {
-    //   cubeRef.current.rotation.set(euler.x, euler.y, euler.z);
-    // }
-
-    // 方法二：根据四元数更新立方体的旋转
-    if (cubeRef.current) {
-      cubeRef.current.quaternion.copy(
-        new THREE.Quaternion(quat[1], quat[2], quat[3], quat[0]),
+      // 计算新的四元数
+      const beta = 0.1; // 增益
+      quat = MadgwickQuaternionUpdate(
+        quat,
+        accx,
+        accy,
+        accz,
+        magx,
+        magy,
+        magz,
+        beta,
       );
-    }
-  };
 
-  useEffect(() => {
+      // 方法一：根据欧拉角更新立方体的旋转
+      // const euler = quaternionToEuler(quat); // 将四元数转换为欧拉角
+      // if (cubeRef.current) {
+      //   cubeRef.current.rotation.set(euler.x, euler.y, euler.z);
+      // }
+
+      // 方法二：根据四元数更新立方体的旋转
+      if (cubeRef.current) {
+        cubeRef.current.quaternion.copy(
+          new THREE.Quaternion(quat[1], quat[2], quat[3], quat[0]),
+        );
+      }
+
+      // 方法三：根据matlab里的方式先计算旋转矩阵再绘制
+      // if (cubeRef.current) {
+      // const quaternion = new THREE.Quaternion(
+      //   quat[1],
+      //   quat[2],
+      //   quat[3],
+      //   quat[0],
+      // );
+      // const rotationMatrix = new THREE.Matrix4().makeRotationFromQuaternion(
+      //   quaternion,
+      // );
+      // // 应用旋转矩阵到立方体
+      // cubeRef.current.matrixAutoUpdate = false; // 禁用自动更新
+      // cubeRef.current.matrix.copy(rotationMatrix); // 应用手动计算的旋转矩阵
+      // }
+
+      // 方法四
+      // if (cubeRef.current) {
+      //   // 初始化四元数 (qw, qx, qy, qz)
+      //   const quaternion = new THREE.Quaternion(
+      //     quat[1],
+      //     quat[2],
+      //     quat[3],
+      //     quat[0],
+      //   );
+      //   // 将四元数转为旋转矩阵
+      //   const rotationMatrix = new THREE.Matrix4();
+      //   rotationMatrix.makeRotationFromQuaternion(quaternion);
+      //   // 应用旋转到坐标轴
+      //   xAxis.setDirection(
+      //     new THREE.Vector3(1, 0, 0).applyMatrix4(rotationMatrix),
+      //   );
+      //   yAxis.setDirection(
+      //     new THREE.Vector3(0, 1, 0).applyMatrix4(rotationMatrix),
+      //   );
+      //   zAxis.setDirection(
+      //     new THREE.Vector3(0, 0, 1).applyMatrix4(rotationMatrix),
+      //   );
+      // }
+    };
+
+    // 从main.ts获取传感器实时数据
     window.electron.ipcRenderer.on('ipc-serialPort-read-data', (args: any) => {
       console.log(args);
       updateCube(args);
@@ -242,6 +291,15 @@ const ThreeD: React.FC = () => {
     //   updateCube(getRandomSensorData());
     // }, 500); // 每100ms更新一次
     // return () => clearInterval(interval);
+
+    // 清理
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (containerRef.current) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
   }, []);
 
   return <div ref={containerRef} className="canvas-container" />;
