@@ -145,28 +145,6 @@ const getConfigsArr = () => {
       'T-k2',
       'T-b2',
     ],
-    [
-      sessionStorage.getItem('configs_x'),
-      sessionStorage.getItem('configs_x_k1'),
-      sessionStorage.getItem('configs_x_b1'),
-      sessionStorage.getItem('configs_x_k2'),
-      sessionStorage.getItem('configs_x_b2'),
-      sessionStorage.getItem('configs_y'),
-      sessionStorage.getItem('configs_y_k1'),
-      sessionStorage.getItem('configs_y_b1'),
-      sessionStorage.getItem('configs_y_k2'),
-      sessionStorage.getItem('configs_y_b2'),
-      sessionStorage.getItem('configs_z'),
-      sessionStorage.getItem('configs_z_k1'),
-      sessionStorage.getItem('configs_z_b1'),
-      sessionStorage.getItem('configs_z_k2'),
-      sessionStorage.getItem('configs_z_b2'),
-      sessionStorage.getItem('configs_t'),
-      sessionStorage.getItem('configs_t_k1'),
-      sessionStorage.getItem('configs_t_b1'),
-      sessionStorage.getItem('configs_t_k2'),
-      sessionStorage.getItem('configs_t_b2'),
-    ],
   ];
 };
 
@@ -771,8 +749,10 @@ const createWindow = async () => {
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
         // 参数也要导出
+        let configs_arr = getConfigsArr();
+        configs_arr.push(arg.configs);
         let workbook_configs = XLSX.utils.book_new();
-        let worksheet_configs = XLSX.utils.aoa_to_sheet(getConfigsArr());
+        let worksheet_configs = XLSX.utils.aoa_to_sheet(configs_arr);
         XLSX.utils.book_append_sheet(
           workbook_configs,
           worksheet_configs,

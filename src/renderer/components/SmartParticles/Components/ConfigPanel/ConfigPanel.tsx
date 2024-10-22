@@ -167,6 +167,28 @@ const ConfigPanel: React.FC = () => {
   const handleOutput = () => {
     window.electron.ipcRenderer.sendMessage('ipc-output-data', {
       begin: true,
+      configs: [
+        sessionStorage.getItem('configs_x'),
+        sessionStorage.getItem('configs_x_k1'),
+        sessionStorage.getItem('configs_x_b1'),
+        sessionStorage.getItem('configs_x_k2'),
+        sessionStorage.getItem('configs_x_b2'),
+        sessionStorage.getItem('configs_y'),
+        sessionStorage.getItem('configs_y_k1'),
+        sessionStorage.getItem('configs_y_b1'),
+        sessionStorage.getItem('configs_y_k2'),
+        sessionStorage.getItem('configs_y_b2'),
+        sessionStorage.getItem('configs_z'),
+        sessionStorage.getItem('configs_z_k1'),
+        sessionStorage.getItem('configs_z_b1'),
+        sessionStorage.getItem('configs_z_k2'),
+        sessionStorage.getItem('configs_z_b2'),
+        sessionStorage.getItem('configs_t'),
+        sessionStorage.getItem('configs_t_k1'),
+        sessionStorage.getItem('configs_t_b1'),
+        sessionStorage.getItem('configs_t_k2'),
+        sessionStorage.getItem('configs_t_b2'),
+      ],
     });
 
     // 监听文件保存成功消息
