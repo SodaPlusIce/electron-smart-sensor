@@ -44,11 +44,11 @@ const RealTimeData: React.FC = () => {
 
   // 右侧图表展示所需的数据
   const [timeVar, setTimeVar] = useState<string>('time');
-  const [tmpVar, setTmpVar] = useState<number>(0);
+  // const [tmpVar, setTmpVar] = useState<number>(0);
   const [tmpCVar, setTmpCVar] = useState<number>(0);
-  const [adcXVar, setAdcXVar] = useState<number>(0);
-  const [adcYVar, setAdcYVar] = useState<number>(0);
-  const [adcZVar, setAdcZVar] = useState<number>(0);
+  // const [adcXVar, setAdcXVar] = useState<number>(0);
+  // const [adcYVar, setAdcYVar] = useState<number>(0);
+  // const [adcZVar, setAdcZVar] = useState<number>(0);
   const [adcX2Var, setAdcX2Var] = useState<number>(0);
   const [adcY2Var, setAdcY2Var] = useState<number>(0);
   const [adcZ2Var, setAdcZ2Var] = useState<number>(0);
@@ -83,7 +83,7 @@ const RealTimeData: React.FC = () => {
     let formattedStartTime = `${startTime.toLocaleTimeString()}:${startTime.getMilliseconds()}`;
 
     setTimeVar(formattedStartTime);
-    setTmpVar(args.tmp);
+    // setTmpVar(args.tmp);
     setTmpCVar(
       parseFloat(
         (args.tmp >= configs_t
@@ -92,9 +92,9 @@ const RealTimeData: React.FC = () => {
         ).toFixed(4),
       ),
     );
-    setAdcXVar(args.adcx);
-    setAdcYVar(args.adcy);
-    setAdcZVar(args.adcz);
+    // setAdcXVar(args.adcx);
+    // setAdcYVar(args.adcy);
+    // setAdcZVar(args.adcz);
     setAdcX2Var(
       parseFloat(
         (args.adcx >= configs_x
@@ -150,62 +150,100 @@ const RealTimeData: React.FC = () => {
       <ConfigPanel></ConfigPanel>
       {/* 右侧图表区域 */}
       <div className="value-display-container">
-        <div className="value-item">
-          <h2>时间</h2>
-          <span className="value">{timeVar}</span>
+        <div className="value-card">
+          <h2 className="value-card-title">时间</h2>
+          <div className="value-card-container-single">
+            <span className="value">{timeVar}</span>
+          </div>
         </div>
 
-        <div className="value-item">
-          <h2>环境温度（电压）</h2>
-          <span className="value">{tmpVar} V</span>
+        <div className="value-card">
+          <h2 className="value-card-title">环境温度</h2>
+          <div className="value-card-container-single">
+            <span className="value">{tmpCVar} °C</span>
+          </div>
         </div>
 
-        <div className="value-item">
-          <h2>环境温度</h2>
-          <span className="value">{tmpCVar} °C</span>
+        <div className="value-card">
+          <h2 className="value-card-title">压力</h2>
+          <div className="value-card-container">
+            <div className="value-card-left">
+              <span className="value">X</span>
+              <span className="value">Y</span>
+              <span className="value">Z</span>
+            </div>
+            <div className="value-card-right">
+              <span className="value">{adcX2Var} N</span>
+              <span className="value">{adcY2Var} N</span>
+              <span className="value">{adcZ2Var} N</span>
+            </div>
+          </div>
         </div>
 
-        <div className="value-item">
-          <h2>压力（电压）</h2>
-          <span className="value">X &nbsp; {adcXVar} V</span>
-          <span className="value">Y &nbsp; {adcYVar} V</span>
-          <span className="value">Y &nbsp; {adcZVar} V</span>
+        <div className="value-card">
+          <h2 className="value-card-title">加速度</h2>
+          <div className="value-card-container">
+            <div className="value-card-left">
+              <span className="value">X</span>
+              <span className="value">Y</span>
+              <span className="value">Z</span>
+            </div>
+            <div className="value-card-right">
+              <span className="value">{accXVar} g</span>
+              <span className="value">{accYVar} g</span>
+              <span className="value">{accZVar} g</span>
+            </div>
+          </div>
         </div>
 
-        <div className="value-item">
-          <h2>压力</h2>
-          <span className="value">X &nbsp; {adcX2Var} N</span>
-          <span className="value">Y &nbsp; {adcY2Var} N</span>
-          <span className="value">Z &nbsp; {adcZ2Var} N</span>
+        <div className="value-card">
+          <h2 className="value-card-title">磁力</h2>
+          <div className="value-card-container">
+            <div className="value-card-left">
+              <span className="value">X</span>
+              <span className="value">Y</span>
+              <span className="value">Z</span>
+            </div>
+            <div className="value-card-right">
+              <span className="value">{magXVar.toFixed(4)} mGauss</span>
+              <span className="value">{magYVar.toFixed(4)} mGauss</span>
+              <span className="value">{magZVar.toFixed(4)} mGauss</span>
+            </div>
+          </div>
         </div>
 
-        <div className="value-item">
-          <h2>加速度</h2>
-          <span className="value">X &nbsp; {accXVar} g</span>
-          <span className="value">Y &nbsp; {accYVar} g</span>
-          <span className="value">Z &nbsp; {accZVar} g</span>
+        <div className="value-card">
+          <h2 className="value-card-title">欧拉角</h2>
+          <div className="value-card-container">
+            <div className="value-card-left">
+              <span className="value">X</span>
+              <span className="value">Y</span>
+              <span className="value">Z</span>
+            </div>
+            <div className="value-card-right">
+              <span className="value">{eulerAnglesXVar} °</span>
+              <span className="value">{eulerAnglesYVar} °</span>
+              <span className="value">{eulerAnglesZVar} °</span>
+            </div>
+          </div>
         </div>
 
-        <div className="value-item">
-          <h2>磁力</h2>
-          <span className="value">X &nbsp; {magXVar} mGauss</span>
-          <span className="value">Y &nbsp; {magYVar} mGauss</span>
-          <span className="value">Z &nbsp; {magZVar} mGauss</span>
-        </div>
-
-        <div className="value-item">
-          <h2>欧拉角</h2>
-          <span className="value">X &nbsp; {eulerAnglesXVar} °</span>
-          <span className="value">Y &nbsp; {eulerAnglesYVar} °</span>
-          <span className="value">Z &nbsp; {eulerAnglesZVar} °</span>
-        </div>
-
-        <div className="value-item">
-          <h2>四元数</h2>
-          <span className="value"> q0 &nbsp; {quat1Var}</span>
-          <span className="value"> q1 &nbsp; {quat2Var}</span>
-          <span className="value"> q2 &nbsp; {quat3Var}</span>
-          <span className="value"> q3 &nbsp; {quat4Var}</span>
+        <div className="value-card">
+          <h2 className="value-card-title">四元数</h2>
+          <div className="value-card-container">
+            <div className="value-card-left">
+              <span className="value">q0</span>
+              <span className="value">q1</span>
+              <span className="value">q2</span>
+              <span className="value">q3</span>
+            </div>
+            <div className="value-card-right">
+              <span className="value">{quat1Var}</span>
+              <span className="value">{quat2Var}</span>
+              <span className="value">{quat3Var}</span>
+              <span className="value">{quat4Var}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
