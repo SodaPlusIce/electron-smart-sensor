@@ -744,20 +744,14 @@ const createWindow = async () => {
 
         // 创建工作簿和工作表
         let workbook = XLSX.utils.book_new();
-
         let worksheet = XLSX.utils.aoa_to_sheet(objs_excel_arr);
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
         // 参数也要导出
         let configs_arr = getConfigsArr();
         configs_arr.push(arg.configs);
-        let workbook_configs = XLSX.utils.book_new();
         let worksheet_configs = XLSX.utils.aoa_to_sheet(configs_arr);
-        XLSX.utils.book_append_sheet(
-          workbook_configs,
-          worksheet_configs,
-          'Sheet2',
-        );
+        XLSX.utils.book_append_sheet(workbook, worksheet_configs, 'Sheet2');
 
         // 获取当前时间作为文件名
         let currentTime = new Date().toISOString();
