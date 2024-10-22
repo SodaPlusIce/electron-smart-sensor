@@ -235,8 +235,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_x}，F=${configs_x_k1}，V+(${configs_x_b1})<br/>
-                  当V>${configs_x}，F=${configs_x_k2}，V+(${configs_x_b2})`,
+                  __html: `当V≤${configs_x}，F=${configs_x_k1}*V+(${configs_x_b1})<br/>
+                  当V>${configs_x}，F=${configs_x_k2}*V+(${configs_x_b2})`,
                 }}
               ></span>
             }
@@ -306,8 +306,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_y}，F=${configs_y_k1}，V+(${configs_y_b1})<br/>
-                  当V>${configs_y}，F=${configs_y_k2}，V+(${configs_y_b2})`,
+                  __html: `当V≤${configs_y}，F=${configs_y_k1}*V+(${configs_y_b1})<br/>
+                  当V>${configs_y}，F=${configs_y_k2}*V+(${configs_y_b2})`,
                 }}
               ></span>
             }
@@ -377,8 +377,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_z}，F=${configs_z_k1}，V+(${configs_z_b1})<br/>
-                  当V>${configs_z}，F=${configs_z_k2}，V+(${configs_z_b2})`,
+                  __html: `当V≤${configs_z}，F=${configs_z_k1}*V+(${configs_z_b1})<br/>
+                  当V>${configs_z}，F=${configs_z_k2}*V+(${configs_z_b2})`,
                 }}
               ></span>
             }
@@ -451,8 +451,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_t}，F=${configs_t_k1}，V+(${configs_t_b1})<br/>
-                  当V>${configs_t}，F=${configs_t_k2}，V+(${configs_t_b2})`,
+                  __html: `当V≤${configs_t}，F=${configs_t_k1}*V+(${configs_t_b1})<br/>
+                  当V>${configs_t}，F=${configs_t_k2}*V+(${configs_t_b2})`,
                 }}
               ></span>
             }
