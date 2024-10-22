@@ -71,7 +71,9 @@ const ConfigPanel: React.FC = () => {
   const [configs_t_b2, setConfigsTB2] = useState<number>(() =>
     parseFloat(sessionStorage.getItem('configs_t_b2') || '431.8986'),
   );
-  const [btnIfDisabled, setBtnIfDisabled] = useState<boolean>(false);
+  const [btnIfDisabled, setBtnIfDisabled] = useState<boolean>(
+    () => Boolean(sessionStorage.getItem('btnIfDisabled')) || false,
+  );
 
   // 存储参数到 sessionStorage
   const saveConfigs = () => {
@@ -111,6 +113,7 @@ const ConfigPanel: React.FC = () => {
   const handleSubmit = () => {
     saveConfigs();
     setBtnIfDisabled(true);
+    sessionStorage.setItem('btnIfDisabled', 'true');
     window.electron.ipcRenderer.sendMessage('ipc-port-info', {
       portNumber: portNumber,
       baudRate: baudRate,
