@@ -71,6 +71,7 @@ const ConfigPanel: React.FC = () => {
   const [configs_t_b2, setConfigsTB2] = useState<number>(() =>
     parseFloat(sessionStorage.getItem('configs_t_b2') || '431.8986'),
   );
+  const [btnIfDisabled, setBtnIfDisabled] = useState<boolean>(false);
 
   // 存储参数到 sessionStorage
   const saveConfigs = () => {
@@ -109,6 +110,7 @@ const ConfigPanel: React.FC = () => {
 
   const handleSubmit = () => {
     saveConfigs();
+    setBtnIfDisabled(true);
     window.electron.ipcRenderer.sendMessage('ipc-port-info', {
       portNumber: portNumber,
       baudRate: baudRate,
@@ -233,8 +235,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_x}，F=${configs_x_k1}，V+${configs_x_b1}<br/>
-                  当V>${configs_x}，F=${configs_x_k2}，V+${configs_x_b2}`,
+                  __html: `当V≤${configs_x}，F=${configs_x_k1}，V+(${configs_x_b1})<br/>
+                  当V>${configs_x}，F=${configs_x_k2}，V+(${configs_x_b2})`,
                 }}
               ></span>
             }
@@ -304,8 +306,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_y}，F=${configs_y_k1}，V+${configs_y_b1}<br/>
-                  当V>${configs_y}，F=${configs_y_k2}，V+${configs_y_b2}`,
+                  __html: `当V≤${configs_y}，F=${configs_y_k1}，V+(${configs_y_b1})<br/>
+                  当V>${configs_y}，F=${configs_y_k2}，V+(${configs_y_b2})`,
                 }}
               ></span>
             }
@@ -375,8 +377,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_z}，F=${configs_z_k1}，V+${configs_z_b1}<br/>
-                  当V>${configs_z}，F=${configs_z_k2}，V+${configs_z_b2}`,
+                  __html: `当V≤${configs_z}，F=${configs_z_k1}，V+(${configs_z_b1})<br/>
+                  当V>${configs_z}，F=${configs_z_k2}，V+(${configs_z_b2})`,
                 }}
               ></span>
             }
@@ -449,8 +451,8 @@ const ConfigPanel: React.FC = () => {
             title={
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `当V≤${configs_t}，F=${configs_t_k1}，V+${configs_t_b1}<br/>
-                  当V>${configs_t}，F=${configs_t_k2}，V+${configs_t_b2}`,
+                  __html: `当V≤${configs_t}，F=${configs_t_k1}，V+(${configs_t_b1})<br/>
+                  当V>${configs_t}，F=${configs_t_k2}，V+(${configs_t_b2})`,
                 }}
               ></span>
             }
@@ -509,7 +511,7 @@ const ConfigPanel: React.FC = () => {
       </div>
 
       <div className="button-group">
-        <Button type="primary" onClick={handleSubmit}>
+        <Button type="primary" onClick={handleSubmit} disabled={btnIfDisabled}>
           提交
         </Button>
         <Button type="dashed" onClick={handleReset}>
