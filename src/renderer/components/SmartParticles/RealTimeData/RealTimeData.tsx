@@ -3,45 +3,6 @@ import './RealTimeData.css'; // 假设样式在这个文件中
 import ConfigPanel from '../Components/ConfigPanel/ConfigPanel';
 
 const RealTimeData: React.FC = () => {
-  // 左侧参数部分所需的数据
-  // 配置参数初始化从 sessionStorage 获取，若无则使用默认值
-  const configs_x = Number(sessionStorage.getItem('configs_x')) || 1;
-  const configs_x_k1 =
-    Number(sessionStorage.getItem('configs_x_k1')) || 1831.34;
-  const configs_x_b1 =
-    Number(sessionStorage.getItem('configs_x_b1')) || -1374.63;
-  const configs_x_k2 =
-    Number(sessionStorage.getItem('configs_x_k2')) || 1831.34;
-  const configs_x_b2 =
-    Number(sessionStorage.getItem('configs_x_b2')) || -1374.63;
-  const configs_y = Number(sessionStorage.getItem('configs_y')) || 1;
-  const configs_y_k1 =
-    Number(sessionStorage.getItem('configs_y_k1')) || 1831.34;
-  const configs_y_b1 =
-    Number(sessionStorage.getItem('configs_y_b1')) || -1374.63;
-  const configs_y_k2 =
-    Number(sessionStorage.getItem('configs_y_k2')) || 1831.34;
-  const configs_y_b2 =
-    Number(sessionStorage.getItem('configs_y_b2')) || -1374.63;
-  const configs_z = Number(sessionStorage.getItem('configs_z')) || 1;
-  const configs_z_k1 =
-    Number(sessionStorage.getItem('configs_z_k1')) || 1831.34;
-  const configs_z_b1 =
-    Number(sessionStorage.getItem('configs_z_b1')) || -1374.63;
-  const configs_z_k2 =
-    Number(sessionStorage.getItem('configs_z_k2')) || 1831.34;
-  const configs_z_b2 =
-    Number(sessionStorage.getItem('configs_z_b2')) || -1374.63;
-  const configs_t = Number(sessionStorage.getItem('configs_t')) || 1;
-  const configs_t_k1 =
-    Number(sessionStorage.getItem('configs_t_k1')) || -51.41237;
-  const configs_t_b1 =
-    Number(sessionStorage.getItem('configs_t_b1')) || 431.8986;
-  const configs_t_k2 =
-    Number(sessionStorage.getItem('configs_t_k2')) || -51.41237;
-  const configs_t_b2 =
-    Number(sessionStorage.getItem('configs_t_b2')) || 431.8986;
-
   // 右侧图表展示所需的数据
   const [timeVar, setTimeVar] = useState<string>('time');
   // const [tmpVar, setTmpVar] = useState<number>(0);
@@ -86,9 +47,13 @@ const RealTimeData: React.FC = () => {
     // setTmpVar(args.tmp);
     setTmpCVar(
       parseFloat(
-        (args.tmp >= configs_t
-          ? configs_t_k1 * args.tmp + configs_t_b1
-          : configs_t_k2 * args.tmp + configs_t_b2
+        (args.tmp >= (Number(sessionStorage.getItem('configs_t')) || 1)
+          ? (Number(sessionStorage.getItem('configs_t_k1')) || -51.41237) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_t_b1')) || 431.8986)
+          : (Number(sessionStorage.getItem('configs_t_k2')) || -51.41237) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_t_b2')) || 431.8986)
         ).toFixed(4),
       ),
     );
@@ -97,25 +62,38 @@ const RealTimeData: React.FC = () => {
     // setAdcZVar(args.adcz);
     setAdcX2Var(
       parseFloat(
-        (args.adcx >= configs_x
-          ? configs_x_k1 * args.adcx + configs_x_b1
-          : configs_x_k2 * args.adcx + configs_x_b2
+        (args.adcx >= (Number(sessionStorage.getItem('configs_x')) || 1)
+          ? (Number(sessionStorage.getItem('configs_x_k1')) || 1831.34) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_x_b1')) || -1374.63)
+          : (Number(sessionStorage.getItem('configs_x_k2')) || 1831.34) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_x_b2')) || -1374.63)
         ).toFixed(4),
       ),
     );
     setAdcY2Var(
       parseFloat(
-        (args.adcy >= configs_y
-          ? configs_y_k1 * args.adcy + configs_y_b1
-          : configs_y_k2 * args.adcy + configs_y_b2
+        (args.adcy >= (Number(sessionStorage.getItem('configs_y')) || 1)
+          ? (Number(sessionStorage.getItem('configs_y_k1')) || 1831.34) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_y_b1')) || -1374.63)
+          : (Number(sessionStorage.getItem('configs_y_k2')) || 1831.34) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_y_b2')) || -1374.63)
         ).toFixed(4),
       ),
     );
     setAdcZ2Var(
       parseFloat(
-        (args.adcz >= configs_z
-          ? configs_z_k1 * args.adcz + configs_z_b1
-          : configs_z_k2 * args.adcz + configs_z_b2
+        (args.adcz >= (Number(sessionStorage.getItem('configs_z')) || 1)
+          ? (Number(sessionStorage.getItem('configs_z_k1')) || 1831.34) *
+            args.adcx(
+              Number(sessionStorage.getItem('configs_z_b1')) || -1374.63,
+            )
+          : (Number(sessionStorage.getItem('configs_z_k2')) || 1831.34) *
+              args.adcx +
+            (Number(sessionStorage.getItem('configs_z_b2')) || -1374.63)
         ).toFixed(4),
       ),
     );

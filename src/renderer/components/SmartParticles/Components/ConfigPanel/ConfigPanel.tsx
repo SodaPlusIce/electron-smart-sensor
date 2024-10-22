@@ -250,11 +250,11 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_x}
-            onChange={(e) =>
-              setConfigsX(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsX(val);
+              sessionStorage.setItem('configs_x', val.toString());
+            }}
           />
           <Tooltip
             title={
@@ -274,21 +274,21 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_x_k1}
-            onChange={(e) =>
-              setConfigsXK1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsXK1(val);
+              sessionStorage.setItem('configs_x_k1', val.toString());
+            }}
           />
           <label>X-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_x_b1}
-            onChange={(e) =>
-              setConfigsXB1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsXB1(val);
+              sessionStorage.setItem('configs_x_b1', val.toString());
+            }}
           />
         </div>
         <div className="config-row">
@@ -296,21 +296,21 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_x_k2}
-            onChange={(e) =>
-              setConfigsXK2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsXK2(val);
+              sessionStorage.setItem('configs_x_k2', val.toString());
+            }}
           />
           <label>X-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_x_b2}
-            onChange={(e) =>
-              setConfigsXB2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsXB2(val);
+              sessionStorage.setItem('configs_x_b2', val.toString());
+            }}
           />
         </div>
       </div>
@@ -321,11 +321,11 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_y}
-            onChange={(e) =>
-              setConfigsY(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsY(val);
+              sessionStorage.setItem('configs_y', val.toString());
+            }}
           />
           <Tooltip
             title={
@@ -345,21 +345,21 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_y_k1}
-            onChange={(e) =>
-              setConfigsYK1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsYK1(val);
+              sessionStorage.setItem('configs_y_k1', val.toString());
+            }}
           />
           <label>Y-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_y_b1}
-            onChange={(e) =>
-              setConfigsYB1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsYB1(val);
+              sessionStorage.setItem('configs_y_b1', val.toString());
+            }}
           />
         </div>
         <div className="config-row">
@@ -367,21 +367,21 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_y_k2}
-            onChange={(e) =>
-              setConfigsYK2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsYK2(val);
+              sessionStorage.setItem('configs_y_k2', val.toString());
+            }}
           />
           <label>Y-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_y_b2}
-            onChange={(e) =>
-              setConfigsYB2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsYB2(val);
+              sessionStorage.setItem('configs_y_b2', val.toString());
+            }}
           />
         </div>
       </div>
@@ -392,11 +392,11 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_z}
-            onChange={(e) =>
-              setConfigsZ(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsZ(val);
+              sessionStorage.setItem('configs_z', val.toString());
+            }}
           />
           <Tooltip
             title={
@@ -416,21 +416,21 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_z_k1}
-            onChange={(e) =>
-              setConfigsZK1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsZK1(val);
+              sessionStorage.setItem('configs_z_k1', val.toString());
+            }}
           />
           <label>Z-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_z_b1}
-            onChange={(e) =>
-              setConfigsZB1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsZB1(val);
+              sessionStorage.setItem('configs_z_b1', val.toString());
+            }}
           />
         </div>
         <div className="config-row">
@@ -438,21 +438,21 @@ const ConfigPanel: React.FC = () => {
           <Input
             className="config-input"
             value={configs_z_k2}
-            onChange={(e) =>
-              setConfigsZK2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsZK2(val);
+              sessionStorage.setItem('configs_z_k2', val.toString());
+            }}
           />
           <label>Z-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             value={configs_z_b2}
-            onChange={(e) =>
-              setConfigsZB2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsZB2(val);
+              sessionStorage.setItem('configs_z_b2', val.toString());
+            }}
           />
         </div>
       </div>
@@ -466,11 +466,11 @@ const ConfigPanel: React.FC = () => {
             className="config-input"
             defaultValue="1"
             value={configs_t}
-            onChange={(e) =>
-              setConfigsT(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsT(val);
+              sessionStorage.setItem('configs_t', val.toString());
+            }}
           />
           <Tooltip
             title={
@@ -491,22 +491,22 @@ const ConfigPanel: React.FC = () => {
             className="config-input"
             defaultValue="-51.41237"
             value={configs_t_k1}
-            onChange={(e) =>
-              setConfigsTK1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsTK1(val);
+              sessionStorage.setItem('configs_t_k1', val.toString());
+            }}
           />
           <label>T-b1&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             defaultValue="431.8986"
             value={configs_t_b1}
-            onChange={(e) =>
-              setConfigsTB1(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsTB1(val);
+              sessionStorage.setItem('configs_t_b1', val.toString());
+            }}
           />
         </div>
         <div className="config-row">
@@ -515,22 +515,22 @@ const ConfigPanel: React.FC = () => {
             className="config-input"
             defaultValue="-51.41237"
             value={configs_t_k2}
-            onChange={(e) =>
-              setConfigsTK2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsTK2(val);
+              sessionStorage.setItem('configs_t_k2', val.toString());
+            }}
           />
           <label>T-b2&nbsp;&nbsp;</label>
           <Input
             className="config-input"
             defaultValue="431.8986"
             value={configs_t_b2}
-            onChange={(e) =>
-              setConfigsTB2(
-                e.target.value === '' ? 0 : parseFloat(e.target.value),
-              )
-            }
+            onChange={(e) => {
+              let val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              setConfigsTB2(val);
+              sessionStorage.setItem('configs_t_b2', val.toString());
+            }}
           />
         </div>
       </div>
