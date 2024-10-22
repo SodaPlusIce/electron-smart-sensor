@@ -14,6 +14,10 @@ import {
 import jt_logo from '../../assets/images/jt_logo.png';
 import yk_logo from '../../assets/images/yk_logo.png';
 import seu_logo from '../../assets/images/seu_logo.png';
+import img_smart_particles from '../../assets/images/智能颗粒.png';
+import img_piezo_sensor from '../../assets/images/压电.png';
+import img_fiber_sensor from '../../assets/images/光纤.png';
+
 import './App.css';
 
 import Overview1 from './components/SmartParticles/Overview1/Overview1';
@@ -43,12 +47,7 @@ const Home = ({
       <Card
         hoverable
         style={{ width: 240 }}
-        cover={
-          <img
-            alt="智能颗粒"
-            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-          />
-        }
+        cover={<img alt="智能颗粒" src={img_smart_particles} />}
         onClick={() => onSelectSystem('smart-particles')}
       >
         <Meta title="智能颗粒" style={{ textAlign: 'center' }} />
@@ -56,12 +55,7 @@ const Home = ({
       <Card
         hoverable
         style={{ width: 240 }}
-        cover={
-          <img
-            alt="压电传感器"
-            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-          />
-        }
+        cover={<img alt="压电传感器" src={img_piezo_sensor} />}
         onClick={() => onSelectSystem('piezo-sensor')}
       >
         <Meta title="压电传感器" style={{ textAlign: 'center' }} />
@@ -69,12 +63,7 @@ const Home = ({
       <Card
         hoverable
         style={{ width: 240 }}
-        cover={
-          <img
-            alt="光纤传感器"
-            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-          />
-        }
+        cover={<img alt="光纤传感器" src={img_fiber_sensor} />}
         onClick={() => onSelectSystem('fiber-sensor')}
       >
         <Meta title="光纤传感器" style={{ textAlign: 'center' }} />

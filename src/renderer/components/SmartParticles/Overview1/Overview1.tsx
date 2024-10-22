@@ -8,9 +8,9 @@ import ConfigPanel from '../Components/ConfigPanel/ConfigPanel';
 Chart.register(...registerables);
 
 const Overview1: React.FC = () => {
-  const canvasRef1 = useRef<HTMLCanvasElement | null>(null);
+  // const canvasRef1 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef2 = useRef<HTMLCanvasElement | null>(null);
-  const canvasRef3 = useRef<HTMLCanvasElement | null>(null);
+  // const canvasRef3 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef4 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef5 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef6 = useRef<HTMLCanvasElement | null>(null);
@@ -80,9 +80,9 @@ const Overview1: React.FC = () => {
   const quat3_arr: number[] = [];
   const quat4_arr: number[] = [];
 
-  let myChart1: Chart;
+  // let myChart1: Chart;
   let myChart2: Chart;
-  let myChart3: Chart;
+  // let myChart3: Chart;
   let myChart4: Chart;
   let myChart5: Chart;
   let myChart6: Chart;
@@ -90,41 +90,41 @@ const Overview1: React.FC = () => {
   let myChart8: Chart;
 
   useEffect(() => {
-    if (canvasRef1.current) {
-      const ctx = canvasRef1.current.getContext('2d');
-      myChart1 = new Chart(ctx!, {
-        type: 'line',
-        data: {
-          labels: time_arr,
-          datasets: [
-            {
-              label: 'Temperature',
-              data: tmp_arr,
-              borderColor: 'rgb(255, 99, 132)',
-              borderWidth: 2,
-              fill: false,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Time',
-              },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Voltage(V)',
-              },
-            },
-          },
-        },
-      });
-    }
+    // if (canvasRef1.current) {
+    //   const ctx = canvasRef1.current.getContext('2d');
+    //   myChart1 = new Chart(ctx!, {
+    //     type: 'line',
+    //     data: {
+    //       labels: time_arr,
+    //       datasets: [
+    //         {
+    //           label: 'Temperature',
+    //           data: tmp_arr,
+    //           borderColor: 'rgb(255, 99, 132)',
+    //           borderWidth: 2,
+    //           fill: false,
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       responsive: true,
+    //       scales: {
+    //         x: {
+    //           title: {
+    //             display: true,
+    //             text: 'Time',
+    //           },
+    //         },
+    //         y: {
+    //           title: {
+    //             display: true,
+    //             text: 'Voltage(V)',
+    //           },
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
 
     if (canvasRef2.current) {
       const ctx = canvasRef2.current.getContext('2d');
@@ -162,55 +162,55 @@ const Overview1: React.FC = () => {
       });
     }
 
-    if (canvasRef3.current) {
-      const ctx = canvasRef3.current.getContext('2d');
-      myChart3 = new Chart(ctx!, {
-        type: 'line',
-        data: {
-          labels: time_arr,
-          datasets: [
-            {
-              label: 'adc_x',
-              data: adc_x_arr, // 压力数据数组
-              fill: false,
-              borderColor: 'rgb(255, 99, 132)',
-              tension: 0.1,
-            },
-            {
-              label: 'adc_y',
-              data: adc_y_arr, // 压力数据数组
-              fill: false,
-              borderColor: 'rgb(75, 192, 192)',
-              tension: 0.1,
-            },
-            {
-              label: 'adc_z',
-              data: adc_z_arr, // 压力数据数组
-              fill: false,
-              borderColor: 'rgb(54, 162, 235)',
-              tension: 0.1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Time',
-              },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Voltage(V)',
-              },
-            },
-          },
-        },
-      });
-    }
+    // if (canvasRef3.current) {
+    //   const ctx = canvasRef3.current.getContext('2d');
+    //   myChart3 = new Chart(ctx!, {
+    //     type: 'line',
+    //     data: {
+    //       labels: time_arr,
+    //       datasets: [
+    //         {
+    //           label: 'adc_x',
+    //           data: adc_x_arr, // 压力数据数组
+    //           fill: false,
+    //           borderColor: 'rgb(255, 99, 132)',
+    //           tension: 0.1,
+    //         },
+    //         {
+    //           label: 'adc_y',
+    //           data: adc_y_arr, // 压力数据数组
+    //           fill: false,
+    //           borderColor: 'rgb(75, 192, 192)',
+    //           tension: 0.1,
+    //         },
+    //         {
+    //           label: 'adc_z',
+    //           data: adc_z_arr, // 压力数据数组
+    //           fill: false,
+    //           borderColor: 'rgb(54, 162, 235)',
+    //           tension: 0.1,
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       responsive: true,
+    //       scales: {
+    //         x: {
+    //           title: {
+    //             display: true,
+    //             text: 'Time',
+    //           },
+    //         },
+    //         y: {
+    //           title: {
+    //             display: true,
+    //             text: 'Voltage(V)',
+    //           },
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
 
     if (canvasRef4.current) {
       const ctx = canvasRef4.current.getContext('2d');
@@ -478,9 +478,9 @@ const Overview1: React.FC = () => {
     // 检查数据点数量是否超过阈值
     const maxDataPointLength = 20; // 设置数据点的最大数量
     if (
-      myChart1 &&
+      // myChart1 &&
       myChart2 &&
-      myChart3 &&
+      // myChart3 &&
       myChart4 &&
       myChart5 &&
       myChart6 &&
@@ -560,9 +560,9 @@ const Overview1: React.FC = () => {
       if (quat2_arr.length >= maxDataPointLength) quat2_arr.shift();
       if (quat3_arr.length >= maxDataPointLength) quat3_arr.shift();
       if (quat4_arr.length >= maxDataPointLength) quat4_arr.shift();
-      myChart1.update();
+      // myChart1.update();
       myChart2.update();
-      myChart3.update();
+      // myChart3.update();
       myChart4.update();
       myChart5.update();
       myChart6.update();
@@ -577,18 +577,18 @@ const Overview1: React.FC = () => {
       <ConfigPanel></ConfigPanel>
       {/* 右侧图表区域 */}
       <div className="chart-container">
-        <div className="chart-item">
+        {/* <div className="chart-item">
           <h2>环境温度（电压）</h2>
           <canvas ref={canvasRef1} className="chart" width="400" height="250" />
-        </div>
+        </div> */}
         <div className="chart-item">
           <h2>环境温度</h2>
           <canvas ref={canvasRef2} className="chart" width="400" height="250" />
         </div>
-        <div className="chart-item">
+        {/* <div className="chart-item">
           <h2>压力（电压）</h2>
           <canvas ref={canvasRef3} className="chart" width="400" height="250" />
-        </div>
+        </div> */}
         <div className="chart-item">
           <h2>压力</h2>
           <canvas ref={canvasRef4} className="chart" width="400" height="250" />
