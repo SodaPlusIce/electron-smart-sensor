@@ -50,39 +50,39 @@ interface SensorData {
 let objs_excel_arr: any = [
   [
     '时间',
-    '压力adc_x',
+    'adc_x',
     'adc_y',
     'adc_z',
-    '加速度acc_x',
+    'acc_x',
     'acc_y',
     'acc_z',
-    '温度',
+    'Temperature',
     'mag_x',
     'mag_y',
     'mag_z',
-    '欧拉角1',
-    '欧拉角2',
-    '欧拉角3',
-    '四元数1',
-    '四元数2',
-    '四元数3',
-    '四元数4',
+    'Euler_Angle_X',
+    'Euler_Angle_Y',
+    'Euler_Angle_Z',
+    'q0',
+    'q1',
+    'q2',
+    'q3',
   ],
   [
     '年/月/日 时/分/秒:分秒',
-    'Voltage(V)',
-    'Voltage(V)',
-    'Voltage(V)',
-    'Acceleration(g)',
-    'Acceleration(g)',
-    'Acceleration(g)',
-    'Voltage(V)',
-    'Magnetic Field Strength (mGauss)',
-    'Magnetic Field Strength (mGauss)',
-    'Magnetic Field Strength (mGauss)',
-    'Euler Angle(°)',
-    'Euler Angle(°)',
-    'Euler Angle(°)',
+    'V',
+    'V',
+    'V',
+    'g',
+    'g',
+    'g',
+    'V',
+    'mGauss',
+    'mGauss',
+    'mGauss',
+    '°',
+    '°',
+    '°',
     'N/A',
     'N/A',
     'N/A',
@@ -97,6 +97,78 @@ class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
+
+// 获取session storage里的参数
+const getConfigsArr = () => {
+  return [
+    [
+      '压力传感器参数配置X',
+      '压力传感器参数配置X',
+      '压力传感器参数配置X',
+      '压力传感器参数配置X',
+      '压力传感器参数配置X',
+      '压力传感器参数配置Y',
+      '压力传感器参数配置Y',
+      '压力传感器参数配置Y',
+      '压力传感器参数配置Y',
+      '压力传感器参数配置Y',
+      '压力传感器参数配置Z',
+      '压力传感器参数配置Z',
+      '压力传感器参数配置Z',
+      '压力传感器参数配置Z',
+      '压力传感器参数配置Z',
+      '压力传感器参数配置T',
+      '压力传感器参数配置T',
+      '压力传感器参数配置T',
+      '压力传感器参数配置T',
+      '压力传感器参数配置T',
+    ],
+    [
+      'X分段点',
+      'X-k1',
+      'X-b1',
+      'X-k2',
+      'X-b2',
+      'Y分段点',
+      'Y-k1',
+      'Y-b1',
+      'Y-k2',
+      'Y-b2',
+      'Z分段点',
+      'Z-k1',
+      'Z-b1',
+      'Z-k2',
+      'Z-b2',
+      'T分段点',
+      'T-k1',
+      'T-b1',
+      'T-k2',
+      'T-b2',
+    ],
+    [
+      sessionStorage.getItem('configs_x'),
+      sessionStorage.getItem('configs_x_k1'),
+      sessionStorage.getItem('configs_x_b1'),
+      sessionStorage.getItem('configs_x_k2'),
+      sessionStorage.getItem('configs_x_b2'),
+      sessionStorage.getItem('configs_y'),
+      sessionStorage.getItem('configs_y_k1'),
+      sessionStorage.getItem('configs_y_b1'),
+      sessionStorage.getItem('configs_y_k2'),
+      sessionStorage.getItem('configs_y_b2'),
+      sessionStorage.getItem('configs_z'),
+      sessionStorage.getItem('configs_z_k1'),
+      sessionStorage.getItem('configs_z_b1'),
+      sessionStorage.getItem('configs_z_k2'),
+      sessionStorage.getItem('configs_z_b2'),
+      sessionStorage.getItem('configs_t'),
+      sessionStorage.getItem('configs_t_k1'),
+      sessionStorage.getItem('configs_t_b1'),
+      sessionStorage.getItem('configs_t_k2'),
+      sessionStorage.getItem('configs_t_b2'),
+    ],
+  ];
+};
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -697,6 +769,15 @@ const createWindow = async () => {
 
         let worksheet = XLSX.utils.aoa_to_sheet(objs_excel_arr);
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+        // 参数也要导出
+        let workbook_configs = XLSX.utils.book_new();
+        let worksheet_configs = XLSX.utils.aoa_to_sheet(getConfigsArr());
+        XLSX.utils.book_append_sheet(
+          workbook_configs,
+          worksheet_configs,
+          'Sheet2',
+        );
 
         // 获取当前时间作为文件名
         let currentTime = new Date().toISOString();
