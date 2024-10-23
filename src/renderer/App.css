@@ -96,3 +96,9 @@ body {
   cursor: pointer;
   /* 悬停时光标变为手型 */
 }
+
+.antd-card {
+  width: 20vw;
+  border-radius: 8px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}

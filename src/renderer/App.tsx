@@ -46,7 +46,7 @@ const Home = ({
     <div className="system-btns">
       <Card
         hoverable
-        style={{ width: 240 }}
+        className="antd-card"
         cover={<img alt="智能颗粒" src={img_smart_particles} />}
         onClick={() => onSelectSystem('smart-particles')}
       >
@@ -54,7 +54,7 @@ const Home = ({
       </Card>
       <Card
         hoverable
-        style={{ width: 240 }}
+        className="antd-card"
         cover={<img alt="压电传感器" src={img_piezo_sensor} />}
         onClick={() => onSelectSystem('piezo-sensor')}
       >
@@ -62,7 +62,7 @@ const Home = ({
       </Card>
       <Card
         hoverable
-        style={{ width: 240 }}
+        className="antd-card"
         cover={<img alt="光纤传感器" src={img_fiber_sensor} />}
         onClick={() => onSelectSystem('fiber-sensor')}
       >
