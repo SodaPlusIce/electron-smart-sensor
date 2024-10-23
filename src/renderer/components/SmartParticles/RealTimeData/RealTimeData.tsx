@@ -47,7 +47,7 @@ const RealTimeData: React.FC = () => {
     // setTmpVar(args.tmp);
     setTmpCVar(
       parseFloat(
-        (args.tmp >= (Number(sessionStorage.getItem('configs_t')) || 1)
+        (args.tmp <= (Number(sessionStorage.getItem('configs_t')) || 1)
           ? (Number(sessionStorage.getItem('configs_t_k1')) || -51.41237) *
               args.tmp +
             (Number(sessionStorage.getItem('configs_t_b1')) || 431.8986)
@@ -62,7 +62,7 @@ const RealTimeData: React.FC = () => {
     // setAdcZVar(args.adcz);
     setAdcX2Var(
       parseFloat(
-        (args.adcx >= (Number(sessionStorage.getItem('configs_x')) || 1)
+        (args.adcx <= (Number(sessionStorage.getItem('configs_x')) || 1)
           ? (Number(sessionStorage.getItem('configs_x_k1')) || 1831.34) *
               args.adcx +
             (Number(sessionStorage.getItem('configs_x_b1')) || -1374.63)
@@ -74,7 +74,7 @@ const RealTimeData: React.FC = () => {
     );
     setAdcY2Var(
       parseFloat(
-        (args.adcy >= (Number(sessionStorage.getItem('configs_y')) || 1)
+        (args.adcy <= (Number(sessionStorage.getItem('configs_y')) || 1)
           ? (Number(sessionStorage.getItem('configs_y_k1')) || 1831.34) *
               args.adcy +
             (Number(sessionStorage.getItem('configs_y_b1')) || -1374.63)
@@ -86,7 +86,7 @@ const RealTimeData: React.FC = () => {
     );
     setAdcZ2Var(
       parseFloat(
-        (args.adcz >= (Number(sessionStorage.getItem('configs_z')) || 1)
+        (args.adcz <= (Number(sessionStorage.getItem('configs_z')) || 1)
           ? (Number(sessionStorage.getItem('configs_z_k1')) || 1831.34) *
               args.adcz +
             (Number(sessionStorage.getItem('configs_z_b1')) || -1374.63)

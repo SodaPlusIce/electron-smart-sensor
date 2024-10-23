@@ -451,7 +451,7 @@ const Overview1: React.FC = () => {
       time_arr.push(formattedStartTime);
       tmp_arr.push(args.tmp);
       tmp_c_arr.push(
-        args.tmp >= (Number(sessionStorage.getItem('configs_t')) || 1)
+        args.tmp <= (Number(sessionStorage.getItem('configs_t')) || 1)
           ? (Number(sessionStorage.getItem('configs_t_k1')) || -51.41237) *
               args.tmp +
               (Number(sessionStorage.getItem('configs_t_b1')) || 431.8986)
@@ -463,7 +463,7 @@ const Overview1: React.FC = () => {
       adc_y_arr.push(args.adcy);
       adc_z_arr.push(args.adcz);
       adc_x2_arr.push(
-        args.adcx >= (Number(sessionStorage.getItem('configs_x')) || 1)
+        args.adcx <= (Number(sessionStorage.getItem('configs_x')) || 1)
           ? (Number(sessionStorage.getItem('configs_x_k1')) || 1831.34) *
               args.adcx +
               (Number(sessionStorage.getItem('configs_x_b1')) || -1374.63)
@@ -472,7 +472,7 @@ const Overview1: React.FC = () => {
               (Number(sessionStorage.getItem('configs_x_b2')) || -1374.63),
       );
       adc_y2_arr.push(
-        args.adcy >= (Number(sessionStorage.getItem('configs_y')) || 1)
+        args.adcy <= (Number(sessionStorage.getItem('configs_y')) || 1)
           ? (Number(sessionStorage.getItem('configs_y_k1')) || 1831.34) *
               args.adcy +
               (Number(sessionStorage.getItem('configs_y_b1')) || -1374.63)
@@ -481,7 +481,7 @@ const Overview1: React.FC = () => {
               (Number(sessionStorage.getItem('configs_y_b2')) || -1374.63),
       );
       adc_z2_arr.push(
-        args.adcz >= (Number(sessionStorage.getItem('configs_z')) || 1)
+        args.adcz <= (Number(sessionStorage.getItem('configs_z')) || 1)
           ? (Number(sessionStorage.getItem('configs_z_k1')) || 1831.34) *
               args.adcz +
               (Number(sessionStorage.getItem('configs_z_b1')) || -1374.63)
