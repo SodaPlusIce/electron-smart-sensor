@@ -35,6 +35,7 @@
 .value-card {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     min-width: 230px;
     width: 30%;
@@ -47,44 +48,54 @@
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.value-card h2 {
+    margin-bottom: 0;
+}
+
 .value-card-title {
     text-align: center;
-    margin: 10px;
-    padding-bottom: 5px;
-    /* border-bottom: 4px solid #48a0fd; */
+    margin-top: 10px;
+    padding-bottom: 10px;
+    width: 92%;
+    text-align: center;
+    border-bottom: 4px solid #7e7e7e;
 }
 
 .value-card-container {
     width: 90%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 4px dashed #48a0fd;
+    /* border-top: 4px solid #7e7e7e; */
 }
 
 .value-card-container-single {
+    width: 90%;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.value-card-container-single span {
+    text-align: center;
+}
+
 .value-card-left {
     width: 60px;
-    height: 100%;
+    /* height: 100%; */
     text-align: center;
-    border-right: 4px dashed #48a0fd;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .value-card-right {
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
     flex: 1;
 }
 
@@ -116,7 +127,19 @@
     font-size: 22px;
     font-weight: bold;
     color: #007bff;
-    margin: auto 0;
-    /* background-color: #c9c9c9;
-    border-radius: 20px; */
+    padding: 8px 0;
+    width: 98%;
+}
+
+.value-card:last-child .value {
+    padding: 5px 0;
+}
+
+.value-card-left .value:not(:first-child),
+.value-card-right .value:not(:first-child) {
+    border-top: 2px dashed #7e7e7e;
+}
+
+.value-card-right .value {
+    text-align: center;
 }
