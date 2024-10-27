@@ -95,7 +95,7 @@ const Overview1: React.FC = () => {
           labels: time_arr,
           datasets: [
             {
-              label: 'Pressure',
+              label: 'temperature',
               data: tmp_c_arr,
               borderColor: 'rgb(255, 99, 132)',
               borderWidth: 2,
