@@ -451,43 +451,35 @@ const Overview1: React.FC = () => {
       time_arr.push(formattedStartTime);
       tmp_arr.push(args.tmp);
       tmp_c_arr.push(
-        args.tmp <= (Number(sessionStorage.getItem('configs_t')) || 1)
-          ? (Number(sessionStorage.getItem('configs_t_k1')) || -51.41237) *
-              args.tmp +
-              (Number(sessionStorage.getItem('configs_t_b1')) || 431.8986)
-          : (Number(sessionStorage.getItem('configs_t_k2')) || -51.41237) *
-              args.tmp +
-              (Number(sessionStorage.getItem('configs_t_b2')) || 431.8986),
+        args.tmp <= Number(sessionStorage.getItem('configs_t'))
+          ? Number(sessionStorage.getItem('configs_t_k1')) * args.tmp +
+              Number(sessionStorage.getItem('configs_t_b1'))
+          : Number(sessionStorage.getItem('configs_t_k2')) * args.tmp +
+              Number(sessionStorage.getItem('configs_t_b2')),
       );
       adc_x_arr.push(args.adcx);
       adc_y_arr.push(args.adcy);
       adc_z_arr.push(args.adcz);
       adc_x2_arr.push(
-        args.adcx <= (Number(sessionStorage.getItem('configs_x')) || 1)
-          ? (Number(sessionStorage.getItem('configs_x_k1')) || 1831.34) *
-              args.adcx +
-              (Number(sessionStorage.getItem('configs_x_b1')) || -1374.63)
-          : (Number(sessionStorage.getItem('configs_x_k2')) || 1831.34) *
-              args.adcx +
-              (Number(sessionStorage.getItem('configs_x_b2')) || -1374.63),
+        args.adcx <= Number(sessionStorage.getItem('configs_x'))
+          ? Number(sessionStorage.getItem('configs_x_k1')) * args.adcx +
+              Number(sessionStorage.getItem('configs_x_b1'))
+          : Number(sessionStorage.getItem('configs_x_k2')) * args.adcx +
+              Number(sessionStorage.getItem('configs_x_b2')),
       );
       adc_y2_arr.push(
-        args.adcy <= (Number(sessionStorage.getItem('configs_y')) || 1)
-          ? (Number(sessionStorage.getItem('configs_y_k1')) || 1831.34) *
-              args.adcy +
-              (Number(sessionStorage.getItem('configs_y_b1')) || -1374.63)
-          : (Number(sessionStorage.getItem('configs_y_k2')) || 1831.34) *
-              args.adcy +
-              (Number(sessionStorage.getItem('configs_y_b2')) || -1374.63),
+        args.adcy <= Number(sessionStorage.getItem('configs_y'))
+          ? Number(sessionStorage.getItem('configs_y_k1')) * args.adcy +
+              Number(sessionStorage.getItem('configs_y_b1'))
+          : Number(sessionStorage.getItem('configs_y_k2')) * args.adcy +
+              Number(sessionStorage.getItem('configs_y_b2')),
       );
       adc_z2_arr.push(
-        args.adcz <= (Number(sessionStorage.getItem('configs_z')) || 1)
-          ? (Number(sessionStorage.getItem('configs_z_k1')) || 1831.34) *
-              args.adcz +
-              (Number(sessionStorage.getItem('configs_z_b1')) || -1374.63)
-          : (Number(sessionStorage.getItem('configs_z_k2')) || 1831.34) *
-              args.adcz +
-              (Number(sessionStorage.getItem('configs_z_b2')) || -1374.63),
+        args.adcz <= Number(sessionStorage.getItem('configs_z'))
+          ? Number(sessionStorage.getItem('configs_z_k1')) * args.adcz +
+              Number(sessionStorage.getItem('configs_z_b1'))
+          : Number(sessionStorage.getItem('configs_z_k2')) * args.adcz +
+              Number(sessionStorage.getItem('configs_z_b2')),
       );
       acc_x_arr.push(args.accx);
       acc_y_arr.push(args.accy);

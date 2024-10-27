@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select, Input, Button, Tooltip, notification } from 'antd';
 import './ConfigPanel.css';
 
@@ -214,6 +214,11 @@ const ConfigPanel: React.FC = () => {
       });
     });
   };
+
+  useEffect(() => {
+    // handleReset();
+  }, []);
+
   return (
     <div className="config-panel">
       <h3 className="config-title">导出端口</h3>
