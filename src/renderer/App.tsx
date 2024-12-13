@@ -30,7 +30,8 @@ const { Meta } = Card;
 
 // 模拟不同子系统的模块
 const Overview2 = () => <div>总览图2</div>;
-const Overview3 = () => <div>总览图3</div>;
+// const Overview3 = () => <div>总览图3</div>;
+import Overview3 from './components/FiberSensor/Overview3/Overview3';
 
 function handleWindowAction(action: 'minimize' | 'maximize' | 'close') {
   window.electron.ipcRenderer.sendMessage('ipc-window-options', action);
